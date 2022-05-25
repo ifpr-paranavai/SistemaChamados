@@ -1,15 +1,36 @@
-/node_modules
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
-.env
-.env.backup
-.phpunit.result.cache
-docker-compose.override.yml
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-/.idea
-/.vscode
+api-webharas/HELP.md
+api-webharas/target/
+!api-webharas/.mvn/wrapper/maven-wrapper.jar
+!api-webharas/**/src/main/**/target/
+!api-webharas/**/src/test/**/target/
+api-webharas/src/main/resources/application.properties
+
+### STS ###
+api-webharas/.apt_generated
+api-webharas/.classpath
+api-webharas/.factorypath
+api-webharas/.project
+api-webharas/.settings
+api-webharas/.springBeans
+api-webharas/.sts4-cache
+
+### IntelliJ IDEA ###
+api-webharas/.idea
+api-webharas/*.iws
+api-webharas/*.iml
+api-webharas/*.ipr
+
+### NetBeans ###
+api-webharas//nbproject/private/
+api-webharas//nbbuild/
+api-webharas//dist/
+api-webharas//nbdist/
+api-webharas//.nb-gradle/
+api-webharas/build/
+!api-webharas/**/src/main/**/build/
+!api-webharas/**/src/test/**/build/
+
+### VS Code ###
+api-webharas/.vscode/
+.idea/*
+api-webharas/src/main/resources/application.yml
