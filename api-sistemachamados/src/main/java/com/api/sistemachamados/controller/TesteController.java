@@ -11,7 +11,7 @@ public class TesteController {
     @PreAuthorize("hasPermission('null', {'ROLE_USER', 'PERM_PROCURACAO'})")
     @GetMapping
     public ResponseEntity<String> auth(){
-        System.out.println("Teste");
+        System.out.println("Teste.");
         return ResponseEntity.ok("Testado");
     }
 
