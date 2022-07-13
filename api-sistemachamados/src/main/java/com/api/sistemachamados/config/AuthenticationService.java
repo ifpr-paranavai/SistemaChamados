@@ -21,10 +21,10 @@ public class AuthenticationService implements UserDetailsService {
         Optional<Usuario> optional = repository.findByEmail(username);
 
         if(optional.isPresent()) {
-            //fazer debug para ver onde esse return leva
             return optional.get();
         }
 
+        //        throw another excpetion
         throw new UsernameNotFoundException("User not found");
     }
 

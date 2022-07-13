@@ -1,35 +1,38 @@
 package com.api.sistemachamados.service;
 
+import com.api.sistemachamados.dto.ApiResponseDTO;
 import com.api.sistemachamados.dto.LoginDTO;
+import com.api.sistemachamados.dto.TokenDTO;
 import com.api.sistemachamados.entity.Usuario;
 import com.api.sistemachamados.security.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.api.sistemachamados.utils.utils.setHandlerResponse;
+
 @Service
+@AllArgsConstructor
 public class AuthService {
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private TokenService tokenService;
+    final AuthenticationManager authenticationManager;
 
-    public String login(LoginDTO loginDTO) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        bCryptPasswordEncoder.encode(loginDTO.getSenha());
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsuario(), loginDTO.getSenha());
+    final TokenService tokenService;
 
-        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-        Usuario usuario = (Usuario) authentication.getPrincipal();
-
-        String token = tokenService.generateJwtToken(usuario);
-
-        return token;
-//        return ResponseEntity.ok(TokenDTO.builder().type("Bearer").token(token).build());
+    public ApiResponseDTO<Object> login(LoginDTO loginDTO) {
+        try {
+            var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsuario(), loginDTO.getSenha());
+            var authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            Usuario usuario = (Usuario) authentication.getPrincipal();
+            String token = tokenService.generateJwtToken(usuario);
+            TokenDTO tokenDTO = new TokenDTO();
+            tokenDTO.setType("Bearer");
+            tokenDTO.setToken(token);
+            return setHandlerResponse(tokenDTO, HttpStatus.OK, "Login realizado com sucesso");
+        } catch (Exception e) {
+            return setHandlerResponse(null, HttpStatus.BAD_REQUEST, "Credenciais incorretas");
+        }
     }
 }

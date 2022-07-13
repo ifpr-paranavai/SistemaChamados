@@ -1,5 +1,6 @@
 package com.api.sistemachamados.controller;
 
+import com.api.sistemachamados.dto.ApiResponseDTO;
 import com.api.sistemachamados.dto.LoginDTO;
 import com.api.sistemachamados.dto.TokenDTO;
 import com.api.sistemachamados.service.AuthService;
@@ -18,10 +19,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping
-    public ResponseEntity<TokenDTO> auth(@RequestBody @Validated LoginDTO loginDTO){
-        String token = authService.login(loginDTO);
-        return ResponseEntity.ok(TokenDTO.builder().type("Bearer").token(token).build());
-
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponseDTO<Object>> auth(@RequestBody @Validated LoginDTO loginDTO){
+        var apiResponseDTO = authService.login(loginDTO);
+        return ResponseEntity.status(apiResponseDTO.getStatus().value()).body(apiResponseDTO);
     }
 }

@@ -19,6 +19,8 @@ api-sistemachamados/.idea
 api-sistemachamados/*.iws
 api-sistemachamados/*.iml
 api-sistemachamados/*.ipr
+api-sistemachamados/*.target
+*/target/*.
 
 ### NetBeans ###
 api-sistemachamados//nbproject/private/
@@ -34,4 +36,5 @@ api-sistemachamados/build/
 api-sistemachamados/.vscode/
 .idea/*
 api-sistemachamados/src/main/resources/application.yml
+*/target/*.
 

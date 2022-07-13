@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @EnableWebSecurity
 @Configuration
@@ -41,17 +44,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(
-                        "/v1/auth/**",
-                        "/swagger-ui.html"
-                ).permitAll()
-                .anyRequest().authenticated()
-                .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
-                //.and().cors().configurationSource(request -> corsConfiguration)
-
-
+            .antMatchers(
+                "/v1/auth/**",
+                "/swagger-ui.html"
+            ).permitAll()
+            .anyRequest().authenticated()
+            .and().csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().cors().configurationSource(request -> {
+                var cors = new CorsConfiguration();
+                cors.setAllowedOrigins(List.of("*"));
+                cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE"));
+                cors.setAllowedHeaders(List.of("*"));
+                return cors;
+            })
+            .and().addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
     }
 
     //Configuration for static resources

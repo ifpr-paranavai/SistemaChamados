@@ -17,7 +17,4 @@ public class TesteController {
         return ResponseEntity.ok("Testado");
     }
 
-    public void validUserRequest(String role) {
-
-    }
 }
