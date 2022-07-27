@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
-public class Usuario implements UserDetails {
+public class Usuario extends Auditoria implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

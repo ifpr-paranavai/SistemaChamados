@@ -19,7 +19,7 @@ import java.util.List;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    static final String[] PERMIT_ALL_PATTERNS = new String[] {"/v1/auth/**"};
+    static final String[] PERMIT_ALL_PATTERNS = new String[] {"/v1/auth/**","/swagger-ui/**", "/v3/api-docs/**"};
 
     private final TokenService tokenService;
 

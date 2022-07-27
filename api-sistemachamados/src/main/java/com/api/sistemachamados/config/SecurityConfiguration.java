@@ -2,6 +2,7 @@ package com.api.sistemachamados.config;
 
 import com.api.sistemachamados.filter.TokenAuthenticationFilter;
 import com.api.sistemachamados.security.TokenService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +21,12 @@ import java.util.List;
 
 @EnableWebSecurity
 @Configuration
+@AllArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    TokenService tokenService;
+    final TokenService tokenService;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    final AuthenticationService authenticationService;
 
     @Bean
     @Override
@@ -46,7 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers(
                 "/v1/auth/**",
-                "/swagger-ui.html"
+                "/swagger-ui/**",
+                "/v3/api-docs/**"
             ).permitAll()
             .anyRequest().authenticated()
             .and().csrf().disable()

@@ -4,6 +4,7 @@ import com.api.sistemachamados.dto.ApiResponseDTO;
 import com.api.sistemachamados.dto.LoginDTO;
 import com.api.sistemachamados.dto.TokenDTO;
 import com.api.sistemachamados.service.AuthService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,10 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/auth")
+@AllArgsConstructor
 public class AuthController {
-
-    @Autowired
-    private AuthService authService;
+    final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDTO<Object>> auth(@RequestBody @Validated LoginDTO loginDTO){
