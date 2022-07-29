@@ -45,7 +45,7 @@ public class Cliente extends Auditoria implements Serializable  {
     @ManyToOne
     private Cidade cidade;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Equipamento> equipamento;
 
 }

@@ -50,7 +50,10 @@ public class OrdemServico extends Auditoria implements Serializable  {
     @Enumerated(EnumType.STRING)
     private TipoAtendimentoEnum tipoAtendimento;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Servico> servico;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Equipamento equipamento;
 }
 
