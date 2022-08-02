@@ -1,7 +1,6 @@
 package com.api.sistemachamados.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +10,9 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @Table(name = "cliente")
 public class Cliente extends Auditoria implements Serializable  {

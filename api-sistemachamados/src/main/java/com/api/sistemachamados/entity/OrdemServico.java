@@ -3,8 +3,7 @@ package com.api.sistemachamados.entity;
 import com.api.sistemachamados.enums.SituacaoOsEnum;
 import com.api.sistemachamados.enums.TipoAtendimentoEnum;
 import com.api.sistemachamados.enums.TipoOrdemServicoEnum;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +14,9 @@ import java.util.Set;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ordem_servico")

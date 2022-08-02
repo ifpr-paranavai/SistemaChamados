@@ -1,7 +1,6 @@
 package com.api.sistemachamados.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -11,6 +10,9 @@ import java.math.BigDecimal;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "estoque")

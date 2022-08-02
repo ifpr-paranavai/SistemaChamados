@@ -1,7 +1,6 @@
 package com.api.sistemachamados.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +8,9 @@ import java.io.Serializable;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "produto")
