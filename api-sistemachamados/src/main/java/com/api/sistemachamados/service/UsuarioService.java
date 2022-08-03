@@ -8,11 +8,15 @@ import java.util.Optional;
 
 public interface UsuarioService {
 
-    Page<Usuario> findAll(Pageable pageable);
+    Page<Usuario> buscarTodos(Pageable pageable);
 
-    Optional<Usuario> findById(Integer id);
+    Optional<Usuario> buscarPorId(Integer id);
 
-    Usuario save(Usuario usuario);
+    Optional<Usuario> salvar(Usuario usuario);
 
-    Optional<Usuario> findByNome(String nome);
+    void atualizar(Usuario usuario);
+
+    Optional<Usuario> buscarPorEmail(String email);
+
+    void deletar(Usuario usuario);
 }

@@ -11,7 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import static com.api.sistemachamados.utils.utils.setHandlerResponse;
+import static com.api.sistemachamados.utils.Utils.setHandlerResponse;
 
 @Service
 @AllArgsConstructor
