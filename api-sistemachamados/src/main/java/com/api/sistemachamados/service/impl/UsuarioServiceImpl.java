@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,32 +46,23 @@ public class UsuarioServiceImpl implements UsuarioService {
         try {
             LOGGER.info("Buscando se existe Usuário");
             var salvarUsuario = new Usuario();
-            var usuario = usuarioRepository.findByEmail(usuarioDto.getEmail());
+            var usuario = buscarPorEmail(usuarioDto.getEmail());
             if (usuario.isEmpty()) {
                 LOGGER.info("Salvando Usuário");
                 usuarioDto.setSenha(new BCryptPasswordEncoder().encode(usuarioDto.getSenha()));
                 usuarioDto.setDeleted(false);
                 salvarUsuario = usuarioRepository.save(usuarioDto);
             } else {
-                LOGGER.info("Atualizando Regra");
+                LOGGER.info("Atualizando Usuário");
                 BeanUtils.copyProperties(usuarioDto, salvarUsuario);
-                salvarUsuario.setSenha(new BCryptPasswordEncoder().encode(usuarioDto.getPassword()));
                 salvarUsuario.setId(usuario.get().getId());
                 salvarUsuario = usuarioRepository.save(salvarUsuario);
             }
             return Optional.of(salvarUsuario);
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
-            throw e;
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("Ocorreu um erro ao salvar Objeto!!! "+e);
         }
-    }
-
-    @Override
-    public void atualizar(Usuario usuario) {
-        LOGGER.info("Buscando Usuário pelo ID: {}", usuario.getId());
-        var usuarioSalvo = buscarPorId(Math.toIntExact(usuario.getId()));
-        BeanUtils.copyProperties(usuarioSalvo, usuario);
-        usuarioRepository.save(usuario);
     }
 
     @Override

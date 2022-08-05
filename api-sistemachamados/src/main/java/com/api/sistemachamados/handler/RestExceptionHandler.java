@@ -1,9 +1,6 @@
 package com.api.sistemachamados.handler;
 
-import com.api.sistemachamados.exception.BadRequestException;
-import com.api.sistemachamados.exception.BadRequestExceptionDetails;
-import com.api.sistemachamados.exception.ExceptionDetails;
-import com.api.sistemachamados.exception.ValidationExceptionDetails;
+import com.api.sistemachamados.exception.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +31,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .details(bre.getMessage())
                 .developerMessage(bre.getClass().getName())
                 .build(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<DataIntegrityViolationExceptionDetails> handleBadRequestException(DataIntegrityViolationException bre) {
+        return new ResponseEntity<>(
+            DataIntegrityViolationExceptionDetails.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .title("Internal Server Error, Verifique a validação com banco de dados!!!")
+                .details(bre.getMessage())
+                .developerMessage(bre.getClass().getName())
+                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

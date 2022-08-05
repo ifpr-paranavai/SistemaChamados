@@ -14,7 +14,6 @@ public interface UsuarioService {
 
     Optional<Usuario> salvar(Usuario usuario);
 
-    void atualizar(Usuario usuario);
 
     Optional<Usuario> buscarPorEmail(String email);
 

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,14 +52,11 @@ public class RegraServiceImpl implements RegraService {
                 LOGGER.info("Salvando Regra");
                 salvarRole.setDeleted(false);
                 salvarRole = roleRepository.save(roleDto);
-            }else {
-                LOGGER.info("Atualizando Regra");
-                salvarRole = roleRepository.save(roleDto);
             }
             return Optional.of(salvarRole);
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
-            throw e;
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("Problemas ao tentar persistir objeto !!! "+e);
         }
     }
 
