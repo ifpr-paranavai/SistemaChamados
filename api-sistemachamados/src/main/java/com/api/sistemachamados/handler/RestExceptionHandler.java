@@ -27,7 +27,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             BadRequestExceptionDetails.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .title("Bad Request Exception, Verifique a Documentação")
+                .title("error.400.badRequest")
                 .details(bre.getMessage())
                 .developerMessage(bre.getClass().getName())
                 .build(), HttpStatus.BAD_REQUEST);
@@ -38,7 +38,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             DataIntegrityViolationExceptionDetails.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .title("Internal Server Error, Verifique a validação com banco de dados!!!")
+                .title("error.500.internalServerError")
                 .details(bre.getMessage())
                 .developerMessage(bre.getClass().getName())
                 .build(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,8 +56,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             ValidationExceptionDetails.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .title("Bad Request Exception, Campos Inválidos")
-                .details("Verifique o erro do(s) campo(s)")
+                .title("error.400.camposInvalidos")
+                .details("error.400.camposInvalidos.campos")
                 .developerMessage(exception.getClass().getName())
                 .fields(fields)
                 .fieldsMessage(fieldsMessage)

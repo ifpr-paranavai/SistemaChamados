@@ -5,28 +5,58 @@ import com.api.sistemachamados.entity.Usuario;
 import com.api.sistemachamados.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/usuario")
 @AllArgsConstructor
+@PreAuthorize("hasPermission('null', {'ROLE_USER', 'PERM_PROCURACAO'})")
 @SecurityRequirement(name = "sistemachamadosapi")
 public class UsuarioController {
 
+    private final MessageSource messageSource;
+
     final UsuarioService usuarioService;
 
-    @PostMapping("/criar-usuario")
-    public ResponseEntity<Object> criarUsuario(@RequestBody @Valid UsuarioDTO usuarioDTO) {
-        var usuario = new Usuario();
-        BeanUtils.copyProperties(usuarioDTO, usuario);
-        return new ResponseEntity<>(usuarioService.salvar(usuario), HttpStatus.CREATED);
+    @PostMapping("/salvar-usuario")
+    public ResponseEntity<Object> salvarUsuario(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+        return new ResponseEntity<>(usuarioService.salvar(usuarioDTO), HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<Page<Usuario>> buscarUsuarios(
+        @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)
+        Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarTodos(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> buscarUsuarioId(@PathVariable(value = "id") Integer id) {
+        Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
+        return usuarioOptional.<ResponseEntity<Object>>map(
+                usuario -> ResponseEntity.status(HttpStatus.OK).body(usuario))
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado"));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "id") Integer id) {
+        Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
+        if(usuarioOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado");
+        }
+        usuarioService.deletar(usuarioOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("usuario.deletado");
+    }
+
 }

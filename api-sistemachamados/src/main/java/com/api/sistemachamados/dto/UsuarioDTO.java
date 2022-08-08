@@ -18,7 +18,7 @@ public class UsuarioDTO {
     @NotEmpty(message = "Senha não pode ser nulo ou vazio")
     private String senha;
 
-    @NotEmpty(message = "Email não pode ser nulo ou vazio")
+    @NotEmpty(message = "email.vazioNulo")
     @Email
     private String email;
 

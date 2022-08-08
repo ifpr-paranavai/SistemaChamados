@@ -1,5 +1,6 @@
 package com.api.sistemachamados.service.impl;
 
+import com.api.sistemachamados.dto.UsuarioDTO;
 import com.api.sistemachamados.entity.Usuario;
 import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.UsuarioRepository;
@@ -23,8 +24,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
-    final
-    UsuarioRepository usuarioRepository;
+    final UsuarioRepository usuarioRepository;
 
 
     @Override
@@ -42,26 +42,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public Optional<Usuario> salvar(Usuario usuarioDto) {
+    public Optional<Usuario> salvar(UsuarioDTO usuarioDto) {
         try {
             LOGGER.info("Buscando se existe Usuário");
-            var salvarUsuario = new Usuario();
+            var usuarioNovo = new Usuario();
             var usuario = buscarPorEmail(usuarioDto.getEmail());
             if (usuario.isEmpty()) {
                 LOGGER.info("Salvando Usuário");
-                usuarioDto.setSenha(new BCryptPasswordEncoder().encode(usuarioDto.getSenha()));
-                usuarioDto.setDeleted(false);
-                salvarUsuario = usuarioRepository.save(usuarioDto);
+                BeanUtils.copyProperties(usuarioDto, usuarioNovo);
+                usuarioNovo.setSenha(new BCryptPasswordEncoder().encode(usuarioDto.getSenha()));
+                usuarioNovo.setDeleted(false);
             } else {
                 LOGGER.info("Atualizando Usuário");
-                BeanUtils.copyProperties(usuarioDto, salvarUsuario);
-                salvarUsuario.setId(usuario.get().getId());
-                salvarUsuario = usuarioRepository.save(salvarUsuario);
+                BeanUtils.copyProperties(usuarioDto, usuarioNovo);
+                usuarioNovo.setId(usuario.get().getId());
             }
-            return Optional.of(salvarUsuario);
+            usuarioNovo = usuarioRepository.save(usuarioNovo);
+            return Optional.of(usuarioNovo);
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
-            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("Ocorreu um erro ao salvar Objeto!!! "+e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("Ocorreu um erro ao salvar Objeto!!! " + e);
         }
     }
 
@@ -73,10 +73,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public void deletar(Usuario usuario) {
-        LOGGER.info("Buscando Usuário pelo ID: {}", usuario.getId());
-        var usuarioSalvo = buscarPorId(Math.toIntExact(usuario.getId()));
-        BeanUtils.copyProperties(usuarioSalvo, usuario);
-        usuarioRepository.delete(usuario);
+        try {
+            usuarioRepository.delete(usuario);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("Ocorreu um erro ao apagar Objeto!!! " + e);
+        }
     }
 }
+

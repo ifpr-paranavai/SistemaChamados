@@ -1,4 +1,4 @@
-package com.api.sistemachamados.configurer;
+package com.api.sistemachamados.config;
 
 
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
 package com.api.sistemachamados.service;
 
+import com.api.sistemachamados.dto.UsuarioDTO;
 import com.api.sistemachamados.entity.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ public interface UsuarioService {
 
     Optional<Usuario> buscarPorId(Integer id);
 
-    Optional<Usuario> salvar(Usuario usuario);
+    Optional<Usuario> salvar(UsuarioDTO usuario);
 
 
     Optional<Usuario> buscarPorEmail(String email);
