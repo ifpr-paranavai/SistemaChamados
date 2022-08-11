@@ -15,4 +15,6 @@ public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, I
 	Optional<Usuario> findByEmail(String email);
 
     Page<Usuario> findAll(Pageable pageable);
+
+    Optional<Usuario> findById(Long id);
 }

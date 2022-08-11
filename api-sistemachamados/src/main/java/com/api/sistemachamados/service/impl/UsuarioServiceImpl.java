@@ -34,7 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Optional<Usuario> buscarPorId(Integer id) {
+    public Optional<Usuario> buscarPorId(Long id) {
         LOGGER.info("Buscando Usuário pelo ID: {}", id);
         return Optional.ofNullable(usuarioRepository.findById(id)
             .orElseThrow(() -> new BadRequestException("Usuário não Encontrado")));
@@ -46,7 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         try {
             LOGGER.info("Buscando se existe Usuário");
             var usuarioNovo = new Usuario();
-            var usuario = buscarPorEmail(usuarioDto.getEmail());
+            var usuario = usuarioRepository.findByEmail(usuarioDto.getEmail());
             if (usuario.isEmpty()) {
                 LOGGER.info("Salvando Usuário");
                 BeanUtils.copyProperties(usuarioDto, usuarioNovo);

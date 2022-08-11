@@ -11,7 +11,7 @@ public interface UsuarioService {
 
     Page<Usuario> buscarTodos(Pageable pageable);
 
-    Optional<Usuario> buscarPorId(Integer id);
+    Optional<Usuario> buscarPorId(Long id);
 
     Optional<Usuario> salvar(UsuarioDTO usuario);
 

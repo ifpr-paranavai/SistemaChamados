@@ -4,6 +4,7 @@ import com.api.sistemachamados.dto.UsuarioDTO;
 import com.api.sistemachamados.entity.Usuario;
 import com.api.sistemachamados.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -23,10 +24,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @PreAuthorize("hasPermission('null', {'ROLE_USER', 'PERM_PROCURACAO'})")
 @SecurityRequirement(name = "sistemachamadosapi")
+@Tag(name = "Usuário", description = "Operação relacioada a criação de um Usuário")
 public class UsuarioController {
-
-    private final MessageSource messageSource;
-
     final UsuarioService usuarioService;
 
     @PostMapping("/salvar-usuario")
@@ -42,7 +41,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarUsuarioId(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<Object> buscarUsuarioId(@PathVariable(value = "id") Long id) {
         Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
         return usuarioOptional.<ResponseEntity<Object>>map(
                 usuario -> ResponseEntity.status(HttpStatus.OK).body(usuario))
@@ -50,7 +49,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "id") Long id) {
         Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
         if(usuarioOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado");
