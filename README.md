@@ -1,5 +1,5 @@
-# Web Haras
+# Sistema de Chamados
 
 ## **Estrutura do repositório**.
-**frontend**: app-webharas </br>
-**backend**: api-webharas
+**frontend**: app-sistemachamados </br>
+**backend**: api-sistemachamados

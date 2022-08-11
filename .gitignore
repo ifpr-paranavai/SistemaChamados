@@ -4,6 +4,7 @@ api-sistemachamados/target/
 !api-sistemachamados/**/src/main/**/target/
 !api-sistemachamados/**/src/test/**/target/
 api-sistemachamados/src/main/resources/application.properties
+api-sistemachamados/target
 
 ### STS ###
 api-sistemachamados/.apt_generated
