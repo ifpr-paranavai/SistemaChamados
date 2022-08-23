@@ -34,7 +34,7 @@ public class MarcaController {
         return new ResponseEntity<>(marcaService.salvar(marcaDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/marcas")
     public ResponseEntity<Page<Marca>> buscarMarcas(
         @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)
         Pageable pageable) {
@@ -43,8 +43,14 @@ public class MarcaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarMarcaId(@PathVariable(value = "id") Long id) {
-        Optional<Marca> marcaOptional = marcaService.buscarPorId(id);
-        return marcaOptional.<ResponseEntity<Object>>map(
+        return marcaService.buscarPorId(id).<ResponseEntity<Object>>map(
+                marca -> ResponseEntity.status(HttpStatus.OK).body(marca))
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado"));
+    }
+
+    @GetMapping("/{nomeMarca}")
+    public ResponseEntity<Object> buscarNomeMarca(@PathVariable(value = "nomeMarca") String nomeMarca) {
+        return marcaService.buscarNomeMarca(nomeMarca).<ResponseEntity<Object>>map(
                 marca -> ResponseEntity.status(HttpStatus.OK).body(marca))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado"));
     }

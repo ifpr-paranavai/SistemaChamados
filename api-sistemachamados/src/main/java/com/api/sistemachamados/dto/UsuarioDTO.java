@@ -56,6 +56,5 @@ public class UsuarioDTO {
         required = true
     )
     @JsonProperty("roles")
-    @NotNull
     private Collection<Role> roles = new ArrayList<>();
 }

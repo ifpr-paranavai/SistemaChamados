@@ -1,9 +1,13 @@
 package com.api.sistemachamados.entity;
 
+import com.api.sistemachamados.enums.SituacaoOsEnum;
+import com.api.sistemachamados.enums.TipoPessoaEnum;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -15,7 +19,7 @@ import static javax.persistence.GenerationType.AUTO;
 @ToString
 @AllArgsConstructor
 @Table(name = "cliente")
-public class Cliente extends Auditoria implements Serializable  {
+public class Cliente extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,11 +36,12 @@ public class Cliente extends Auditoria implements Serializable  {
     @Column()
     private Integer numero;
 
-    @Column(unique = true, length = 11)
-    private Integer CPF;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoPessoaEnum tipoPessoa;
 
-    @Column(unique = true, length = 14)
-    private Integer CNPJ;
+    @Column(unique = true, length = 15)
+    private String cpfCnpj;
 
     @Column()
     private String contato1;
@@ -48,7 +53,7 @@ public class Cliente extends Auditoria implements Serializable  {
     private Cidade cidade;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Equipamento> equipamento;
-
+    @ToString.Exclude
+    private Collection<Equipamento> equipamentos = new ArrayList<>();;
 }
 

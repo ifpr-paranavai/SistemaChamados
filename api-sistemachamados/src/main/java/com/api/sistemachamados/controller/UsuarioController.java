@@ -33,17 +33,16 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.salvar(usuarioDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/usuarios")
     public ResponseEntity<Page<Usuario>> buscarUsuarios(
-        @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)
+        @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
         Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarTodos(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarUsuarioId(@PathVariable(value = "id") Long id) {
-        Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
-        return usuarioOptional.<ResponseEntity<Object>>map(
+        return usuarioService.buscarPorId(id).<ResponseEntity<Object>>map(
                 usuario -> ResponseEntity.status(HttpStatus.OK).body(usuario))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado"));
     }

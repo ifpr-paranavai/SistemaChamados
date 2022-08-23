@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
+
 @Service
 @AllArgsConstructor
 public class MarcaServiceImpl implements MarcaService {
@@ -51,10 +53,9 @@ public class MarcaServiceImpl implements MarcaService {
             if (marca.isEmpty()) {
                 LOGGER.info("Salvando Marca");
                 BeanUtils.copyProperties(marcaDTO, novaMarca);
-                novaMarca.setDeleted(false);
             } else {
                 LOGGER.info("Atualizando Marca");
-                BeanUtils.copyProperties(marcaDTO, novaMarca);
+                copiarAtributosIgnorandoNullos(marcaDTO, novaMarca);
                 novaMarca.setId(marca.get().getId());
             }
             novaMarca = marcaRepository.save(novaMarca);

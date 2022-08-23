@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -25,8 +26,14 @@ public class Produto extends Auditoria implements Serializable  {
     @Column(nullable = false,unique = true)
     private String nomeProduto;
 
-    @Column()
-    private Integer quantidade;
+    @Column(nullable = false)
+    private Integer quantidadeEstoque;
+
+    @Column(nullable = false, precision = 19 , scale = 2)
+    private BigDecimal valorCompra;
+
+    @Column(nullable = false, precision = 19 , scale = 2)
+    private BigDecimal valorVenda;
 
     @ManyToOne
     private Marca marca;

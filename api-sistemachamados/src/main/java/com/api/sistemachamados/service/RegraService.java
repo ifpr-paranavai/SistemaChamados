@@ -1,5 +1,6 @@
 package com.api.sistemachamados.service;
 
+import com.api.sistemachamados.dto.RegraDTO;
 import com.api.sistemachamados.entity.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ public interface RegraService {
 
     Optional<Role> buscarPorNome(String nome);
 
-    Optional<Role> salvar(Role role);
+    Optional<Role> salvar(RegraDTO role);
 
     void deletar(Role role);
 }

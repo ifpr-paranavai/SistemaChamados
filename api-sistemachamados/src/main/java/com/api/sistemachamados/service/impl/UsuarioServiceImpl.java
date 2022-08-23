@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
+
 @Service
 @AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
@@ -51,10 +53,9 @@ public class UsuarioServiceImpl implements UsuarioService {
                 LOGGER.info("Salvando Usuário");
                 BeanUtils.copyProperties(usuarioDto, usuarioNovo);
                 usuarioNovo.setSenha(new BCryptPasswordEncoder().encode(usuarioDto.getSenha()));
-                usuarioNovo.setDeleted(false);
             } else {
                 LOGGER.info("Atualizando Usuário");
-                BeanUtils.copyProperties(usuarioDto, usuarioNovo);
+                copiarAtributosIgnorandoNullos(usuarioDto, usuarioNovo);
                 usuarioNovo.setId(usuario.get().getId());
             }
             usuarioNovo = usuarioRepository.save(usuarioNovo);
