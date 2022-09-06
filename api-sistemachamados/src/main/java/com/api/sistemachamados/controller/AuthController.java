@@ -3,6 +3,8 @@ package com.api.sistemachamados.controller;
 import com.api.sistemachamados.dto.ApiResponseDTO;
 import com.api.sistemachamados.dto.LoginDTO;
 import com.api.sistemachamados.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/auth")
 @AllArgsConstructor
+@SecurityRequirement(name = "sistemachamadosapi")
+@Tag(name = "Auth", description = "Operação relacionada a autenticação")
 public class AuthController {
     final AuthService authService;
 

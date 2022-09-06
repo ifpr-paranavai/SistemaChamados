@@ -1,10 +1,12 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.ServicoDTO;
+import com.api.sistemachamados.entity.Cliente;
 import com.api.sistemachamados.entity.Servico;
 import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.ServicoRepository;
 import com.api.sistemachamados.service.ServicoService;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
@@ -35,29 +38,17 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public Optional<Servico> buscarPorId(Long id) {
+    public Optional<Servico> buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Buscando Servico pelo ID: {}", id);
         return Optional.ofNullable(servicoRepository.findById(id)
-            .orElseThrow(() -> new BadRequestException("servico.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("servico.naoEncontrado")));
     }
 
     @Override
     @Transactional
     public Optional<Servico> salvar(ServicoDTO servicoDTO) {
         try {
-            LOGGER.info("Buscando se existe Servico");
-            var novaServico = new Servico();
-            var servico = servicoRepository.findByNome(servicoDTO.getNome());
-            if (servico.isEmpty()) {
-                LOGGER.info("Salvando Servico");
-                BeanUtils.copyProperties(servicoDTO, novaServico);
-            } else {
-                LOGGER.info("Atualizando Servico");
-                copiarAtributosIgnorandoNullos(servicoDTO, novaServico);
-                novaServico.setId(servico.get().getId());
-            }
-            novaServico = servicoRepository.save(novaServico);
-            return Optional.of(novaServico);
+            return Optional.of(servicoRepository.save(verificaPersitencia(servicoDTO)));
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
@@ -65,10 +56,35 @@ public class ServicoServiceImpl implements ServicoService {
     }
 
     @Override
-    public Optional<Servico> buscarNomeServico(String servico) {
+    public Servico verificaPersitencia(ServicoDTO servicoDTO) {
+        try {
+            var servico = new Servico();
+            LOGGER.info("Buscando se existe Cliente");
+            buscarNomeServico(servicoDTO.getNome()).ifPresentOrElse
+                ((value) ->
+                    {
+                        copiarAtributosIgnorandoNullos(servicoDTO, servico);
+                        atualizandoAtributosCliente(
+                            Objects.requireNonNull(value), servico);
+                    },
+                    () -> BeanUtils.copyProperties(servicoDTO, servico));
+            return servico;
+        } catch (DataIntegrityViolationException | NotFoundException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
+        }
+    }
+
+    @Override
+    public void atualizandoAtributosCliente(Servico servicoBD, Servico servico) {
+        servico.setId(servicoBD.getId());
+    }
+
+    @Override
+    public Optional<Servico> buscarNomeServico(String servico) throws NotFoundException {
         LOGGER.info("Buscando Servico pelo nome: {}", servico);
         return Optional.ofNullable(servicoRepository.findByNome(servico)
-            .orElseThrow(() -> new BadRequestException("servico.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("servico.naoEncontrado")));
     }
 
     @Override

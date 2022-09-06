@@ -29,11 +29,20 @@ public class Produto extends Auditoria implements Serializable  {
     @Column(nullable = false)
     private Integer quantidadeEstoque;
 
+    @Column()
+    private Integer quantidadeEstoqueEntrada;
+
     @Column(nullable = false, precision = 19 , scale = 2)
     private BigDecimal valorCompra;
 
     @Column(nullable = false, precision = 19 , scale = 2)
+    private BigDecimal valorCompraEntrada;
+
+    @Column(nullable = false, precision = 19 , scale = 2)
     private BigDecimal valorVenda;
+
+    @Column(nullable = false, precision = 19 , scale = 2)
+    private BigDecimal valorVendaEntrada;
 
     @ManyToOne
     private Marca marca;

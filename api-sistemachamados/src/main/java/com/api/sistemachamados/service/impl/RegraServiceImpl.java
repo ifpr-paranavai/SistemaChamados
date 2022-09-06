@@ -2,9 +2,9 @@ package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.RegraDTO;
 import com.api.sistemachamados.entity.Role;
-import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.RoleRepository;
 import com.api.sistemachamados.service.RegraService;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
@@ -36,29 +37,17 @@ public class RegraServiceImpl implements RegraService {
     }
 
     @Override
-    public Optional<Role> buscarPorId(Long id) {
+    public Optional<Role> buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Buscando Regra pelo ID: {}", id);
         return Optional.ofNullable(roleRepository.findById(id)
-            .orElseThrow(() -> new BadRequestException("role.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("role.naoEncontrado")));
     }
 
     @Override
     @Transactional
     public Optional<Role> salvar(RegraDTO roleDto) {
         try {
-            LOGGER.info("Buscando se existe Regra");
-            var salvarRole = new Role();
-            var role = roleRepository.findByNome(roleDto.getNome());
-            if (role.isEmpty()) {
-                LOGGER.info("Salvando Regra");
-                BeanUtils.copyProperties(roleDto, role);
-            } else {
-                LOGGER.info("Atualizando Regra");
-                copiarAtributosIgnorandoNullos(roleDto, role);
-                salvarRole.setId(role.get().getId());
-            }
-            salvarRole = roleRepository.save(salvarRole);
-            return Optional.of(salvarRole);
+            return Optional.of(roleRepository.save(verificaPersitencia(roleDto)));
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
@@ -66,17 +55,44 @@ public class RegraServiceImpl implements RegraService {
     }
 
     @Override
-    public Optional<Role> buscarPorNome(String nome) {
+    public Role verificaPersitencia(RegraDTO roleDTO) {
+        try {
+            var role = new Role();
+            LOGGER.info("Buscando se existe Regra");
+            buscarPorNome(roleDTO.getNome()).ifPresentOrElse
+                ((value) ->
+                    {
+                        copiarAtributosIgnorandoNullos(roleDTO, role);
+                        atualizandoAtributosCliente(
+                            Objects.requireNonNull(value), role);
+                    },
+                    () -> BeanUtils.copyProperties(roleDTO, role));
+            return role;
+        } catch (DataIntegrityViolationException | NotFoundException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
+        }
+    }
+
+    @Override
+    public void atualizandoAtributosCliente(Role roleBD, Role role) {
+        role.setId(roleBD.getId());
+    }
+
+    @Override
+    public Optional<Role> buscarPorNome(String nome) throws NotFoundException {
         LOGGER.info("Buscando Regra pelo e-mail: {}", nome);
         return Optional.ofNullable(roleRepository.findByNome(nome)
-            .orElseThrow(() -> new BadRequestException("role.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("role.naoEncontrado")));
     }
 
     @Override
     public void deletar(Role role) {
-        LOGGER.info("Buscando Regra pelo ID: {}", role.getId());
-        var roleSalvo = buscarPorId(role.getId());
-        BeanUtils.copyProperties(roleSalvo, role);
-        roleRepository.delete(role);
+        try {
+            roleRepository.delete(role);
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.deleted.persist $e");
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.api.sistemachamados.service.ServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class ServicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarServicoId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> buscarServicoId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return servicoService.buscarPorId(id).<ResponseEntity<Object>>map(
                 servico -> ResponseEntity.status(HttpStatus.OK).body(servico))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("servico.naoEncontrado"));
@@ -49,7 +50,7 @@ public class ServicoController {
 
 
     @GetMapping("/{nomeServico}")
-    public ResponseEntity<Object> buscarServicoNome(@PathVariable(value = "nomeServico") String nome) {
+    public ResponseEntity<Object> buscarServicoNome(@PathVariable(value = "nomeServico") String nome) throws NotFoundException {
         return servicoService.buscarNomeServico(nome).<ResponseEntity<Object>>map(
                 servico -> ResponseEntity.status(HttpStatus.OK).body(servico))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("servico.naoEncontrado"));
@@ -57,7 +58,7 @@ public class ServicoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarServico(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deletarServico(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<Servico> servicoOptional = servicoService.buscarPorId(id);
         if (servicoOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("servico.naoEncontrado");

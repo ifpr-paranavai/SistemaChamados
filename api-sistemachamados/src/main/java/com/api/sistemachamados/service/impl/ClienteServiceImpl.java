@@ -1,10 +1,14 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.ClienteDTO;
+import com.api.sistemachamados.dto.ProdutoDTO;
 import com.api.sistemachamados.entity.Cliente;
+import com.api.sistemachamados.entity.EntradaProduto;
+import com.api.sistemachamados.entity.Produto;
 import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.ClienteRepository;
 import com.api.sistemachamados.service.ClienteService;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
@@ -35,10 +40,10 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> buscarPorId(Long id) {
+    public Optional<Cliente> buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Buscando Cliente pelo ID: {}", id);
         return Optional.ofNullable(clienteRepository.findById(id)
-            .orElseThrow(() -> new BadRequestException("cliente.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("cliente.naoEncontrado")));
     }
 
 
@@ -46,19 +51,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public Optional<Cliente> salvar(ClienteDTO clienteDTO) {
         try {
-            LOGGER.info("Buscando se existe Cliente");
-            var novaCliente = new Cliente();
-            var cliente = clienteRepository.findByCpfCnpj(clienteDTO.getCpfCnpj());
-            if (cliente.isEmpty()) {
-                LOGGER.info("Salvando Cliente");
-                BeanUtils.copyProperties(clienteDTO, novaCliente);
-            } else {
-                LOGGER.info("Atualizando Cliente");
-                copiarAtributosIgnorandoNullos(clienteDTO, novaCliente);
-                novaCliente.setId(cliente.get().getId());
-            }
-            novaCliente = clienteRepository.save(novaCliente);
-            return Optional.of(novaCliente);
+            return Optional.of(clienteRepository.save(verificaPersitencia(clienteDTO)));
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
@@ -66,10 +59,36 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> buscarClienteCpfCnpj(String documento) {
+    public Cliente verificaPersitencia(ClienteDTO clienteDTO) {
+        try {
+            var cliente = new Cliente();
+            LOGGER.info("Buscando se existe Cliente");
+            buscarClienteCpfCnpj(clienteDTO.getCpfCnpj()).ifPresentOrElse
+                ((value) ->
+                    {
+                    copiarAtributosIgnorandoNullos(clienteDTO, cliente);
+                    atualizandoAtributosCliente(
+                        Objects.requireNonNull(value), cliente);
+                    },
+                () -> BeanUtils.copyProperties(clienteDTO, cliente));
+            return cliente;
+        } catch (DataIntegrityViolationException | NotFoundException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
+        }
+    }
+
+    @Override
+    public void atualizandoAtributosCliente(Cliente clienteBD, Cliente cliente){
+        cliente.setId(clienteBD.getId());
+    }
+
+
+    @Override
+    public Optional<Cliente> buscarClienteCpfCnpj(String documento) throws NotFoundException {
         LOGGER.info("Buscando Cliente pelo nome: {}", documento);
         return Optional.ofNullable(clienteRepository.findByCpfCnpj(documento)
-            .orElseThrow(() -> new BadRequestException("documento.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("documento.naoEncontrado")));
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.api.sistemachamados.service.EquipamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,14 +43,14 @@ public class EquipamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarEquipamentoId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> buscarEquipamentoId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return equipamentoService.buscarPorId(id).<ResponseEntity<Object>>map(
                 equipamento -> ResponseEntity.status(HttpStatus.OK).body(equipamento))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("equipamento.naoEncontrado"));
     }
 
     @GetMapping("/{numeroSerie}")
-    public ResponseEntity<Object> buscarEquipamentoNumeroSerie(@PathVariable(value = "numeroSerie") String numeroSerie) {
+    public ResponseEntity<Object> buscarEquipamentoNumeroSerie(@PathVariable(value = "numeroSerie") String numeroSerie) throws NotFoundException {
         return equipamentoService.buscarNumeroSerie(numeroSerie).<ResponseEntity<Object>>map(
                 equipamento -> ResponseEntity.status(HttpStatus.OK).body(equipamento))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("equipamento.naoEncontrado"));
@@ -57,7 +58,7 @@ public class EquipamentoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarEquipamento(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deletarEquipamento(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<Equipamento> equipamentoOptional = equipamentoService.buscarPorId(id);
         if (equipamentoOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("equipamento.naoEncontrado");

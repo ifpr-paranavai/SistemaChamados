@@ -5,6 +5,7 @@ import com.api.sistemachamados.entity.Usuario;
 import com.api.sistemachamados.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -41,14 +42,14 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarUsuarioId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> buscarUsuarioId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return usuarioService.buscarPorId(id).<ResponseEntity<Object>>map(
                 usuario -> ResponseEntity.status(HttpStatus.OK).body(usuario))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
         if(usuarioOptional.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado");

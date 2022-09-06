@@ -1,14 +1,9 @@
 package com.api.sistemachamados.entity;
 
-import com.api.sistemachamados.enums.SituacaoOsEnum;
-import com.api.sistemachamados.enums.TipoAtendimentoEnum;
-import com.api.sistemachamados.enums.TipoOrdemServicoEnum;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -19,7 +14,7 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ordem_servico_item")
-public class OrdemServicoItem extends Auditoria implements Serializable  {
+public class OrdemServicoItem extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

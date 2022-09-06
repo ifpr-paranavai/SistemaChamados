@@ -1,16 +1,19 @@
 package com.api.sistemachamados.dto;
 
 import com.api.sistemachamados.entity.Marca;
+import com.api.sistemachamados.enums.SituacaoOsEnum;
+import com.api.sistemachamados.enums.TipoPessoaEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 @Data
-public class ProdutoDTO {
+public class OrdemServicoDTO {
 
     @Schema(
         example = "Parafuso",
@@ -27,15 +30,8 @@ public class ProdutoDTO {
         required = true
     )
     @JsonProperty("quantidadeEstoque")
+    @NotEmpty(message = "qtd.null")
     private Integer quantidadeEstoque;
-
-    @Schema(
-        example = "10un",
-        description = "10 unidades",
-        required = true
-    )
-    @JsonProperty("quantidadeEstoqueEntrada")
-    private Integer quantidadeEstoqueEntrada;
 
     @Schema(
         example = "25.50",
@@ -43,15 +39,8 @@ public class ProdutoDTO {
         required = true
     )
     @JsonProperty("valorCompra")
+    @NotEmpty(message = "valor.null")
     private BigDecimal valorCompra;
-
-    @Schema(
-        example = "25.50",
-        description = "Valor da compra do produto",
-        required = true
-    )
-    @JsonProperty("valorCompraEntrada")
-    private BigDecimal valorCompraEntrada;
 
     @Schema(
         example = "33.50",
@@ -59,20 +48,25 @@ public class ProdutoDTO {
         required = true
     )
     @JsonProperty("valorVenda")
+    @NotEmpty(message = "valor.null")
     private BigDecimal valorVenda;
-
-    @Schema(
-        example = "33.50",
-        description = "Vaor do produto a ser vendido",
-        required = true
-    )
-    @JsonProperty("valorVendaEntrada")
-    private BigDecimal valorVendaEntrada;
 
     @Schema(
         example = "Objeto",
         description = "Objeto Marca"
     )
     @JsonProperty("marca")
+    @NotEmpty(message = "obj.null")
     private Marca marca;
+
+
+    @Schema(
+        example = "Física",
+        description = "Tipo da Pessoa",
+        required = true
+    )
+    @JsonProperty("situacaoOs")
+    @NotEmpty(message = "tipoPessoa.null")
+    @Enumerated(EnumType.STRING)
+    private SituacaoOsEnum situacaoOs;
 }

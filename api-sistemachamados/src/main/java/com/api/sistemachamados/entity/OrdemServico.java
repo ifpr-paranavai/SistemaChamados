@@ -4,12 +4,14 @@ import com.api.sistemachamados.enums.SituacaoOsEnum;
 import com.api.sistemachamados.enums.TipoAtendimentoEnum;
 import com.api.sistemachamados.enums.TipoOrdemServicoEnum;
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -53,9 +55,11 @@ public class OrdemServico extends Auditoria implements Serializable  {
     private TipoAtendimentoEnum tipoAtendimento;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Servico> servico;
+    @ToString.Exclude
+    private Collection<Servico> servicos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Equipamento equipamento;
 }
 

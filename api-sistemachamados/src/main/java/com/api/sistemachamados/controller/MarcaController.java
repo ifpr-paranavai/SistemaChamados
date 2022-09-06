@@ -6,6 +6,7 @@ import com.api.sistemachamados.service.MarcaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @PreAuthorize("hasPermission('null', {'ROLE_USER', 'PERM_PROCURACAO'})")
 @SecurityRequirement(name = "sistemachamadosapi")
-@Tag(name = "Marca", description = "Operação relacioada a criação de Marca")
+@Tag(name = "Marca", description = "Operação relacionada a criação de Marca")
 public class MarcaController {
     final MarcaService marcaService;
 
@@ -42,21 +43,21 @@ public class MarcaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarMarcaId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> buscarMarcaId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return marcaService.buscarPorId(id).<ResponseEntity<Object>>map(
                 marca -> ResponseEntity.status(HttpStatus.OK).body(marca))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado"));
     }
 
     @GetMapping("/{nomeMarca}")
-    public ResponseEntity<Object> buscarNomeMarca(@PathVariable(value = "nomeMarca") String nomeMarca) {
+    public ResponseEntity<Object> buscarNomeMarca(@PathVariable(value = "nomeMarca") String nomeMarca) throws NotFoundException {
         return marcaService.buscarNomeMarca(nomeMarca).<ResponseEntity<Object>>map(
                 marca -> ResponseEntity.status(HttpStatus.OK).body(marca))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarMarca(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deletarMarca(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<Marca> marcaOptional = marcaService.buscarPorId(id);
         if (marcaOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado");

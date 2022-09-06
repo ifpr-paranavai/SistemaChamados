@@ -1,10 +1,12 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.EquipamentoDTO;
+import com.api.sistemachamados.entity.Cliente;
 import com.api.sistemachamados.entity.Equipamento;
 import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.EquipamentoRepository;
 import com.api.sistemachamados.service.EquipamentoService;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
@@ -35,29 +38,17 @@ public class EquipamentoServiceImpl implements EquipamentoService {
     }
 
     @Override
-    public Optional<Equipamento> buscarPorId(Long id) {
+    public Optional<Equipamento> buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Buscando Equipamento pelo ID: {}", id);
         return Optional.ofNullable(equipamentoRepository.findById(id)
-            .orElseThrow(() -> new BadRequestException("equipamento.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("equipamento.naoEncontrado")));
     }
 
     @Override
     @Transactional
     public Optional<Equipamento> salvar(EquipamentoDTO equipamentoDTO) {
         try {
-            LOGGER.info("Buscando se existe Equipamento");
-            var novaEquipamento = new Equipamento();
-            var equipamento = equipamentoRepository.findByNumeroSerie(equipamentoDTO.getNumeroSerie());
-            if (equipamento.isEmpty()) {
-                LOGGER.info("Salvando Equipamento");
-                BeanUtils.copyProperties(equipamentoDTO, novaEquipamento);
-            } else {
-                LOGGER.info("Atualizando Equipamento");
-                copiarAtributosIgnorandoNullos(equipamentoDTO, novaEquipamento);
-                novaEquipamento.setId(equipamento.get().getId());
-            }
-            novaEquipamento = equipamentoRepository.save(novaEquipamento);
-            return Optional.of(novaEquipamento);
+            return Optional.of(equipamentoRepository.save(verificaPersitencia(equipamentoDTO)));
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
@@ -65,10 +56,10 @@ public class EquipamentoServiceImpl implements EquipamentoService {
     }
 
     @Override
-    public Optional<Equipamento> buscarNumeroSerie(String numeroSerie) {
+    public Optional<Equipamento> buscarNumeroSerie(String numeroSerie) throws NotFoundException {
         LOGGER.info("Buscando Equipamento pelo nome: {}", numeroSerie);
         return Optional.ofNullable(equipamentoRepository.findByNumeroSerie(numeroSerie)
-            .orElseThrow(() -> new BadRequestException("equipamento.naoEncontrado")));
+            .orElseThrow(() -> new NotFoundException("equipamento.naoEncontrado")));
     }
 
     @Override
@@ -80,6 +71,31 @@ public class EquipamentoServiceImpl implements EquipamentoService {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.deleted.persist $e");
         }
+    }
+
+    @Override
+    public Equipamento verificaPersitencia(EquipamentoDTO equipamentoDTO) {
+        try {
+            var equipamento = new Equipamento();
+            LOGGER.info("Buscando se existe Equipamento");
+            buscarNumeroSerie(equipamentoDTO.getNumeroSerie()).ifPresentOrElse
+                ((value) ->
+                    {
+                        copiarAtributosIgnorandoNullos(equipamentoDTO, equipamento);
+                        atualizandoAtributosEquipamento(
+                            Objects.requireNonNull(value), equipamento);
+                    },
+                    () -> BeanUtils.copyProperties(equipamentoDTO, equipamento));
+            return equipamento;
+        } catch (DataIntegrityViolationException | NotFoundException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("equipamento.naoEncontrado");
+        }
+    }
+
+    @Override
+    public void atualizandoAtributosEquipamento(Equipamento equipamentoBD, Equipamento equipamento) {
+        equipamento.setId(equipamentoBD.getId());
     }
 }
 

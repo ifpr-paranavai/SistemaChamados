@@ -38,7 +38,7 @@ public class Usuario extends Auditoria implements UserDetails {
     @Column(name = "telefone")
     private String telefone;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Role> roles = new ArrayList<>();
 
     @Override

@@ -10,16 +10,35 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Log4j2
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+
+//    UnexpectedTypeException
+    @ExceptionHandler(UnexpectedTypeException.class)
+    public ResponseEntity<UnexpectedTypeExceptionDetails> handleBadRequestExceptionConstraint(UnexpectedTypeException exception) {
+        return new ResponseEntity<>(
+            UnexpectedTypeExceptionDetails.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .title("error.400.badRequest")
+                .details(exception.getMessage())
+                .developerMessage(exception.getClass().getName())
+                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException bre) {
@@ -32,6 +51,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .developerMessage(bre.getClass().getName())
                 .build(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<DataIntegrityViolationExceptionDetails> handleBadRequestException(DataIntegrityViolationException bre) {
         return new ResponseEntity<>(

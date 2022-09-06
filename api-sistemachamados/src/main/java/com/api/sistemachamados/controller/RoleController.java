@@ -5,6 +5,7 @@ import com.api.sistemachamados.entity.Role;
 import com.api.sistemachamados.service.RegraService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarRoleId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> buscarRoleId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return regraService.buscarPorId(id).<ResponseEntity<Object>>map(
                 role -> ResponseEntity.status(HttpStatus.OK).body(role))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("role.naoEncontrado"));
@@ -49,14 +50,14 @@ public class RoleController {
 
 
     @GetMapping("/{nome}")
-    public ResponseEntity<Object> buscarRoleNome(@PathVariable(value = "nome") String nome) {
+    public ResponseEntity<Object> buscarRoleNome(@PathVariable(value = "nome") String nome) throws NotFoundException {
         return regraService.buscarPorNome(nome).<ResponseEntity<Object>>map(
                 role -> ResponseEntity.status(HttpStatus.OK).body(role))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("role.naoEncontrado"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarRole(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deletarRole(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<Role> roleOptional = regraService.buscarPorId(id);
         if (roleOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("role.naoEncontrado");
