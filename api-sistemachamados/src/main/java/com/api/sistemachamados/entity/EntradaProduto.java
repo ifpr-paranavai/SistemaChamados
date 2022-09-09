@@ -1,16 +1,10 @@
 package com.api.sistemachamados.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -22,8 +16,9 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "entrada_produto")
-public class EntradaProduto extends Auditoria implements Serializable  {
+public class EntradaProduto extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,21 +26,22 @@ public class EntradaProduto extends Auditoria implements Serializable  {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    // TODO: 04/09/2022 Remover data entrada dinamica?
-    @Column(nullable = false, unique = true)
-    @JsonFormat(pattern="dd/MM/yyyy")
-    private LocalDate dataEntrada = LocalDate.from(LocalDateTime.now());
+    // TODO: 08/09/2022 valor a ser calculado qtd x valor unitário
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal valorTotalProdutoEntrada;
 
-    @Column(nullable = false, precision = 19 , scale = 2)
-    private BigDecimal valorTotalEntrada;
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal valorUnitarioProduto;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private Collection<Produto> produtos = new ArrayList<>();
+    @Column(nullable = false, precision = 19, scale = 2)
+    private Integer quantidadeProduto;
 
-    public EntradaProduto (List<Produto> produtos, BigDecimal valorTotalEntrada){
-        this.produtos = produtos;
-        this.valorTotalEntrada = valorTotalEntrada;
-    }
+    @ManyToOne
+    @JoinColumn(name = "produto_id", insertable = false, updatable = false)
+    private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(name = "entrada_id", insertable = false, updatable = false)
+    private Entrada entrada;
 }
 

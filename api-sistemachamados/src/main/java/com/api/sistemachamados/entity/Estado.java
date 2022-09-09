@@ -14,6 +14,7 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "estado")
+@EqualsAndHashCode(callSuper = true)
 public class Estado extends Auditoria implements Serializable  {
 
     private static final long serialVersionUID = 1L;

@@ -14,6 +14,7 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "servico")
+@EqualsAndHashCode(callSuper = true)
 public class Servico extends Auditoria implements Serializable  {
 
     private static final long serialVersionUID = 1L;

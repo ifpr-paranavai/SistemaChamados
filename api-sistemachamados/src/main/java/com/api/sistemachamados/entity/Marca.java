@@ -13,6 +13,7 @@ import static javax.persistence.GenerationType.AUTO;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "marca")
 public class Marca extends Auditoria implements Serializable  {
 

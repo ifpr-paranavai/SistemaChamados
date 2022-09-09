@@ -6,6 +6,7 @@ import com.api.sistemachamados.service.OrdemServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,7 @@ public class OrdemServicoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarOrdemServicoId(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> buscarOrdemServicoId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return ordemServicoService.buscarPorId(id).<ResponseEntity<Object>>map(
                 ordemServico -> ResponseEntity.status(HttpStatus.OK).body(ordemServico))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("ordemServico.naoEncontrado"));
@@ -50,7 +51,7 @@ public class OrdemServicoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarOrdemServico(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deletarOrdemServico(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<OrdemServico>
             ordemServicoOptional = ordemServicoService.buscarPorId(id);
         if (ordemServicoOptional.isEmpty()) {

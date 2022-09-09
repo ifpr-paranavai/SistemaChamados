@@ -59,8 +59,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         try {
             var usuario = new Usuario();
             LOGGER.info("Buscando se existe Cliente");
-            buscarPorEmail(usuarioDTO.getEmail()).ifPresentOrElse
-                ((value) ->
+            usuarioRepository.findByEmail(usuarioDTO.getEmail()).ifPresentOrElse
+                (value ->
                     {
                         copiarAtributosIgnorandoNullos(usuarioDTO, usuario);
                         atualizandoAtributosCliente(
@@ -72,7 +72,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                         usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioDTO.getSenha()));
                     });
             return usuario;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }

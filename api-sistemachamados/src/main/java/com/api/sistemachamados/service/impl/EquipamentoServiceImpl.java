@@ -78,8 +78,8 @@ public class EquipamentoServiceImpl implements EquipamentoService {
         try {
             var equipamento = new Equipamento();
             LOGGER.info("Buscando se existe Equipamento");
-            buscarNumeroSerie(equipamentoDTO.getNumeroSerie()).ifPresentOrElse
-                ((value) ->
+            equipamentoRepository.findByNumeroSerie(equipamentoDTO.getNumeroSerie()).ifPresentOrElse
+                (value ->
                     {
                         copiarAtributosIgnorandoNullos(equipamentoDTO, equipamento);
                         atualizandoAtributosEquipamento(
@@ -87,7 +87,7 @@ public class EquipamentoServiceImpl implements EquipamentoService {
                     },
                     () -> BeanUtils.copyProperties(equipamentoDTO, equipamento));
             return equipamento;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("equipamento.naoEncontrado");
         }

@@ -79,16 +79,16 @@ public class MarcaServiceImpl implements MarcaService {
         try {
             var marca = new Marca();
             LOGGER.info("Buscando se existe {}", marcaDTO.getNomeMarca());
-            buscarNomeMarca(marcaDTO.getNomeMarca()).ifPresentOrElse
-                ((value) ->
+            marcaRepository.findByNomeMarca(marcaDTO.getNomeMarca()).ifPresentOrElse(
+                marcaBD ->
                     {
                         copiarAtributosIgnorandoNullos(marcaDTO, marca);
                         atualizandoAtributosCliente(
-                            Objects.requireNonNull(value), marca);
+                            Objects.requireNonNull(marcaBD), marca);
                     },
                     () -> BeanUtils.copyProperties(marcaDTO, marca));
             return marca;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }

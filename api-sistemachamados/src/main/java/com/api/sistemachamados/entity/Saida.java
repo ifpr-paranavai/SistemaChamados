@@ -1,10 +1,15 @@
 package com.api.sistemachamados.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -14,9 +19,9 @@ import static javax.persistence.GenerationType.AUTO;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "produto")
+@Table(name = "saida")
 @EqualsAndHashCode(callSuper = true)
-public class Produto extends Auditoria implements Serializable  {
+public class Saida extends Auditoria implements Serializable  {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,20 +29,11 @@ public class Produto extends Auditoria implements Serializable  {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    @Column(nullable = false,unique = true)
-    private String nomeProduto;
-
     @Column(nullable = false)
-    private Integer quantidadeEstoque;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataEntrada;
 
     @Column(nullable = false, precision = 19 , scale = 2)
-    private BigDecimal valorCompra;
-
-    @Column(nullable = false, precision = 19 , scale = 2)
-    private BigDecimal valorVenda;
-
-    @ManyToOne
-    private Marca marca;
-
+    private BigDecimal valorTotalSaida;
 }
 

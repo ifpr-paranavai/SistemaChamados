@@ -14,7 +14,8 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "equipamento")
-public class Equipamento extends Auditoria implements Serializable  {
+@EqualsAndHashCode(callSuper = true)
+public class Equipamento extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

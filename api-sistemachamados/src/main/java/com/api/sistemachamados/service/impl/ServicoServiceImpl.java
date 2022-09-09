@@ -60,8 +60,8 @@ public class ServicoServiceImpl implements ServicoService {
         try {
             var servico = new Servico();
             LOGGER.info("Buscando se existe Cliente");
-            buscarNomeServico(servicoDTO.getNome()).ifPresentOrElse
-                ((value) ->
+            servicoRepository.findByNome(servicoDTO.getNome()).ifPresentOrElse
+                (value ->
                     {
                         copiarAtributosIgnorandoNullos(servicoDTO, servico);
                         atualizandoAtributosCliente(
@@ -69,7 +69,7 @@ public class ServicoServiceImpl implements ServicoService {
                     },
                     () -> BeanUtils.copyProperties(servicoDTO, servico));
             return servico;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }

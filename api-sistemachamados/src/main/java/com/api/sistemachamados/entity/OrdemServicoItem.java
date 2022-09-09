@@ -13,6 +13,8 @@ import static javax.persistence.GenerationType.AUTO;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "ordem_servico_item")
 public class OrdemServicoItem extends Auditoria implements Serializable {
 
@@ -211,5 +213,9 @@ public class OrdemServicoItem extends Auditoria implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     private OrdemServico ordemServico;
+
+    public OrdemServicoItem(OrdemServico ordemServico){
+        this.ordemServico = ordemServico;
+    }
 }
 

@@ -1,11 +1,7 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.ClienteDTO;
-import com.api.sistemachamados.dto.ProdutoDTO;
 import com.api.sistemachamados.entity.Cliente;
-import com.api.sistemachamados.entity.EntradaProduto;
-import com.api.sistemachamados.entity.Produto;
-import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.ClienteRepository;
 import com.api.sistemachamados.service.ClienteService;
 import javassist.NotFoundException;
@@ -63,8 +59,8 @@ public class ClienteServiceImpl implements ClienteService {
         try {
             var cliente = new Cliente();
             LOGGER.info("Buscando se existe Cliente");
-            buscarClienteCpfCnpj(clienteDTO.getCpfCnpj()).ifPresentOrElse
-                ((value) ->
+            clienteRepository.findByCpfCnpj(clienteDTO.getCpfCnpj()).ifPresentOrElse
+                (value ->
                     {
                     copiarAtributosIgnorandoNullos(clienteDTO, cliente);
                     atualizandoAtributosCliente(
@@ -72,7 +68,7 @@ public class ClienteServiceImpl implements ClienteService {
                     },
                 () -> BeanUtils.copyProperties(clienteDTO, cliente));
             return cliente;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }

@@ -1,10 +1,15 @@
 package com.api.sistemachamados.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -16,8 +21,8 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "saida_produto")
-public class SaidaProduto extends Auditoria implements Serializable {
+@Table(name = "entrada")
+public class Entrada extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,20 +30,14 @@ public class SaidaProduto extends Auditoria implements Serializable {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    // TODO: 08/09/2022 valor a ser calculado qtd x valor unitário
-    @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal valorTotalProdutoSaida;
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataEntrada;
+
+    @Column(nullable = false)
+    private Boolean estaAberto;
 
     @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal valorUnitarioProduto;
-
-    @Column(nullable = false, precision = 19, scale = 2)
-    private Integer quantidadeProduto;
-
-    @ManyToOne
-    private Produto produto;
-
-    @ManyToOne
-    private Saida saida;
+    private BigDecimal valorTotalEntrada;
 }
 

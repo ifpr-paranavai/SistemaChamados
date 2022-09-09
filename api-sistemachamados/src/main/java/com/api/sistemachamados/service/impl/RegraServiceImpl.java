@@ -59,8 +59,8 @@ public class RegraServiceImpl implements RegraService {
         try {
             var role = new Role();
             LOGGER.info("Buscando se existe Regra");
-            buscarPorNome(roleDTO.getNome()).ifPresentOrElse
-                ((value) ->
+            roleRepository.findByNome(roleDTO.getNome()).ifPresentOrElse
+                (value ->
                     {
                         copiarAtributosIgnorandoNullos(roleDTO, role);
                         atualizandoAtributosCliente(
@@ -68,7 +68,7 @@ public class RegraServiceImpl implements RegraService {
                     },
                     () -> BeanUtils.copyProperties(roleDTO, role));
             return role;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }

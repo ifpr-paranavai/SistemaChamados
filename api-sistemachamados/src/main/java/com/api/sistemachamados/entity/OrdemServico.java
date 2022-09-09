@@ -3,12 +3,13 @@ package com.api.sistemachamados.entity;
 import com.api.sistemachamados.enums.SituacaoOsEnum;
 import com.api.sistemachamados.enums.TipoAtendimentoEnum;
 import com.api.sistemachamados.enums.TipoOrdemServicoEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,8 +22,9 @@ import static javax.persistence.GenerationType.AUTO;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "ordem_servico")
-public class OrdemServico extends Auditoria implements Serializable  {
+public class OrdemServico extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,8 +32,8 @@ public class OrdemServico extends Auditoria implements Serializable  {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    @Column(columnDefinition = "DATE")
-    private Date data;
+    @Column(columnDefinition = "DATE",nullable = false)
+    private LocalDate data;
 
     @ManyToOne
     private Cliente cliente;

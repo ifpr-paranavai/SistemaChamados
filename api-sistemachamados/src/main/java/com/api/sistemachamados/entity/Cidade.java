@@ -13,6 +13,7 @@ import static javax.persistence.GenerationType.AUTO;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "cidade")
 public class Cidade extends Auditoria implements Serializable {
 

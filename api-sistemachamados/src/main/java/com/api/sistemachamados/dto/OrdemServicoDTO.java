@@ -1,8 +1,9 @@
 package com.api.sistemachamados.dto;
 
-import com.api.sistemachamados.entity.Marca;
+import com.api.sistemachamados.entity.*;
 import com.api.sistemachamados.enums.SituacaoOsEnum;
-import com.api.sistemachamados.enums.TipoPessoaEnum;
+import com.api.sistemachamados.enums.TipoAtendimentoEnum;
+import com.api.sistemachamados.enums.TipoOrdemServicoEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -10,63 +11,98 @@ import lombok.Data;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
-import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Data
 public class OrdemServicoDTO {
 
     @Schema(
-        example = "Parafuso",
-        description = "Identificação do nome do produto",
+        example = "21/01/2022",
+        description = "Data da Ordem de Serviço",
         required = true
     )
-    @JsonProperty("nomeProduto")
-    @NotEmpty(message = "nome.null")
-    private String nomeProduto;
-
-    @Schema(
-        example = "10un",
-        description = "10 unidades",
-        required = true
-    )
-    @JsonProperty("quantidadeEstoque")
-    @NotEmpty(message = "qtd.null")
-    private Integer quantidadeEstoque;
-
-    @Schema(
-        example = "25.50",
-        description = "Valor da compra do produto",
-        required = true
-    )
-    @JsonProperty("valorCompra")
-    @NotEmpty(message = "valor.null")
-    private BigDecimal valorCompra;
-
-    @Schema(
-        example = "33.50",
-        description = "Vaor do produto a ser vendido",
-        required = true
-    )
-    @JsonProperty("valorVenda")
-    @NotEmpty(message = "valor.null")
-    private BigDecimal valorVenda;
+    @JsonProperty("data")
+    @NotEmpty(message = "data.null")
+    private LocalDate data;
 
     @Schema(
         example = "Objeto",
-        description = "Objeto Marca"
+        description = "Objeto cliente"
     )
-    @JsonProperty("marca")
+    @JsonProperty("cliente")
     @NotEmpty(message = "obj.null")
-    private Marca marca;
-
+    private Cliente cliente;
 
     @Schema(
-        example = "Física",
-        description = "Tipo da Pessoa",
+        example = "Objeto",
+        description = "Objeto cliente"
+    )
+    @JsonProperty("usuario")
+    @NotEmpty(message = "obj.null")
+    private Usuario usuario;
+
+    @Schema(
+        example = "SPLIT",
+        description = "Tipo da Ordem de Serviço",
+        required = true
+    )
+    @JsonProperty("tipoOrdemServico")
+    @NotEmpty(message = "tipoOrdemServico.null")
+    @Enumerated(EnumType.STRING)
+    private TipoOrdemServicoEnum tipoOrdemServico;
+
+    @Schema(
+        example = "Aberto",
+        description = "Tipo da Situação da OS",
         required = true
     )
     @JsonProperty("situacaoOs")
-    @NotEmpty(message = "tipoPessoa.null")
+    @NotEmpty(message = "situacao.null")
     @Enumerated(EnumType.STRING)
     private SituacaoOsEnum situacaoOs;
+
+    @Schema(
+        example = "Objeto",
+        description = "Objeto produto"
+    )
+    @JsonProperty("produto")
+    @NotEmpty(message = "obj.null")
+    private Produto produto;
+
+    @Schema(
+        example = "Preventiva",
+        description = "Tipo do atendimento",
+        required = true
+    )
+    @JsonProperty("tipoAtendimento")
+    @NotEmpty(message = "tipoAtendimento.null")
+    @Enumerated(EnumType.STRING)
+    private TipoAtendimentoEnum tipoAtendimento;
+
+    @Schema(
+        example = "[1,2,3]",
+        description = "Objeto de Regras",
+        required = true
+    )
+    @JsonProperty("servicos")
+    @NotEmpty(message = "servicos.null")
+    private Collection<Servico> servicos = new ArrayList<>();
+
+    @Schema(
+        example = "Objeto",
+        description = "Objeto equipamento"
+    )
+    @JsonProperty("equipamento")
+    @NotEmpty(message = "obj.null")
+    private Equipamento equipamento;
+
+    @Schema(
+        example = "Objeto",
+        description = "Objeto ordemServicoItem"
+    )
+    @JsonProperty("ordemServicoItem")
+    @NotEmpty(message = "obj.null")
+    private OrdemServicoItem ordemServicoItem;
 }
