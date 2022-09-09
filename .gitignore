@@ -25,17 +25,13 @@ api-sistemachamados/*.target
 
 ### NetBeans ###
 api-sistemachamados//nbproject/private/
-api-sistemachamados//nbbuild/
-api-sistemachamados//dist/
-api-sistemachamados//nbdist/
-api-sistemachamados//.nb-gradle/
 api-sistemachamados/build/
 !api-sistemachamados/**/src/main/**/build/
 !api-sistemachamados/**/src/test/**/build/
 
-### VS Code ###
-api-sistemachamados/.vscode/
 .idea/*
 api-sistemachamados/src/main/resources/application.yml
-*/target/*.
+api-sistemachamados/target
+
+api-sistemachamados/src/main/resources/application.yml
 

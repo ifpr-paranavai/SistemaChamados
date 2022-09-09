@@ -31,15 +31,15 @@ export class SmartTableComponent {
         type: 'number',
       },
       firstName: {
-        title: 'First Name',
+        title: 'Nome',
         type: 'string',
       },
       lastName: {
-        title: 'Last Name',
+        title: 'Sobrenome',
         type: 'string',
       },
       username: {
-        title: 'Username',
+        title: 'Usuário',
         type: 'string',
       },
       email: {
@@ -47,7 +47,7 @@ export class SmartTableComponent {
         type: 'string',
       },
       age: {
-        title: 'Age',
+        title: 'Idade',
         type: 'number',
       },
     },
@@ -56,7 +56,15 @@ export class SmartTableComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableData) {
-    const data = this.service.getData();
+    // const data = this.service.getData();
+    const data = [{
+      id: 1,
+      firstName: 'José',
+      lastName: 'Roberto',
+      username: 'batata',
+      email: 'pipoca123@gmail.com',
+      age: '30',
+    }];
     this.source.load(data);
   }
 

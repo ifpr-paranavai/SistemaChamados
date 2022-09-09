@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${urlBanco}:3306/${banco}
+    username: ${usuario}
+    password: ${senha}
+    platform: mysql
+    initialization-mode: always
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  expiration: 7200000
+  secret: ${secretJwt}
