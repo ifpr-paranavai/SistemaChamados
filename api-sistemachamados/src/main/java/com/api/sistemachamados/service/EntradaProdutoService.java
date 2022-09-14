@@ -1,25 +1,23 @@
 package com.api.sistemachamados.service;
 
 import com.api.sistemachamados.entity.EntradaProduto;
+import com.api.sistemachamados.entity.EntradaProdutoId;
 import javassist.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface EntradaProdutoService {
 
     Page<EntradaProduto> buscarTodos(Pageable pageable);
 
-    Optional<EntradaProduto> buscarPorId(Long id) throws NotFoundException;
+    Optional<EntradaProduto> buscarPorId(EntradaProdutoId id) throws NotFoundException;
 
-    Optional<EntradaProduto> salvarEntradaProduto(EntradaProduto entradaProduto);
+    Optional<List<EntradaProduto>> salvarEntradaProduto(List<EntradaProduto> entradaProdutos);
 
-    Optional<EntradaProduto> buscarEntradaPorData(LocalDate dataEntrada) throws NotFoundException;
+    List<EntradaProduto> verificaPersitencia(List<EntradaProduto> entradaProdutos);
 
-    EntradaProduto verificaPersitencia(EntradaProduto entradaProduto);
-
-    void atualizandoAtributosEntradaProduto(EntradaProduto entradaProdutoBD, EntradaProduto entradaProduto, EntradaProduto entradaProdutoRequest);
-
+    void atualizandoAtributosEntradaProduto(EntradaProduto entradaProdutoBD, EntradaProduto entradaProdutoNovo);
 }

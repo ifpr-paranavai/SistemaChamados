@@ -7,9 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -29,6 +26,9 @@ public class Entrada extends Auditoria implements Serializable {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
+
+    @Column()
+    private String notaFiscal;
 
     @Column(nullable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")

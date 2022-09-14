@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -51,7 +50,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "id") Long id) throws NotFoundException {
         Optional<Usuario> usuarioOptional = usuarioService.buscarPorId(id);
-        if(usuarioOptional.isEmpty()){
+        if (usuarioOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado");
         }
         usuarioService.deletar(usuarioOptional.get());

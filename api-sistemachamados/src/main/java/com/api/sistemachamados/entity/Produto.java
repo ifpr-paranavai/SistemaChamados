@@ -1,5 +1,6 @@
 package com.api.sistemachamados.entity;
 
+import com.api.sistemachamados.dto.ProdutoDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,10 +14,11 @@ import static javax.persistence.GenerationType.AUTO;
 @Setter
 @ToString
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Table(name = "produto")
 @EqualsAndHashCode(callSuper = true)
-public class Produto extends Auditoria implements Serializable  {
+public class Produto extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,20 +26,19 @@ public class Produto extends Auditoria implements Serializable  {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String nomeProduto;
 
     @Column(nullable = false)
     private Integer quantidadeEstoque;
 
-    @Column(nullable = false, precision = 19 , scale = 2)
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal valorCompra;
 
-    @Column(nullable = false, precision = 19 , scale = 2)
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal valorVenda;
 
     @ManyToOne
     private Marca marca;
-
 }
 

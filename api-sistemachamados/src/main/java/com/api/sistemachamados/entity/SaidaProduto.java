@@ -21,9 +21,8 @@ public class SaidaProduto extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = AUTO)
-    private Long id;
+    @EmbeddedId
+    private SaidaProdutoId id;
 
     // TODO: 08/09/2022 valor a ser calculado qtd x valor unitário
     @Column(nullable = false, precision = 19, scale = 2)
@@ -36,9 +35,11 @@ public class SaidaProduto extends Auditoria implements Serializable {
     private Integer quantidadeProduto;
 
     @ManyToOne
+    @JoinColumn(name = "produto_id", insertable = false, updatable = false)
     private Produto produto;
 
     @ManyToOne
+    @JoinColumn(name = "saida_id", insertable = false, updatable = false)
     private Saida saida;
 }
 

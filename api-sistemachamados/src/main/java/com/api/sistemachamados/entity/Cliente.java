@@ -54,6 +54,5 @@ public class Cliente extends Auditoria implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Collection<Equipamento> equipamentos = new ArrayList<>();
-    ;
 }
 

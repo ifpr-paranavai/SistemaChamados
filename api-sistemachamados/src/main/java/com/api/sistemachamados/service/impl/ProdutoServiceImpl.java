@@ -4,12 +4,13 @@ import com.api.sistemachamados.dto.ProdutoDTO;
 import com.api.sistemachamados.entity.EntradaProduto;
 import com.api.sistemachamados.entity.Produto;
 import com.api.sistemachamados.repository.ProdutoRepository;
-import com.api.sistemachamados.service.EntradaProdutoService;
+import com.api.sistemachamados.service.EntradaService;
 import com.api.sistemachamados.service.ProdutoService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,8 +32,6 @@ public class ProdutoServiceImpl implements ProdutoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProdutoServiceImpl.class);
 
     final ProdutoRepository produtoRepository;
-
-    final EntradaProdutoService entradaProdutoService;
 
 
     @Override
@@ -53,43 +50,29 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Optional<EntradaProduto> salvarProduto(List<ProdutoDTO> produtosDTO) {
+    public Optional<Produto> salvarProduto(ProdutoDTO produtosDTO) {
         try {
-            var listaProdutos = verificaPersitencia(produtosDTO);
-            return entradaProdutoService.salvarEntradaProduto(
-                new EntradaProduto(produtoRepository
-                    .saveAllAndFlush(listaProdutos), calculaValorTotalEntrada(listaProdutos)));
+            return Optional.of(produtoRepository.save(verificaPersitencia(produtosDTO)));
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }
     }
 
-    public BigDecimal calculaValorTotalEntrada(List<Produto> produtos) {
-        return produtos.stream()
-            .filter(p -> Objects.nonNull(p.getValorCompra()))
-            .map(r -> r.getValorCompra().multiply(BigDecimal.valueOf(r.getQuantidadeEstoqueEntrada())))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
 
     @Override
-    public List<Produto> verificaPersitencia(List<ProdutoDTO> produtosDTO) {
+    public Produto verificaPersitencia(ProdutoDTO produtoDTO) {
         try {
-            var produtos = new ArrayList<Produto>();
-            produtosDTO.forEach(produtoDTO -> {
-                var novoProduto = new Produto();
-                LOGGER.info("Buscando se existe Produto");
-                var produtoBD = produtoRepository.findByNomeProduto(produtoDTO.getNomeProduto());
-                produtoBD.ifPresentOrElse(
-                    (value) -> {
-                        copiarAtributosIgnorandoNullos(produtoDTO, novoProduto);
-                        atualizandoAtributosProduto(Objects
-                            .requireNonNull(produtoBD.orElse(null), "Produto get"),novoProduto,produtoDTO);
-                    },
-                    () -> BeanUtils.copyProperties(produtoDTO, novoProduto));
-                produtos.add(novoProduto);
-            });
-            return produtos;
+            var produto = new Produto();
+            LOGGER.info("Buscando se existe Produto");
+            produtoRepository.findByNomeProduto(produtoDTO.getNomeProduto()).ifPresentOrElse(
+                value -> {
+                    copiarAtributosIgnorandoNullos(produtoDTO, produto);
+                    atualizandoAtributosProduto(Objects
+                        .requireNonNull(value, "Produto get"), produto, produtoDTO);
+                },
+                () -> BeanUtils.copyProperties(produtoDTO, produto));
+            return produto;
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
@@ -97,9 +80,25 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public void atualizandoAtributosProduto(Produto produtoBD, Produto produto, ProdutoDTO produtoDTO){
+    public Produto calcularEstoqueNovo(Produto produto, Integer quantidadeEstoque) {
+        var novoProduto = new Produto();
+        produtoRepository.findByNomeProduto(produto.getNomeProduto()).ifPresent(
+            value -> novoProduto.setQuantidadeEstoque(value.getQuantidadeEstoque() + quantidadeEstoque));
+        return novoProduto;
+    }
+
+    @Override
+    public List<EntradaProduto> atribuirProdutoEmListaEntradaProduto(List<EntradaProduto> entradaProdutos) {
+        entradaProdutos.forEach(value ->
+            value.setProduto(
+                ((ProdutoServiceImpl) AopContext.currentProxy()).salvarProduto(
+                    new ProdutoDTO(calcularEstoqueNovo(value.getProduto(), value.getQuantidadeProduto()))).orElse(null)));
+        return entradaProdutos;
+    }
+
+    @Override
+    public void atualizandoAtributosProduto(Produto produtoBD, Produto produto, ProdutoDTO produtoDTO) {
         produto.setId(produtoBD.getId());
-        produto.setQuantidadeEstoque(produtoBD.getQuantidadeEstoque() + produtoDTO.getQuantidadeEstoqueEntrada());
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.api.sistemachamados.controller;
 
 import com.api.sistemachamados.dto.ProdutoDTO;
-import com.api.sistemachamados.dto.ValidList;
 import com.api.sistemachamados.entity.Produto;
-import com.api.sistemachamados.service.EntradaProdutoService;
 import com.api.sistemachamados.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,18 +23,17 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/entradaSaidaProduto")
+@RequestMapping("/v1/produto")
 @AllArgsConstructor
 @PreAuthorize("hasPermission('null', {'ROLE_USER', 'PERM_PROCURACAO'})")
 @SecurityRequirement(name = "sistemachamadosapi")
-@Tag(name = "Entrada/Saída Produto", description = "Operação relacioada a persistencia da entrada e saída de produtos")
+@Tag(name = "Produto", description = "Operação relacioada a persistencia de produtos")
 public class ProdutoController {
     final ProdutoService produtoService;
-    final EntradaProdutoService entradaProdutoService;
 
     @Operation(description = "Salva Produto no banco de dados")
-    @PostMapping("/entrada-produto")
-    public ResponseEntity<Object> entradaProduto(@RequestBody @Valid ValidList<ProdutoDTO> produtoDTO) {
+    @PostMapping("/salvar-produto")
+    public ResponseEntity<Object> entradaProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         return new ResponseEntity<>(produtoService.salvarProduto(produtoDTO), HttpStatus.CREATED);
     }
 
@@ -54,16 +51,8 @@ public class ProdutoController {
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("produto.naoEncontrado"));
     }
 
-    @GetMapping("/entrada-produto/{data}")
-    public ResponseEntity<Object> buscarEntradaProduto(
-        @PathVariable(value = "data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) throws NotFoundException {
-        return entradaProdutoService.buscarEntradaPorData(data).<ResponseEntity<Object>>map(
-                produto -> ResponseEntity.status(HttpStatus.OK).body(produto))
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("produto.naoEncontrado"));
-    }
-
     @GetMapping("/{nomeProduto}")
-    public ResponseEntity<Object> buscarNomeMarca(@PathVariable(value = "nomeProduto") String nomeProduto) throws NotFoundException {
+    public ResponseEntity<Object> buscarNomeProduto(@PathVariable(value = "nomeProduto") String nomeProduto) throws NotFoundException {
         return produtoService.buscarNomeProduto(nomeProduto).<ResponseEntity<Object>>map(
                 produto -> ResponseEntity.status(HttpStatus.OK).body(produto))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("produto.naoEncontrado"));

@@ -5,9 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
-
-import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Getter
@@ -22,9 +19,8 @@ public class EntradaProduto extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = AUTO)
-    private Long id;
+    @EmbeddedId
+    private EntradaProdutoId id;
 
     // TODO: 08/09/2022 valor a ser calculado qtd x valor unitário
     @Column(nullable = false, precision = 19, scale = 2)

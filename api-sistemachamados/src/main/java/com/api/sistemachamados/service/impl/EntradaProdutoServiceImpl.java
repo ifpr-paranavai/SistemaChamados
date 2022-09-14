@@ -1,8 +1,10 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.entity.EntradaProduto;
+import com.api.sistemachamados.entity.EntradaProdutoId;
 import com.api.sistemachamados.repository.EntradaProdutoRepository;
 import com.api.sistemachamados.service.EntradaProdutoService;
+import com.api.sistemachamados.service.ProdutoService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,7 +32,6 @@ public class EntradaProdutoServiceImpl implements EntradaProdutoService {
 
     final EntradaProdutoRepository entradaProdutoRepository;
 
-
     @Override
     public Page<EntradaProduto> buscarTodos(Pageable pageable) {
         LOGGER.info("Buscando Todas EntradaProdutos");
@@ -36,7 +39,7 @@ public class EntradaProdutoServiceImpl implements EntradaProdutoService {
     }
 
     @Override
-    public Optional<EntradaProduto> buscarPorId(Long id) throws NotFoundException {
+    public Optional<EntradaProduto> buscarPorId(EntradaProdutoId id) throws NotFoundException {
         LOGGER.info("Buscando EntradaProduto pelo ID: {}", id);
         return Optional.ofNullable(entradaProdutoRepository.findById(id)
             .orElseThrow(() -> new NotFoundException("entradaProduto.naoEncontrado")));
@@ -44,46 +47,49 @@ public class EntradaProdutoServiceImpl implements EntradaProdutoService {
 
     @Override
     @Transactional
-    public Optional<EntradaProduto> salvarEntradaProduto(EntradaProduto entradaProduto) {
+    public Optional<List<EntradaProduto>> salvarEntradaProduto(List<EntradaProduto> entradaProdutos) {
         try {
-            return Optional.of(entradaProdutoRepository.save(verificaPersitencia(entradaProduto)));
+            return Optional.of(entradaProdutoRepository.saveAll(verificaPersitencia((entradaProdutos))));
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }
     }
 
-    @Override
-    public Optional<EntradaProduto> buscarEntradaPorData(LocalDate dataEntrada) throws NotFoundException {
-        LOGGER.info("Buscando EntradaProduto pelo nome: {}", dataEntrada);
-        return Optional.ofNullable(entradaProdutoRepository.findByDataEntrada(dataEntrada)
-            .orElseThrow(() -> new NotFoundException("entradaProduto.naoEncontrado")));
-    }
 
     @Override
-    public EntradaProduto verificaPersitencia(EntradaProduto entradaProdutoRequest) {
+    public List<EntradaProduto> verificaPersitencia(List<EntradaProduto> entradaProdutos) {
         try {
-            var entrada = new EntradaProduto();
+            var listaEntradaProduto = new ArrayList<EntradaProduto>();
             LOGGER.info("Buscando se existe EntradaProduto");
-            buscarEntradaPorData(entradaProdutoRequest.getDataEntrada()).ifPresentOrElse(
-                (value) -> {
-                    copiarAtributosIgnorandoNullos(entradaProdutoRequest, entrada);
-                    atualizandoAtributosEntradaProduto(Objects
-                        .requireNonNull(value, "Entrada Produto Get"), entrada, entradaProdutoRequest);
-                },
-                () -> BeanUtils.copyProperties(entradaProdutoRequest, entrada));
-            return entrada;
-        } catch (DataIntegrityViolationException | NotFoundException e) {
+            entradaProdutos.forEach(entradaProdutoRequest -> {
+                var entradaId = new EntradaProdutoId(entradaProdutoRequest.getEntrada().getId(), entradaProdutoRequest.getProduto().getId());
+                var entradaProdutoNovo = new EntradaProduto();
+                LOGGER.info("Buscando se existe EntradaProduto");
+                entradaProdutoRepository.findById(entradaId).ifPresentOrElse(
+                    value -> {
+                        copiarAtributosIgnorandoNullos(entradaProdutoRequest, entradaProdutoNovo);
+                        atualizandoAtributosEntradaProduto(Objects
+                            .requireNonNull(value, "EntradaProduto get"), entradaProdutoNovo);
+                    },
+                    () -> BeanUtils.copyProperties(entradaProdutoRequest, entradaProdutoNovo));
+                entradaProdutoNovo.setValorTotalProdutoEntrada(calculaValorTotalProdutoEntrada(entradaProdutoRequest));
+                listaEntradaProduto.add(entradaProdutoNovo);
+            });
+            return listaEntradaProduto;
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
         }
     }
 
+    public BigDecimal calculaValorTotalProdutoEntrada(EntradaProduto entradaProduto) {
+        return entradaProduto.getValorUnitarioProduto().multiply(BigDecimal.valueOf(entradaProduto.getQuantidadeProduto()));
+    }
 
     @Override
-    public void atualizandoAtributosEntradaProduto(EntradaProduto entradaProdutoBD, EntradaProduto entradaProdutoNovo, EntradaProduto entradaProdutoRequest) {
+    public void atualizandoAtributosEntradaProduto(EntradaProduto entradaProdutoBD, EntradaProduto entradaProdutoNovo) {
         entradaProdutoNovo.setId(entradaProdutoBD.getId());
-        entradaProdutoNovo.setValorTotalEntrada(entradaProdutoBD.getValorTotalEntrada().add(entradaProdutoRequest.getValorTotalEntrada()));
     }
 }
 

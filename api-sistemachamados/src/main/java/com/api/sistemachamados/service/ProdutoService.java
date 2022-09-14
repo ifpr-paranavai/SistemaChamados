@@ -16,13 +16,17 @@ public interface ProdutoService {
 
     Optional<Produto> buscarPorId(Long id) throws NotFoundException;
 
-    Optional<EntradaProduto> salvarProduto(List<ProdutoDTO> produtos);
+    Optional<Produto> salvarProduto(ProdutoDTO produtos);
+
+    Produto calcularEstoqueNovo(Produto produto, Integer quantidadeEstoque);
 
     Optional<Produto> buscarNomeProduto(String produto) throws NotFoundException;
 
+    List<EntradaProduto> atribuirProdutoEmListaEntradaProduto(List<EntradaProduto> listaEntradaDTO);
+
     void deletar(Produto produto);
 
-    List<Produto> verificaPersitencia(List<ProdutoDTO> produtosDTO);
+    Produto verificaPersitencia(ProdutoDTO produtoDTO);
 
     void atualizandoAtributosProduto(Produto produtoBD, Produto produto, ProdutoDTO produtoDTO);
 }
