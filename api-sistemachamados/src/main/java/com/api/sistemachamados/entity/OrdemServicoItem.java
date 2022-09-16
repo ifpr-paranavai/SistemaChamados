@@ -213,9 +213,6 @@ public class OrdemServicoItem extends Auditoria implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     private OrdemServico ordemServico;
-
-    public OrdemServicoItem(OrdemServico ordemServico){
-        this.ordemServico = ordemServico;
-    }
+    
 }
 

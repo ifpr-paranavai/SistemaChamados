@@ -3,6 +3,7 @@ package com.api.sistemachamados.service;
 import com.api.sistemachamados.dto.ProdutoDTO;
 import com.api.sistemachamados.entity.EntradaProduto;
 import com.api.sistemachamados.entity.Produto;
+import com.api.sistemachamados.entity.SaidaProduto;
 import javassist.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +19,15 @@ public interface ProdutoService {
 
     Optional<Produto> salvarProduto(ProdutoDTO produtos);
 
-    Produto calcularEstoqueNovo(Produto produto, Integer quantidadeEstoque);
+    Produto calcularEntradaProduto(Produto produto, Integer quantidadeEstoque);
+
+    Produto calcularSaidaProduto(Produto produto, Integer quantidadeEstoque);
 
     Optional<Produto> buscarNomeProduto(String produto) throws NotFoundException;
 
     List<EntradaProduto> atribuirProdutoEmListaEntradaProduto(List<EntradaProduto> listaEntradaDTO);
+
+    List<SaidaProduto> atribuirProdutoEmListaSaidaProduto(List<SaidaProduto> saidaProdutos);
 
     void deletar(Produto produto);
 

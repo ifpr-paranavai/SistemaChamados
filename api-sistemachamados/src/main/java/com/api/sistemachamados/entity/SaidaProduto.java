@@ -6,8 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import static javax.persistence.GenerationType.AUTO;
-
 @Entity
 @Getter
 @Setter
@@ -32,7 +30,7 @@ public class SaidaProduto extends Auditoria implements Serializable {
     private BigDecimal valorUnitarioProduto;
 
     @Column(nullable = false, precision = 19, scale = 2)
-    private Integer quantidadeProduto;
+    private Integer quantidadeSaidaProduto;
 
     @ManyToOne
     @JoinColumn(name = "produto_id", insertable = false, updatable = false)
@@ -41,5 +39,15 @@ public class SaidaProduto extends Auditoria implements Serializable {
     @ManyToOne
     @JoinColumn(name = "saida_id", insertable = false, updatable = false)
     private Saida saida;
+
+    @ManyToOne
+    @JoinColumn()
+    private OrdemServico ordemServico;
+
+    public SaidaProduto(Produto produto, Saida saida, OrdemServico ordemServico){
+        this.produto = produto;
+        this.saida = saida;
+        this.ordemServico = ordemServico;
+    }
 }
 

@@ -3,8 +3,8 @@ package com.api.sistemachamados.service.impl;
 import com.api.sistemachamados.dto.ProdutoDTO;
 import com.api.sistemachamados.entity.EntradaProduto;
 import com.api.sistemachamados.entity.Produto;
+import com.api.sistemachamados.entity.SaidaProduto;
 import com.api.sistemachamados.repository.ProdutoRepository;
-import com.api.sistemachamados.service.EntradaService;
 import com.api.sistemachamados.service.ProdutoService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
@@ -80,10 +80,18 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Produto calcularEstoqueNovo(Produto produto, Integer quantidadeEstoque) {
+    public Produto calcularEntradaProduto(Produto produto, Integer quantidadeEstoque) {
         var novoProduto = new Produto();
         produtoRepository.findByNomeProduto(produto.getNomeProduto()).ifPresent(
             value -> novoProduto.setQuantidadeEstoque(value.getQuantidadeEstoque() + quantidadeEstoque));
+        return novoProduto;
+    }
+
+    @Override
+    public Produto calcularSaidaProduto(Produto produto, Integer quantidadeEstoque) {
+        var novoProduto = new Produto();
+        produtoRepository.findByNomeProduto(produto.getNomeProduto()).ifPresent(
+            value -> novoProduto.setQuantidadeEstoque(value.getQuantidadeEstoque() - quantidadeEstoque));
         return novoProduto;
     }
 
@@ -92,8 +100,17 @@ public class ProdutoServiceImpl implements ProdutoService {
         entradaProdutos.forEach(value ->
             value.setProduto(
                 ((ProdutoServiceImpl) AopContext.currentProxy()).salvarProduto(
-                    new ProdutoDTO(calcularEstoqueNovo(value.getProduto(), value.getQuantidadeProduto()))).orElse(null)));
+                    new ProdutoDTO(calcularEntradaProduto(value.getProduto(), value.getQuantidadeProduto()))).orElse(null)));
         return entradaProdutos;
+    }
+
+    @Override
+    public List<SaidaProduto> atribuirProdutoEmListaSaidaProduto(List<SaidaProduto> saidaProdutos) {
+        saidaProdutos.forEach(value ->
+            value.setProduto(
+                ((ProdutoServiceImpl) AopContext.currentProxy()).salvarProduto(
+                    new ProdutoDTO(calcularSaidaProduto(value.getProduto(), value.getQuantidadeSaidaProduto()))).orElse(null)));
+        return saidaProdutos;
     }
 
     @Override

@@ -92,7 +92,8 @@ public class OrdemServicoDTO {
 
     @Schema(
         example = "Objeto",
-        description = "Objeto equipamento"
+        description = "Objeto equipamento",
+        required = true
     )
     @JsonProperty("equipamento")
     @NotEmpty(message = "obj.null")
@@ -105,4 +106,12 @@ public class OrdemServicoDTO {
     @JsonProperty("ordemServicoItem")
     @NotEmpty(message = "obj.null")
     private OrdemServicoItem ordemServicoItem;
+
+
+    @Schema(
+        example = "[1,2,3]",
+        description = "Objeto de Produtos"
+    )
+    @JsonProperty("produtos")
+    private ArrayList<Produto> produtos = new ArrayList<>();
 }

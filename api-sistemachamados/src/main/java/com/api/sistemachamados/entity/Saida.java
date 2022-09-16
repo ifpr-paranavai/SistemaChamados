@@ -7,9 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -18,6 +15,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Setter
 @ToString
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Table(name = "saida")
 @EqualsAndHashCode(callSuper = true)
@@ -31,9 +29,16 @@ public class Saida extends Auditoria implements Serializable  {
 
     @Column(nullable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataEntrada;
+    private LocalDate dataSaida;
 
     @Column(nullable = false, precision = 19 , scale = 2)
     private BigDecimal valorTotalSaida;
+
+    @Column(nullable = false)
+    private Boolean estaAberto;
+
+    public Saida(OrdemServico ordemServico){
+        this.dataSaida = ordemServico.getData();
+    }
 }
 

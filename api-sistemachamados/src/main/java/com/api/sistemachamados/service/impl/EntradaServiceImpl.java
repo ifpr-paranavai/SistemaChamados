@@ -26,8 +26,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.api.sistemachamados.utils.Utils.copiarAtributosIgnorandoNullos;
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
-import static org.springframework.util.ClassUtils.isPresent;
 
 @Service
 @AllArgsConstructor

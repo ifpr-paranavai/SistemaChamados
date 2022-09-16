@@ -1,11 +1,11 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.OrdemServicoDTO;
-import com.api.sistemachamados.entity.OrdemServico;
-import com.api.sistemachamados.entity.OrdemServicoItem;
+import com.api.sistemachamados.entity.*;
 import com.api.sistemachamados.repository.OrdemServicoRepository;
 import com.api.sistemachamados.service.OrdemServicoItemService;
 import com.api.sistemachamados.service.OrdemServicoService;
+import com.api.sistemachamados.service.SaidaService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,6 +35,8 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     final OrdemServicoRepository ordemServicoRepository;
 
     final OrdemServicoItemService ordemServicoItemService;
+
+    final SaidaService saidaService;
 
 
     @Override
@@ -63,10 +67,7 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
             // TODO: 08/09/2022 Caso validação por data e equipamento não for evetiva, validar se OS está aberta
             return Optional.of(Objects.requireNonNull(
                 ordemServicoItemService.salvar(
-                        defineAtributosOrdemServicoItem(
-                            ordemServicoDTO,
-                            ordemServicoRepository.saveAndFlush(
-                                verificaPersitencia(ordemServicoDTO))))
+                        defineAtributosOrdemServicoItem(ordemServicoDTO, ordemServicoRepository.saveAndFlush(verificaPersitencia(ordemServicoDTO))))
                     .orElse(null)).getOrdemServico());
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
@@ -78,7 +79,7 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     public OrdemServico verificaPersitencia(OrdemServicoDTO ordemServicoDTO) {
         try {
             var ordemServico = new OrdemServico();
-            LOGGER.info("Buscando se existe Cliente");
+            LOGGER.info("Buscando se existe Ordem Servico");
             ordemServicoRepository.findByDataAndEquipamento(ordemServicoDTO.getData(), ordemServicoDTO.getEquipamento())
                 .ifPresentOrElse
                     (value ->
@@ -96,15 +97,24 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     }
 
     @Override
-    public OrdemServicoItem defineAtributosOrdemServicoItem(OrdemServicoDTO ordemServicoDTO, OrdemServico ordemServico) {
+    public OrdemServicoItem defineAtributosOrdemServicoItem(OrdemServicoDTO ordemServicoDTO, OrdemServico ordemServicoSalva) {
         var osi = ordemServicoDTO.getOrdemServicoItem();
-        osi.setOrdemServico(Objects.requireNonNull(ordemServico, "Não foi possível setar objeto OS"));
+        osi.setOrdemServico(Objects.requireNonNull(ordemServicoSalva, "Não foi possível setar objeto OS"));
+        if (!ordemServicoDTO.getProdutos().isEmpty())
+            verificaSeTemProdutos(ordemServicoDTO.getProdutos(), ordemServicoSalva);
         return osi;
     }
 
     @Override
     public void atualizandoAtributosOrdemServico(OrdemServico ordemServicoBD, OrdemServico ordemServico) {
         ordemServico.setId(ordemServicoBD.getId());
+    }
+
+    @Override
+    public void verificaSeTemProdutos(List<Produto> produtos, OrdemServico ordemServico) {
+        var saidas = new ArrayList<SaidaProduto>();
+        produtos.forEach(produto -> saidas.add(new SaidaProduto(produto, new Saida(ordemServico), ordemServico)));
+        saidaService.salvarSaida(saidas);
     }
 
     @Override

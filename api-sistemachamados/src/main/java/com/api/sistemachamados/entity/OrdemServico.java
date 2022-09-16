@@ -3,16 +3,14 @@ package com.api.sistemachamados.entity;
 import com.api.sistemachamados.enums.SituacaoOsEnum;
 import com.api.sistemachamados.enums.TipoAtendimentoEnum;
 import com.api.sistemachamados.enums.TipoOrdemServicoEnum;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.util.List;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -32,7 +30,7 @@ public class OrdemServico extends Auditoria implements Serializable {
     @GeneratedValue(strategy = AUTO)
     private Long id;
 
-    @Column(columnDefinition = "DATE",nullable = false)
+    @Column(columnDefinition = "DATE", nullable = false)
     private LocalDate data;
 
     @ManyToOne
@@ -48,9 +46,6 @@ public class OrdemServico extends Auditoria implements Serializable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private SituacaoOsEnum situacaoOs;
-
-    @ManyToOne
-    private Produto produto;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
