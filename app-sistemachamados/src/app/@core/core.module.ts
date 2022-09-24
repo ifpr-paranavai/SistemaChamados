@@ -1,6 +1,12 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NbAuthModule, NbDummyAuthStrategy, NbPasswordAuthStrategy} from '@nebular/auth';
+import {
+  getDeepFromObject,
+  NbAuthModule,
+  NbAuthSimpleToken,
+  NbPasswordAuthStrategy,
+  NbPasswordAuthStrategyOptions, NbTokenService,
+} from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -52,6 +58,7 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
 const socialLinks = [
   {
@@ -106,13 +113,105 @@ export const NB_CORE_PROVIDERS = [
   ...NbAuthModule.forRoot({
 
     strategies: [
-      NbDummyAuthStrategy.setup({
+      NbPasswordAuthStrategy.setup({
         name: 'email',
-        delay: 3000,
+        baseEndpoint: '/api',
+        login: {
+          alwaysFail: false,
+          endpoint: '/auth/login',
+          method: 'post',
+          requireValidToken: true,
+          redirect: {
+            success: '/pages/dashboard',
+            failure: null,
+          },
+          defaultErrors: ['Login/Email combination is not correct, Tente Novamente.'],
+          defaultMessages: ['You have been successfully logged in.'],
+        },
+        register: {
+          alwaysFail: false,
+          endpoint: 'register',
+          method: 'post',
+          requireValidToken: true,
+          redirect: {
+            success: '/pages/dashboard',
+            failure: null,
+          },
+          defaultErrors: ['Something went wrong, please try again.'],
+          defaultMessages: ['You have been successfully registered.'],
+        },
+        resetPass: {
+          endpoint: 'reset-pass',
+          method: 'put',
+          redirect: {
+            success: '/',
+            failure: null,
+          },
+          resetPasswordTokenKey: 'reset_password_token',
+          defaultErrors: ['Something went wrong, please try again.'],
+          defaultMessages: ['Your password has been successfully changed.'],
+        },
+        logout: {
+          endpoint: '',
+        },
+        refreshToken: {
+          endpoint: 'refresh-token',
+          method: 'post',
+          requireValidToken: true,
+          redirect: {
+            success: null,
+            failure: null,
+          },
+          defaultErrors: ['Something went wrong, please try again.'],
+          defaultMessages: ['Your token has been successfully refreshed.'],
+        },
+        token: {
+          class: NbAuthSimpleToken,
+          key: 'data.token',
+          getter: (module: '', res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) => getDeepFromObject(
+            res.body,
+            options.token.key,
+          ),
+        },
+        errors: {
+          key: 'data.errors',
+          getter: (module: '', res: HttpErrorResponse, options: NbPasswordAuthStrategyOptions) => getDeepFromObject(
+            res.error,
+            options.errors.key,
+            options[module].defaultErrors,
+          ),
+        },
+        messages:  {
+          key: 'data.messages',
+          getter: (module: '', res: HttpResponse<Object>, options: NbPasswordAuthStrategyOptions) => getDeepFromObject(
+            res.body,
+            options.messages.key,
+            options[module].defaultMessages,
+          ),
+        },
+        validation: {
+          password: {
+            required: true,
+            minLength: 4,
+            maxLength: 50,
+            regexp: null,
+          },
+          email: {
+            required: true,
+            regexp: null,
+          },
+          fullName: {
+            required: false,
+            minLength: null,
+            maxLength: null,
+            regexp: null,
+          },
+        },
       }),
     ],
     forms: {
       login: {
+        redirectDelay: 500,
         socialLinks: socialLinks,
       },
       register: {
