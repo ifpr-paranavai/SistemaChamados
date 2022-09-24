@@ -2,8 +2,6 @@ package com.api.sistemachamados.dto;
 
 import com.api.sistemachamados.entity.Cidade;
 import com.api.sistemachamados.entity.Equipamento;
-import com.api.sistemachamados.entity.Marca;
-import com.api.sistemachamados.entity.Role;
 import com.api.sistemachamados.enums.TipoPessoaEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +10,6 @@ import lombok.Data;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -51,7 +48,6 @@ public class ClienteDTO {
         required = true
     )
     @JsonProperty("tipoPessoa")
-    @NotEmpty(message = "tipoPessoa.null")
     @Enumerated(EnumType.STRING)
     private TipoPessoaEnum tipoPessoa;
 
@@ -86,9 +82,8 @@ public class ClienteDTO {
 
     @Schema(
         example = "[1,2,3]",
-        description = "Objeto de Equipamentos",
-        required = true
+        description = "Objeto de Equipamentos"
     )
     @JsonProperty("equipamentos")
-    private Collection<Equipamento> equipamentos = new ArrayList<>();;
+    private Collection<Equipamento> equipamentos = new ArrayList<>();
 }

@@ -58,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario verificaPersitencia(UsuarioDTO usuarioDTO) {
         try {
             var usuario = new Usuario();
-            LOGGER.info("Buscando se existe Cliente");
+            LOGGER.info("Buscando se existe Usuário");
             usuarioRepository.findByEmail(usuarioDTO.getEmail()).ifPresentOrElse
                 (value ->
                     {

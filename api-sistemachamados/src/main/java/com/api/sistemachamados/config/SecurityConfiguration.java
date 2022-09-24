@@ -3,7 +3,6 @@ package com.api.sistemachamados.config;
 import com.api.sistemachamados.filter.TokenAuthenticationFilter;
 import com.api.sistemachamados.security.TokenService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

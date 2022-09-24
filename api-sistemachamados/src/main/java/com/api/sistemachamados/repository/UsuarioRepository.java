@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Integer> {
 
-	Optional<Usuario> findByEmail(String email);
+    Optional<Usuario> findByEmail(String email);
 
     Page<Usuario> findAll(Pageable pageable);
 

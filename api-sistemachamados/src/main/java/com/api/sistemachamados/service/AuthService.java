@@ -23,7 +23,7 @@ public class AuthService {
 
     public ApiResponseDTO<Object> login(LoginDTO loginDTO) {
         try {
-            var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsuario(), loginDTO.getSenha());
+            var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword());
             var authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             Usuario usuario = (Usuario) authentication.getPrincipal();
             String token = tokenService.generateJwtToken(usuario);
