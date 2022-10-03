@@ -79,11 +79,4 @@ public class ClienteDTO {
     )
     @JsonProperty("cidade")
     private Cidade cidade;
-
-    @Schema(
-        example = "[1,2,3]",
-        description = "Objeto de Equipamentos"
-    )
-    @JsonProperty("equipamentos")
-    private Collection<Equipamento> equipamentos = new ArrayList<>();
 }
