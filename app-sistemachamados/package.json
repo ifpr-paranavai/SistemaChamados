@@ -67,6 +67,7 @@
     "ngx-mask": "^14.2.3",
     "node-sass": "^7.0.3",
     "normalize.css": "6.0.0",
+    "npm": "^8.19.2",
     "pace-js": "1.0.2",
     "roboto-fontface": "0.8.0",
     "rxjs": "6.6.2",
