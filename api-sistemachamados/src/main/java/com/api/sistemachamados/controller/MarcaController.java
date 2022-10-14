@@ -63,7 +63,7 @@ public class MarcaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado");
         }
         marcaService.deletar(marcaOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("marca.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("marca.deletado");
     }
 
 }

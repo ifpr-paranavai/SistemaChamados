@@ -58,7 +58,7 @@ public class OrdemServicoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ordemServico.naoEncontrado");
         }
         ordemServicoService.deletar(ordemServicoOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("ordemServico.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ordemServico.deletado");
     }
 
 }

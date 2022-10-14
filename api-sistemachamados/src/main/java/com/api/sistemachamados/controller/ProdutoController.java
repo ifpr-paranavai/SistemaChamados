@@ -67,7 +67,7 @@ public class ProdutoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("produto.naoEncontrado");
         }
         produtoService.deletar(produtoOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("produto.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("produto.deletado");
     }
 
 }

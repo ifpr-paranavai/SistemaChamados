@@ -64,7 +64,7 @@ public class ServicoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("servico.naoEncontrado");
         }
         servicoService.deletar(servicoOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("servico.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("servico.deletado");
     }
 
 }

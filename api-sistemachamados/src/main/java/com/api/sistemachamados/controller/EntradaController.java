@@ -68,7 +68,7 @@ public class EntradaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("entrada.naoEncontrado");
         }
         entradaService.deletar(entradaOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("entrada.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("entrada.deletado");
     }
 
 }

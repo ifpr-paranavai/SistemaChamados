@@ -54,7 +54,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("usuario.naoEncontrado");
         }
         usuarioService.deletar(usuarioOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("usuario.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("usuario.deletado");
     }
 
 }

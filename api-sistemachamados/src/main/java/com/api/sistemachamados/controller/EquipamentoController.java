@@ -64,7 +64,7 @@ public class EquipamentoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("equipamento.naoEncontrado");
         }
         equipamentoService.deletar(equipamentoOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("equipamento.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("equipamento.deletado");
     }
 
 }

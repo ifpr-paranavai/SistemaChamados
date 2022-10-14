@@ -63,6 +63,6 @@ public class RoleController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("role.naoEncontrado");
         }
         regraService.deletar(roleOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("role.deletado");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("role.deletado");
     }
 }
