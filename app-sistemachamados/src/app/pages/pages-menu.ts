@@ -36,12 +36,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'people-outline',
     children: [
       {
-        title: 'Criar Clientes',
-        link: '/pages/forms/inputs',
+        title: 'Criar Cliente',
+        link: '/pages/clientes/criar',
       },
       {
         title: 'Listar Clientes',
-        link: '/pages/forms/layouts',
+        link: '/pages/clientes/listar',
       },
     ],
   },
