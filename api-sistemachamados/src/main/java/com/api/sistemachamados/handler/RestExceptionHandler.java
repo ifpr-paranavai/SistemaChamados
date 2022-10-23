@@ -52,11 +52,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(
             DataIntegrityViolationExceptionDetails.builder()
                 .timestamp(LocalDateTime.now())
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
                 .title("error.500.internalServerError")
                 .details(bre.getMessage())
                 .developerMessage(bre.getClass().getName())
-                .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+                .build(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override
