@@ -62,11 +62,29 @@ public class ClienteServiceImpl implements ClienteService {
             clienteRepository.findByCpfCnpj(clienteDTO.getCpfCnpj()).ifPresentOrElse
                 (value ->
                     {
-                    copiarAtributosIgnorandoNullos(clienteDTO, cliente);
-                    atualizandoAtributosCliente(
-                        Objects.requireNonNull(value), cliente);
+                        throw new com.api.sistemachamados.exception.DataIntegrityViolationException
+                            ("Já existe um Cliente com esse CPF/CNPJ");
                     },
-                () -> BeanUtils.copyProperties(clienteDTO, cliente));
+                    () -> BeanUtils.copyProperties(clienteDTO, cliente));
+            return cliente;
+        } catch (DataIntegrityViolationException e) {
+            LOGGER.error(e.toString(), e);
+            throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.save.persist");
+        }
+    }
+
+    public Cliente verificaPersitenciaAtualizar(ClienteDTO clienteDTO) {
+        try {
+            var cliente = new Cliente();
+            LOGGER.info("Buscando se existe Cliente");
+            clienteRepository.findByCpfCnpj(clienteDTO.getCpfCnpj()).ifPresentOrElse
+                (value ->
+                    {
+                        copiarAtributosIgnorandoNullos(clienteDTO, cliente);
+                        atualizandoAtributosCliente(
+                            Objects.requireNonNull(value), cliente);
+                    },
+                    () -> BeanUtils.copyProperties(clienteDTO, cliente));
             return cliente;
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
@@ -75,7 +93,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public void atualizandoAtributosCliente(Cliente clienteBD, Cliente cliente){
+    public void atualizandoAtributosCliente(Cliente clienteBD, Cliente cliente) {
         cliente.setId(clienteBD.getId());
     }
 

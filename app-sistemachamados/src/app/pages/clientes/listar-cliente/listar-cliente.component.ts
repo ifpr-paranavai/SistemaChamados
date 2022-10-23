@@ -4,8 +4,9 @@ import {LocalDataSource} from 'ng2-smart-table';
 import {ClienteService} from '../../../shared/services/cliente.service';
 import {EstadoService} from '../../../shared/services/estado.service';
 import {NbDialogService, NbToastrService} from '@nebular/theme';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
+import {Utils} from '../../../shared/utils/utils';
 
 @Component({
   selector: 'ngx-listar-cliente',
@@ -28,7 +29,8 @@ export class ListarClienteComponent implements OnInit {
               private estadoService: EstadoService,
               private toastrService: NbToastrService,
               private dialogService: NbDialogService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
     this.initData();
   }
 
@@ -41,13 +43,14 @@ export class ListarClienteComponent implements OnInit {
   }
 
   settings = {
+    mode: 'external',
     pager: {
       display: true,
       perPage: this.showPerPage,
     },
     actions: {
-      add: false,
-      edit: false,
+      add: true,
+      edit: true,
       delete: true,
     },
     columns: {
@@ -67,11 +70,15 @@ export class ListarClienteComponent implements OnInit {
       },
       cpfCnpj: {
         title: 'CPF/CNPJ',
-        type: 'string',
+        valuePrepareFunction: (data) => {
+          return Utils.transformCpfCnpj(data);
+        },
       },
       contato1: {
         title: 'Contato',
-        type: 'string',
+        valuePrepareFunction: (data) => {
+          return Utils.transformCelular(data);
+        },
       },
       cidade: {
         title: 'Cidade',
@@ -111,8 +118,7 @@ export class ListarClienteComponent implements OnInit {
 
 
   onEdit(event) {
-    console.log(event.data.clientId);
-    this.router.navigate(['/clients/update-client/' + event.data.clientId]);
+    this.router.navigate(['/pages/clientes/editar', event.data.id]);
   }
 
   pageChange(pageIndex) {
@@ -138,9 +144,13 @@ export class ListarClienteComponent implements OnInit {
     this.toastrService.show(`${message}`, `${titulo}`, {position, status});
   }
 
-  onDeleteConfirm(event) {
+  onDeleteConfirm($event: any) {
     this.dialogService.open(DialogGenericComponent)
-      .onClose.subscribe(evento => evento && this.apagarCliente(event));
+      .onClose.subscribe(evento => evento && this.apagarCliente($event));
+  }
+
+  onAdd($event: any) {
+    this.router.navigate(['/pages/clientes/criar']);
   }
 
   async apagarCliente(event) {
@@ -154,6 +164,4 @@ export class ListarClienteComponent implements OnInit {
         }
       });
   }
-
-
 }

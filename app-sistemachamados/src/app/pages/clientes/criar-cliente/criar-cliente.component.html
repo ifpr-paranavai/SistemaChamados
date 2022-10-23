@@ -7,27 +7,41 @@
              nbSpinnerStatus="basic"
              nbSpinnerMessage="">
       <nb-card-body>
-        <form [formGroup]="form">
+        <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="nome" class="label">Nome</label>
-                <input type="text" nbInput fullWidth id="nome" placeholder="Informe nome do cliente" formControlName="nome">
+                <input type="text" class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('nome')}"
+                       nbInput fullWidth id="nome" placeholder="Informe nome do cliente" formControlName="nome">
+                <div *ngIf="hasError('nome') && formDir.submitted " class="invalid-feedback">
+                  O nome é obrigatório.
+                </div>
               </div>
             </div>
             <div class="col-sm-2">
               <label for="tipoPessoa" class="label">Tipo Pessoa</label>
               <div class="form-group">
-                <nb-select placeholder="Selecione" id="tipoPessoa" [fullWidth]="fullWidth" formControlName="tipoPessoa">
+                <nb-select placeholder="Selecione" id="tipoPessoa"
+                           [ngClass]="{'select-error' : submitted && hasError('tipoPessoa')}"
+                           [fullWidth]="fullWidth" formControlName="tipoPessoa">
                   <nb-option value="Física">Física</nb-option>
                   <nb-option value="Juridica">Juridica</nb-option>
                 </nb-select>
+                <div *ngIf="hasError('tipoPessoa') && formDir.submitted" class="erro-validation">
+                  Tipo pessoa é obrigatório.
+                </div>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="cpfCnpj" class="label">CPF/CNPJ</label>
-                <input type="text" mask="CPF_CNPJ" nbInput fullWidth id="cpfCnpj" placeholder="Informe CPF ou CNPJ" formControlName="cpfCnpj">
+                <input type="text" mask="CPF_CNPJ" nbInput fullWidth
+                       class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('cpfCnpj')}"
+                       id="cpfCnpj" placeholder="Informe CPF ou CNPJ" formControlName="cpfCnpj">
+                <div *ngIf="hasError('cpfCnpj') && formDir.submitted" class="invalid-feedback">
+                  Cpf ou Cnpj é obrigatório.
+                </div>
               </div>
             </div>
           </div>
@@ -36,7 +50,12 @@
             <div class="col-sm-8">
               <div class="form-group">
                 <label for="endereco" class="label">Endereço</label>
-                <input type="text" nbInput fullWidth id="endereco" placeholder="Informe endereço" formControlName="endereco">
+                <input type="text" nbInput fullWidth id="endereco"
+                       class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('endereco')}"
+                       placeholder="Informe endereço" formControlName="endereco">
+                <div *ngIf="hasError('endereco') && formDir.submitted" class="invalid-feedback">
+                  O endereco é obrigatório.
+                </div>
               </div>
             </div>
             <div class="col-sm-4">
@@ -51,7 +70,8 @@
             <div class="col-sm-3">
               <label for="estado" class="label">Estado</label>
               <div class="form-group">
-                <nb-select placeholder="Selecione" id="estado" [fullWidth]="fullWidth" formControlName="cidade"
+                <nb-select placeholder="Selecione" id="estado" [(selected)]="selectedEstado" [compareWith]="compareById" [fullWidth]="fullWidth"
+                           formControlName="estado"
                 (selectedChange)="carregarCidadeEstadoId($event)">
                   <nb-option *ngFor="let estado of estados" [value]="estado" >
                     {{estado !== undefined ? estado["nome"] : ''}}
@@ -62,11 +82,17 @@
             <div class="col-sm-3">
               <label for="cidade" class="label">Cidade</label>
               <div class="form-group">
-                <nb-select placeholder="Selecione" id="cidade" [fullWidth]="fullWidth" formControlName="cidade">
+                <nb-select placeholder="Selecione" id="cidade" [fullWidth]="fullWidth"
+                           [(selected)]="selectedCidade" [compareWith]="compareById"
+                           [ngClass]="{'select-error' : submitted && hasError('cidade')}"
+                           formControlName="cidade">
                   <nb-option *ngFor="let cidade of cidades" [value]="cidade">
                     {{cidade !== undefined ? cidade["nome"] : ''}}
                   </nb-option>
                 </nb-select>
+                <div *ngIf="hasError('cidade') && formDir.submitted" class="erro-validation">
+                  A cidade é obrigatória.
+                </div>
               </div>
             </div>
             <div class="col-sm-3">
@@ -82,9 +108,6 @@
               </div>
             </div>
           </div>
-
-
-          <br>
           <div class="row submit">
             <button class="col-md-2" type="submit" (click)="onCancel()" nbButton status="danger">
               Cancelar

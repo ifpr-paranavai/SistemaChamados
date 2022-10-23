@@ -18,29 +18,32 @@ import {FormsModule as ngFormsModule, ReactiveFormsModule} from '@angular/forms'
 import {CriarClienteComponent} from './criar-cliente/criar-cliente.component';
 import {ListarClienteComponent} from './listar-cliente/listar-cliente.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
-import {NgxMaskModule} from 'ngx-mask';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
+
 
 @NgModule({
-    imports: [
-        ThemeModule,
-        NbInputModule,
-        NbCardModule,
-        NbButtonModule,
-        NbActionsModule,
-        NbUserModule,
-        NbCheckboxModule,
-        NbRadioModule,
-        NbDatepickerModule,
-        ClientesRoutingModule,
-        NbSelectModule,
-        NbIconModule,
-        ngFormsModule,
-        ReactiveFormsModule,
-        NbSpinnerModule,
-        Ng2SmartTableModule,
-        NbDialogModule,
-        NgxMaskModule,
-    ],
+  imports: [
+    ThemeModule,
+    NbInputModule,
+    NbCardModule,
+    NbButtonModule,
+    NbActionsModule,
+    NbUserModule,
+    NbCheckboxModule,
+    NbRadioModule,
+    NbDatepickerModule,
+    ClientesRoutingModule,
+    NbSelectModule,
+    NbIconModule,
+    ngFormsModule,
+    ReactiveFormsModule,
+    NbSpinnerModule,
+    Ng2SmartTableModule,
+    NbDialogModule,
+    NgxMaskModule.forRoot(),
+  ],
   declarations: [
     ClientesComponent,
     CriarClienteComponent,

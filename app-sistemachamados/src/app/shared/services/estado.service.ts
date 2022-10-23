@@ -15,8 +15,8 @@ export class EstadoService {
   private readonly URL_ESTADO = '/api/estado';
 
   // async listarEstados() {
-  async listarEstados() {
-    return await new Promise<any>( (resolve, reject) => {
+  listarEstados() {
+    return new Promise<any>( (resolve, reject) => {
       this.http.get(`${this.URL_ESTADO}/estados?page=0&size=100&sort=id`)
         .subscribe(
           res => {

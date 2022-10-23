@@ -49,7 +49,7 @@ public class ClienteController {
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("cliente.naoEncontrado"));
     }
 
-    @GetMapping("/{cpfCnpj}")
+    @GetMapping("/buscarPorDoc/{cpfCnpj}")
     public ResponseEntity<Object> buscarCpfCnpj(@PathVariable(value = "cpfCnpj") String documento) throws NotFoundException {
         return clienteService.buscarClienteCpfCnpj(documento).<ResponseEntity<Object>>map(
                 cliente -> ResponseEntity.status(HttpStatus.OK).body(cliente))
