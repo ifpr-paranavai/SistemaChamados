@@ -65,13 +65,16 @@ public class ProdutoServiceImpl implements ProdutoService {
         try {
             var produto = new Produto();
             LOGGER.info("Buscando se existe Produto");
-            produtoRepository.findByNomeProduto(produtoDTO.getNomeProduto()).ifPresentOrElse(
-                value -> {
-                    copiarAtributosIgnorandoNullos(produtoDTO, produto);
-                    atualizandoAtributosProduto(Objects
-                        .requireNonNull(value, "Produto get"), produto, produtoDTO);
-                },
-                () -> BeanUtils.copyProperties(produtoDTO, produto));
+            if(Objects.nonNull(produtoDTO.getId())) {
+                BeanUtils.copyProperties(produtoDTO, produto);
+            }else {
+                produtoRepository.findByNomeProduto(produtoDTO.getNomeProduto()).ifPresentOrElse(
+                    value -> {
+                        throw new com.api.sistemachamados.exception.DataIntegrityViolationException
+                            ("Já existe um produto com esse nome, informe outro");
+                    },
+                    () -> BeanUtils.copyProperties(produtoDTO, produto));
+            }
             return produto;
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);

@@ -10,6 +10,13 @@ import javax.validation.constraints.NotEmpty;
 public class MarcaDTO {
 
     @Schema(
+        example = "1",
+        description = "Identificação da Marca de um equipamento"
+    )
+    @JsonProperty("id")
+    private Long id;
+
+    @Schema(
         example = "Elma Chips",
         description = "Identificação da Marca de um equipamento",
         required = true

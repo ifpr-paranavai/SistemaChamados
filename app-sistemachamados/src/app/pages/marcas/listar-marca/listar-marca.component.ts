@@ -1,31 +1,30 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 
-import {ClienteService} from '../../../shared/services/cliente.service';
 import {EstadoService} from '../../../shared/services/estado.service';
 import {NbDialogService, NbToastrService} from '@nebular/theme';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
-import {Utils} from '../../../shared/utils/utils';
+import {MarcaService} from '../../../shared/services/marca.service';
 
 @Component({
   selector: 'ngx-listar-marca',
-  templateUrl: './listar-cliente.component.html',
-  styleUrls: ['./listar-cliente.component.scss'],
+  templateUrl: './listar-marca.component.html',
+  styleUrls: ['./listar-marca.component.scss'],
 })
-export class ListarClienteComponent implements OnInit {
+export class ListarMarcaComponent implements OnInit {
 
   source: LocalDataSource;
-  pageSize = 500;
   currentPage = 0;
   showPerPage = 10;
+  pageSize = 500;
   showSelect = true;
 
   ngOnInit() {
     this.initOnChagedData();
   }
 
-  constructor(private service: ClienteService,
+  constructor(private service: MarcaService,
               private estadoService: EstadoService,
               private toastrService: NbToastrService,
               private dialogService: NbDialogService,
@@ -57,33 +56,9 @@ export class ListarClienteComponent implements OnInit {
         title: 'Código Identificador',
         type: 'number',
       },
-      nome: {
-        title: 'Nome',
+      nomeMarca: {
+        title: 'Nome Marca',
         type: 'string',
-      },
-      tipoPessoa: {
-        title: 'Tipo Pessoa',
-        valuePrepareFunction: (data) => {
-          return data.tipoPessoa;
-        },
-      },
-      cpfCnpj: {
-        title: 'CPF/CNPJ',
-        valuePrepareFunction: (data) => {
-          return Utils.transformCpfCnpj(data);
-        },
-      },
-      contato1: {
-        title: 'Contato',
-        valuePrepareFunction: (data) => {
-          return Utils.transformCelular(data);
-        },
-      },
-      cidade: {
-        title: 'Cidade',
-        valuePrepareFunction: (data) => {
-          return data.nome;
-        },
       },
     },
     add: {
@@ -102,19 +77,14 @@ export class ListarClienteComponent implements OnInit {
     },
   };
 
-  setPager() {
-    this.source.setPaging(1, this.showPerPage, true);
-    this.settings = Object.assign({}, this.settings);
-  }
-
   initData() {
     this.source = new LocalDataSource();
-    this.pegarClientes();
+    this.listarMarcas();
   }
 
 
   onEdit(event) {
-    this.router.navigate(['/pages/clientes/editar', event.data.id]);
+    this.router.navigate(['/pages/marcas/editar', event.data.id]);
   }
 
   pageChange(pageIndex) {
@@ -122,42 +92,49 @@ export class ListarClienteComponent implements OnInit {
     const lastRequestedRecordIndex = pageIndex * this.pageSize;
     if (loadedRecordCount <= lastRequestedRecordIndex) {
       this.currentPage = this.currentPage + 1;
-      this.pegarClientes();
+      this.listarMarcas();
     }
   }
 
-  pegarClientes() {
-    this.service.pegarClientes(this.currentPage, this.pageSize).then
-    (data => {
-      this.showSelect = data.totalElements < 10;
-      if (this.source.count() > 0) {
-        data.content.forEach(d => this.source.add(d));
-        this.source.getAll()
-          .then(d => this.source.load(d));
-      } else
-        this.source.load(data.content);
-    });
+
+  listarMarcas() {
+    this.service.pegarMarcas(this.currentPage, this.pageSize).then(
+      data => {
+        this.showSelect = data.totalElements < 10;
+        if (this.source.count() > 0) {
+          data.content.forEach(d => this.source.add(d));
+          this.source.getAll()
+            .then(d => this.source.load(d));
+        } else
+          this.source.load(data.content);
+      },
+    );
   }
 
   showToast(position, status, titulo, message) {
     this.toastrService.show(`${message}`, `${titulo}`, {position, status});
   }
 
+  setPager() {
+    this.source.setPaging(1, this.showPerPage, true);
+    this.settings = Object.assign({}, this.settings);
+  }
+
   onDeleteConfirm($event: any) {
     this.dialogService.open(DialogGenericComponent)
-      .onClose.subscribe(evento => evento && this.apagarCliente($event));
+      .onClose.subscribe(evento => evento && this.apagarMarca($event));
   }
 
-  onAdd() {
-    this.router.navigate(['/pages/clientes/criar']);
+  onAdd($event: any) {
+    this.router.navigate(['/pages/marcas/criar']);
   }
 
-  apagarCliente(event) {
-    this.service.deletarCliente(event.data.id).then(
-      response => {
-        if (response.status === 204) {
+  apagarMarca(event) {
+    this.service.deletarMarca(event.data.id).subscribe(
+      res => {
+        if (res.status === 204) {
           this.initData();
-          this.showToast('top-right', 'success', 'Legal', 'Cliente apagado com sucesso');
+          this.showToast('top-right', 'success', 'Legal', 'Marca apagada com sucesso');
         }
       }, error => {
         this.showToast('top-right', 'danger', 'Ops!', error.error.details);

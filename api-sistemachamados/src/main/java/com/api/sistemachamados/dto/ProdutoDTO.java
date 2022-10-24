@@ -36,8 +36,7 @@ public class ProdutoDTO {
 
     @Schema(
         example = "10un",
-        description = "10 unidades",
-        required = true
+        description = "10 unidades"
     )
     @JsonProperty("quantidadeEstoque")
     private Integer quantidadeEstoque;

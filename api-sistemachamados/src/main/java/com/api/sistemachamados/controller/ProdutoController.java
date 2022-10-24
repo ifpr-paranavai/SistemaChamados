@@ -51,7 +51,7 @@ public class ProdutoController {
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("produto.naoEncontrado"));
     }
 
-    @GetMapping("/{nomeProduto}")
+    @GetMapping("/nomeProduto/{nomeProduto}")
     public ResponseEntity<Object> buscarNomeProduto(@PathVariable(value = "nomeProduto") String nomeProduto) throws NotFoundException {
         return produtoService.buscarNomeProduto(nomeProduto).<ResponseEntity<Object>>map(
                 produto -> ResponseEntity.status(HttpStatus.OK).body(produto))

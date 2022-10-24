@@ -1,11 +1,12 @@
 package com.api.sistemachamados.entity;
 
-import com.api.sistemachamados.dto.ProdutoDTO;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -17,7 +18,6 @@ import static javax.persistence.GenerationType.AUTO;
 @Builder
 @AllArgsConstructor
 @Table(name = "produto")
-@EqualsAndHashCode(callSuper = true)
 public class Produto extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class Produto extends Auditoria implements Serializable {
     @Column(nullable = false, unique = true)
     private String nomeProduto;
 
-    @Column(nullable = false)
+    @Column
     private Integer quantidadeEstoque;
 
     @Column(nullable = false, precision = 19, scale = 2)
@@ -40,5 +40,18 @@ public class Produto extends Auditoria implements Serializable {
 
     @ManyToOne
     private Marca marca;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Produto produto = (Produto) o;
+        return id != null && Objects.equals(id, produto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
 

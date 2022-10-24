@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header class="cabecalho">Cadastro de Produto</nb-card-header>
+    </nb-card>
+    <nb-card [nbSpinner]="loading"
+             nbSpinnerStatus="basic"
+             nbSpinnerMessage="">
+      <nb-card-body>
+        <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="nomeProduto" class="label">Nome Produto</label>
+                <input type="text" class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('nomeProduto')}"
+                       nbInput fullWidth id="nomeProduto" placeholder="Informe nome do produto" formControlName="nomeProduto">
+                <div *ngIf="hasError('nomeProduto') && formDir.submitted " class="invalid-feedback">
+                  O nome do produto é obrigatório.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="valorCompra" class="label">Valor Compra</label>
+                <input type="text" mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" prefix="R$ "
+                       nbInput fullWidth [dropSpecialCharacters]="true" class="form-control"
+                       [ngClass]="{'is-invalid' : submitted && hasError('valorCompra')}"
+                       id="valorCompra" placeholder="Informe valor de compra" formControlName="valorCompra">
+                <div *ngIf="hasError('valorCompra') && formDir.submitted" class="invalid-feedback">
+                  Valor de compra é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="valorVenda" class="label">Valor Venda</label>
+                <input type="text" mask="separator.2" [thousandSeparator]="'.'" [decimalMarker]="','" prefix="R$ "
+                       nbInput fullWidth [dropSpecialCharacters]="true" class="form-control"
+                       [ngClass]="{'is-invalid' : submitted && hasError('valorVenda')}"
+                       id="valorVenda" placeholder="Informe valor de venda" formControlName="valorVenda">
+                <div *ngIf="hasError('valorVenda') && formDir.submitted" class="invalid-feedback">
+                  Valor de venda é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="marca" class="label">Marca</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="marca" [fullWidth]="fullWidth"
+                           [(selected)]="selectedMarca" [compareWith]="compareById"
+                           [ngClass]="{'select-error' : submitted && hasError('marca')}"
+                           formControlName="marca">
+                  <nb-option *ngFor="let marca of marcas" [value]="marca">
+                    {{marca !== undefined ? marca["nomeMarca"] : ''}}
+                  </nb-option>
+                </nb-select>
+                <div *ngIf="hasError('marca') && formDir.submitted" class="erro-validation">
+                  A marca é obrigatória.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row submit">
+            <button class="col-md-2" type="submit" (click)="onCancel()" nbButton status="danger">
+              Cancelar
+            </button>
+            <button class="col-md-2" type="submit" nbButton status="success">
+              Salvar
+            </button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

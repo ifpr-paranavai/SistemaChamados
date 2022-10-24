@@ -30,14 +30,14 @@ const routes: Routes = [{
         .then(m => m.ClientesModule),
     },
     {
-      path: 'ui-features',
-      loadChildren: () => import('./ui-features/ui-features.module')
-        .then(m => m.UiFeaturesModule),
+      path: 'marcas',
+      loadChildren: () => import('./marcas/marcas.module')
+        .then(m => m.MarcasModule),
     },
     {
-      path: 'modal-overlays',
-      loadChildren: () => import('./modal-overlays/modal-overlays.module')
-        .then(m => m.ModalOverlaysModule),
+      path: 'produtos',
+      loadChildren: () => import('./produtos/produtos.module')
+        .then(m => m.ProdutosModule),
     },
     {
       path: 'extra-components',
@@ -71,7 +71,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'dashboard-iot',
+      redirectTo: 'dashboard',
       pathMatch: 'full',
     },
     {

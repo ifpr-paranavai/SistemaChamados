@@ -49,7 +49,7 @@ public class MarcaController {
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("marca.naoEncontrado"));
     }
 
-    @GetMapping("/{nomeMarca}")
+    @GetMapping("/pegarMarcaNome/{nomeMarca}")
     public ResponseEntity<Object> buscarNomeMarca(@PathVariable(value = "nomeMarca") String nomeMarca) throws NotFoundException {
         return marcaService.buscarNomeMarca(nomeMarca).<ResponseEntity<Object>>map(
                 marca -> ResponseEntity.status(HttpStatus.OK).body(marca))

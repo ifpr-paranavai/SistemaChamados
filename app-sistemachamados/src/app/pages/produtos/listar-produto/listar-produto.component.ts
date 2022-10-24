@@ -10,10 +10,10 @@ import {Utils} from '../../../shared/utils/utils';
 
 @Component({
   selector: 'ngx-listar-marca',
-  templateUrl: './listar-cliente.component.html',
-  styleUrls: ['./listar-cliente.component.scss'],
+  templateUrl: './listar-produto.component.html',
+  styleUrls: ['./listar-produto.component.scss'],
 })
-export class ListarClienteComponent implements OnInit {
+export class ListarProdutoComponent implements OnInit {
 
   source: LocalDataSource;
   pageSize = 500;

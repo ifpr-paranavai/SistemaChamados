@@ -79,14 +79,17 @@ public class MarcaServiceImpl implements MarcaService {
         try {
             var marca = new Marca();
             LOGGER.info("Buscando se existe {}", marcaDTO.getNomeMarca());
-            marcaRepository.findByNomeMarca(marcaDTO.getNomeMarca()).ifPresentOrElse(
-                marcaBD ->
+            if (Objects.nonNull(marcaDTO.getId())) {
+                BeanUtils.copyProperties(marcaDTO, marca);
+            } else {
+                marcaRepository.findByNomeMarca(marcaDTO.getNomeMarca()).ifPresentOrElse(
+                    marcaBD ->
                     {
-                        copiarAtributosIgnorandoNullos(marcaDTO, marca);
-                        atualizandoAtributosCliente(
-                            Objects.requireNonNull(marcaBD), marca);
+                        throw new com.api.sistemachamados.exception.DataIntegrityViolationException
+                            ("Já existe uma marca com esse nome, informe outro");
                     },
                     () -> BeanUtils.copyProperties(marcaDTO, marca));
+            }
             return marca;
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);

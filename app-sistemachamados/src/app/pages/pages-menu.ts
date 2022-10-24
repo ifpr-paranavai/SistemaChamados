@@ -51,11 +51,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Criar Produto',
-        link: '/pages/ui-features/grid',
+        link: '/pages/produtos/criar',
       },
       {
         title: 'Listar Produto',
-        link: '/pages/ui-features/icons',
+        link: '/pages/produtos/listar',
       },
     ],
   },
@@ -65,11 +65,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Criar Marca',
-        link: '/pages/ui-features/grid',
+        link: '/pages/marcas/criar',
       },
       {
         title: 'Listar Marca',
-        link: '/pages/ui-features/icons',
+        link: '/pages/marcas/listar',
       },
     ],
   },

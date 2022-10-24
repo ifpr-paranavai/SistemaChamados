@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Cliente} from '../model/entity/cliente';
 import {Observable} from 'rxjs';
 import {take} from 'rxjs/operators';
@@ -33,17 +33,17 @@ export class ClienteService {
   }
 
 
-  async salvarCLiente(cliente: Cliente) {
-    return await new Promise<any>((resolve, reject) => {
-      this.http.post(`${this.URL_CLIENTE}/salvar-cliente`, cliente, {observe: 'response'})
-        .subscribe(
-          res => {
-            resolve(res);
-          }, error => {
-            reject(error.status + ' | ' + error.statusText);
-            resolve(error);
-          });
-    });
+  // async salvarCLiente(cliente: Cliente) {
+  //   return await new Promise<any>((resolve, reject) => {
+  //     this.http.post(`${this.URL_CLIENTE}/salvar-cliente`, cliente, {observe: 'response'})
+  //       .subscribe(
+  //         res => resolve(res),
+  //         error => reject(error));
+  //   });
+  // }
+
+  salvarCliente(cliente: any): Observable<HttpResponse<any>> {
+    return this.http.post(`${this.URL_CLIENTE}/salvar-cliente`, cliente, {observe: 'response'});
   }
 
 

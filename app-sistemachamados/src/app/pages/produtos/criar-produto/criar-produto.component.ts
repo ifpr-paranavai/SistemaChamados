@@ -6,41 +6,36 @@ import {EstadoService} from '../../../shared/services/estado.service';
 import {CidadeService} from '../../../shared/services/cidade.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TipoPessoaEnum} from '../../../shared/model/enums/tipo-pessoa.enum';
-import {error} from 'protractor';
 import {map, switchMap} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
+import {ProdutoService} from '../../../shared/services/produto.service';
+import {MarcaService} from '../../../shared/services/marca.service';
 
 @Component({
   selector: 'ngx-criar-marca',
-  styleUrls: ['./criar-cliente.component.scss'],
-  templateUrl: './criar-cliente.component.html',
+  styleUrls: ['./criar-produto.component.scss'],
+  templateUrl: './criar-produto.component.html',
 })
-export class CriarClienteComponent implements OnInit {
+export class CriarProdutoComponent implements OnInit {
 
-
-  tipoPessoa = TipoPessoaEnum;
   form: FormGroup;
   submitted: boolean;
   fullWidth: boolean = true;
   loading = false;
-  estados = [];
-  cidades = [];
-  selectedEstado;
-  selectedCidade;
+  marcas = [];
+  selectedMarca;
   errorToast: boolean;
 
   constructor(private formBuilder: FormBuilder,
-              private service: ClienteService,
+              private service: ProdutoService,
               private toastrService: NbToastrService,
-              private estadoService: EstadoService,
-              private cidadeService: CidadeService,
+              private marcaService: MarcaService,
               private router: Router,
               private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.carregaListaDeEstados();
-    this.carregaFormCliente();
+    this.carregaMarcas();
+    this.carregaForm();
     this.carregaDadosEditar();
   }
 
@@ -57,61 +52,37 @@ export class CriarClienteComponent implements OnInit {
     this.route.params
       .pipe(
         map((params: any) => params ['id']),
-        switchMap(id => this.service.pegarClientePorId(id)))
+        switchMap(id => this.service.buscarPorId(id)))
       .subscribe(cliente => this.atualizarForm(cliente));
   }
 
-  carregaFormCliente() {
+  carregaForm() {
     this.form = this.formBuilder.group({
       id: [null],
-      nome: ['', [Validators.required]],
-      endereco: ['', [Validators.required]],
-      numero: [''],
-      tipoPessoa: ['', [Validators.required]],
-      cpfCnpj: ['', [Validators.required]],
-      contato1: [''],
-      contato2: [''],
-      estado: [''],
-      cidade: ['', [Validators.required]],
+      nomeProduto: ['', [Validators.required]],
+      valorCompra: ['', [Validators.required]],
+      valorVenda: ['', [Validators.required]],
+      marca: ['', [Validators.required]],
     });
   }
 
   atualizarForm(data) {
     this.form.patchValue({
       id: data.id,
-      nome: data.nome,
-      endereco: data.endereco,
-      numero: data.numero,
-      tipoPessoa: data.tipoPessoa.tipoPessoa,
-      cpfCnpj: data.cpfCnpj,
-      contato1: data.contato1,
-      contato2: data.contato2,
-      estado: data.cidade.estado,
-      cidade: data.cidade,
+      nomeProduto: data.nomeProduto,
+      quantidadeEstoque: data.quantidadeEstoque,
+      valorCompra: data.valorCompra,
+      valorVenda: data.valorVenda,
+      marca: data.marca,
     });
-    this.selectedEstado = data.cidade.estado;
-    this.carregarCidadeEstadoId(data.cidade.estado);
-    this.selectedCidade = data.cidade;
+    this.selectedMarca = data.marca;
   }
 
-  carregaListaDeEstados() {
+  carregaMarcas() {
     this.loading = true;
-    this.estadoService.listarEstados().then(
+    this.marcaService.pegarMarcas(0,500).then(
       response => {
-        this.estados = response.content;
-        this.loading = false;
-      }, () => {
-        this.loading = false;
-      },
-    );
-  }
-
-  carregarCidadeEstadoId(estado: any) {
-    this.loading = true;
-    this.cidadeService.listarCidadePorIdEstado(estado.id).then(
-      response => {
-        this.cidades.pop();
-        this.cidades = response;
+        this.marcas = response.content;
         this.loading = false;
       }, () => {
         this.loading = false;
@@ -127,11 +98,11 @@ export class CriarClienteComponent implements OnInit {
     this.submitted = true;
     this.errorToast = false;
     if (this.form.valid) {
-      this.service.salvarCliente(this.form.value).subscribe(
+      this.service.salvar(this.form.value).subscribe(
         res => {
           if (res.status === 201) {
-            this.router.navigate(['/pages/clientes/listar']);
-            this.showToast('top-right', 'success', 'Legal', 'Cliente cadastrado com sucesso');
+            this.router.navigate(['/pages/produtos/listar']);
+            this.showToast('top-right', 'success', 'Legal', 'Produto cadastrado com sucesso');
           }
         }, err => {
           if (err.status === 422 && this.errorToast === false) {
@@ -143,6 +114,6 @@ export class CriarClienteComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/pages/clientes/listar']);
+    this.router.navigate(['/pages/produtos/listar']);
   }
 }

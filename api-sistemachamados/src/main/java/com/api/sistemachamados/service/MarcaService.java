@@ -18,7 +18,6 @@ public interface MarcaService {
 
     Optional<Marca> salvar(MarcaDTO marca);
 
-
     Optional<Marca> buscarNomeMarca(String marca) throws NotFoundException;
 
     void deletar(Marca marca);
