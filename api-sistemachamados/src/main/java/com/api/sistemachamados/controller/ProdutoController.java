@@ -44,7 +44,7 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(produtoService.buscarTodos(pageable));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscarPorId/{id}")
     public ResponseEntity<Object> buscarProdutoId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return produtoService.buscarPorId(id).<ResponseEntity<Object>>map(
                 produto -> ResponseEntity.status(HttpStatus.OK).body(produto))

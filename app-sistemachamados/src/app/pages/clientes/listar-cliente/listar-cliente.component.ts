@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 
 import {ClienteService} from '../../../shared/services/cliente.service';
 import {EstadoService} from '../../../shared/services/estado.service';
 import {NbDialogService, NbToastrService} from '@nebular/theme';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
 import {Utils} from '../../../shared/utils/utils';
 
@@ -109,7 +109,7 @@ export class ListarClienteComponent implements OnInit {
 
   initData() {
     this.source = new LocalDataSource();
-    this.pegarClientes();
+    this.listarItens();
   }
 
 
@@ -122,11 +122,11 @@ export class ListarClienteComponent implements OnInit {
     const lastRequestedRecordIndex = pageIndex * this.pageSize;
     if (loadedRecordCount <= lastRequestedRecordIndex) {
       this.currentPage = this.currentPage + 1;
-      this.pegarClientes();
+      this.listarItens();
     }
   }
 
-  pegarClientes() {
+  listarItens() {
     this.service.pegarClientes(this.currentPage, this.pageSize).then
     (data => {
       this.showSelect = data.totalElements < 10;

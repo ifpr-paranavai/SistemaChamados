@@ -15,13 +15,25 @@ export class ProdutoService {
 
   private readonly URL_PRODUTO = '/api/produto';
 
-  listarItens(page: number, size: number): Observable<HttpResponse<any>> {
+  listarItens(page: number, size: number): Observable<any> {
     return this.http.get(`${this.URL_PRODUTO}/produtos?page=${page}&size=${size}&sort=id`,
       {observe: 'response'}).pipe(take(1));
   }
 
+  // async listarItens(page: number, size: number) {
+  //   return await new Promise<any>((resolve, reject) => {
+  //     this.http.get(`${this.URL_PRODUTO}/produtos?page=${page}&size=${size}&sort=id`)
+  //       .subscribe(
+  //         res => {
+  //           resolve(res);
+  //         }, error => {
+  //           reject(error.status + ' | ' + error.statusText);
+  //         });
+  //   });
+  // }
+
   buscarPorId(id) {
-    return this.http.get(`${this.URL_PRODUTO}/${id}`).pipe(take(1));
+    return this.http.get(`${this.URL_PRODUTO}/buscarPorId/${id}`).pipe(take(1));
   }
 
   salvar(cliente: any): Observable<HttpResponse<any>> {

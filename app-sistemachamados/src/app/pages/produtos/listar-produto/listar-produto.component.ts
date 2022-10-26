@@ -1,12 +1,10 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
-
-import {ClienteService} from '../../../shared/services/cliente.service';
 import {EstadoService} from '../../../shared/services/estado.service';
 import {NbDialogService, NbToastrService} from '@nebular/theme';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
-import {Utils} from '../../../shared/utils/utils';
+import {ProdutoService} from '../../../shared/services/produto.service';
 
 @Component({
   selector: 'ngx-listar-marca',
@@ -25,22 +23,6 @@ export class ListarProdutoComponent implements OnInit {
     this.initOnChagedData();
   }
 
-  constructor(private service: ClienteService,
-              private estadoService: EstadoService,
-              private toastrService: NbToastrService,
-              private dialogService: NbDialogService,
-              private router: Router) {
-    this.initData();
-  }
-
-  initOnChagedData() {
-    this.source.onChanged().subscribe((change) => {
-      if (change.action === 'page') {
-        this.pageChange(change.paging.page);
-      }
-    });
-  }
-
   settings = {
     mode: 'external',
     pager: {
@@ -54,35 +36,37 @@ export class ListarProdutoComponent implements OnInit {
     },
     columns: {
       id: {
-        title: 'Código Identificador',
+        title: 'Código',
         type: 'number',
       },
-      nome: {
-        title: 'Nome',
+      nomeProduto: {
+        title: 'Nome produto',
         type: 'string',
       },
-      tipoPessoa: {
-        title: 'Tipo Pessoa',
+      quantidadeEstoque: {
+        title: 'Estoque',
         valuePrepareFunction: (data) => {
-          return data.tipoPessoa;
+          return data === null ? 'Sem Estoque' : data;
         },
       },
-      cpfCnpj: {
-        title: 'CPF/CNPJ',
-        valuePrepareFunction: (data) => {
-          return Utils.transformCpfCnpj(data);
+      valorCompra: {
+        title: 'Valor compra',
+        valuePrepareFunction: (value) => {
+          return value === 'Total' ? value : Intl.NumberFormat('pt-BR',
+            {style: 'currency', currency: 'BRL'}).format(value);
         },
       },
-      contato1: {
-        title: 'Contato',
-        valuePrepareFunction: (data) => {
-          return Utils.transformCelular(data);
+      valorVenda: {
+        title: 'Valor venda',
+        valuePrepareFunction: (value) => {
+          return value === 'Total' ? value : Intl.NumberFormat('pt-BR',
+            {style: 'currency', currency: 'BRL'}).format(value);
         },
       },
-      cidade: {
-        title: 'Cidade',
+      marca: {
+        title: 'Marca',
         valuePrepareFunction: (data) => {
-          return data.nome;
+          return data.nomeMarca;
         },
       },
     },
@@ -102,6 +86,22 @@ export class ListarProdutoComponent implements OnInit {
     },
   };
 
+  initOnChagedData() {
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
+  constructor(private service: ProdutoService,
+              private estadoService: EstadoService,
+              private toastrService: NbToastrService,
+              private dialogService: NbDialogService,
+              private router: Router) {
+    this.initData();
+  }
+
   setPager() {
     this.source.setPaging(1, this.showPerPage, true);
     this.settings = Object.assign({}, this.settings);
@@ -109,12 +109,12 @@ export class ListarProdutoComponent implements OnInit {
 
   initData() {
     this.source = new LocalDataSource();
-    this.pegarClientes();
+    this.listarItens();
   }
 
 
   onEdit(event) {
-    this.router.navigate(['/pages/clientes/editar', event.data.id]);
+    this.router.navigate(['/pages/produtos/editar', event.data.id]);
   }
 
   pageChange(pageIndex) {
@@ -122,20 +122,20 @@ export class ListarProdutoComponent implements OnInit {
     const lastRequestedRecordIndex = pageIndex * this.pageSize;
     if (loadedRecordCount <= lastRequestedRecordIndex) {
       this.currentPage = this.currentPage + 1;
-      this.pegarClientes();
+      this.listarItens();
     }
   }
 
-  pegarClientes() {
-    this.service.pegarClientes(this.currentPage, this.pageSize).then
+  listarItens() {
+    this.service.listarItens(this.currentPage, this.pageSize).subscribe
     (data => {
-      this.showSelect = data.totalElements < 10;
+      this.showSelect = data.body.totalElements < 10;
       if (this.source.count() > 0) {
-        data.content.forEach(d => this.source.add(d));
+        data.body.content.forEach(d => this.source.add(d));
         this.source.getAll()
           .then(d => this.source.load(d));
       } else
-        this.source.load(data.content);
+        this.source.load(data.body.content);
     });
   }
 
@@ -145,19 +145,19 @@ export class ListarProdutoComponent implements OnInit {
 
   onDeleteConfirm($event: any) {
     this.dialogService.open(DialogGenericComponent)
-      .onClose.subscribe(evento => evento && this.apagarCliente($event));
+      .onClose.subscribe(evento => evento && this.apagarItem($event));
   }
 
   onAdd() {
-    this.router.navigate(['/pages/clientes/criar']);
+    this.router.navigate(['/pages/produtos/criar']);
   }
 
-  apagarCliente(event) {
-    this.service.deletarCliente(event.data.id).then(
+  apagarItem(event) {
+    this.service.apagar(event.data.id).subscribe(
       response => {
         if (response.status === 204) {
           this.initData();
-          this.showToast('top-right', 'success', 'Legal', 'Cliente apagado com sucesso');
+          this.showToast('top-right', 'success', 'Legal', 'Produto apagado com sucesso');
         }
       }, error => {
         this.showToast('top-right', 'danger', 'Ops!', error.error.details);

@@ -1,11 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ClienteService} from '../../../shared/services/cliente.service';
 import {NbToastrService} from '@nebular/theme';
-import {EstadoService} from '../../../shared/services/estado.service';
-import {CidadeService} from '../../../shared/services/cidade.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TipoPessoaEnum} from '../../../shared/model/enums/tipo-pessoa.enum';
 import {map, switchMap} from 'rxjs/operators';
 import {ProdutoService} from '../../../shared/services/produto.service';
 import {MarcaService} from '../../../shared/services/marca.service';
@@ -53,7 +49,7 @@ export class CriarProdutoComponent implements OnInit {
       .pipe(
         map((params: any) => params ['id']),
         switchMap(id => this.service.buscarPorId(id)))
-      .subscribe(cliente => this.atualizarForm(cliente));
+      .subscribe(obj => this.atualizarForm(obj));
   }
 
   carregaForm() {
@@ -80,7 +76,7 @@ export class CriarProdutoComponent implements OnInit {
 
   carregaMarcas() {
     this.loading = true;
-    this.marcaService.pegarMarcas(0,500).then(
+    this.marcaService.pegarMarcas(0, 500).then(
       response => {
         this.marcas = response.content;
         this.loading = false;
