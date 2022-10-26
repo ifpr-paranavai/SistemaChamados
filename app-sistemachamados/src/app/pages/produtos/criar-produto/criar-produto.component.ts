@@ -76,7 +76,7 @@ export class CriarProdutoComponent implements OnInit {
 
   carregaMarcas() {
     this.loading = true;
-    this.marcaService.pegarMarcas(0, 500).then(
+    this.marcaService.pegarMarcas(0, 500, 'nomeMarca').then(
       response => {
         this.marcas = response.content;
         this.loading = false;

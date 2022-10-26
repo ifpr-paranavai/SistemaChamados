@@ -14,9 +14,9 @@ export class MarcaService {
   constructor(private http: HttpClient) {
   }
 
-  async pegarMarcas(page: number, size: number) {
+  async pegarMarcas(page: number, size: number, sort: string) {
     return await new Promise<any>((resolve, reject) => {
-      this.http.get(`${this.URL_MARCA}/marcas?page=${page}&size=${size}&sort=id`)
+      this.http.get(`${this.URL_MARCA}/marcas?page=${page}&size=${size}&sort=${sort}`)
         .subscribe(
           res => {
             resolve(res);

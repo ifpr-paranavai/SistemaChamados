@@ -98,7 +98,7 @@ export class ListarMarcaComponent implements OnInit {
 
 
   listarMarcas() {
-    this.service.pegarMarcas(this.currentPage, this.pageSize).then(
+    this.service.pegarMarcas(this.currentPage, this.pageSize, 'id').then(
       data => {
         this.showSelect = data.totalElements < 10;
         if (this.source.count() > 0) {
