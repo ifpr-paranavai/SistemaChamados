@@ -9,7 +9,7 @@
       <nb-card-body>
         <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-9">
               <div class="form-group">
                 <label for="nomeProduto" class="label">Nome Produto</label>
                 <input type="text" class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('nomeProduto')}"
@@ -17,6 +17,14 @@
                 <div *ngIf="hasError('nomeProduto') && formDir.submitted " class="invalid-feedback">
                   O nome do produto é obrigatório.
                 </div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="quantidadeEstoque" class="label">Quantidade</label>
+                <input type="text" mask="0000" nbInput fullWidth class="form-control"
+                       [ngClass]="{'is-invalid' : submitted && hasError('quantidadeEstoque')}"
+                       id="quantidadeEstoque" placeholder="Informe a quantidade" formControlName="quantidadeEstoque">
               </div>
             </div>
           </div>

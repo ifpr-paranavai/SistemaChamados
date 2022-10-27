@@ -59,6 +59,7 @@ export class CriarProdutoComponent implements OnInit {
       valorCompra: ['', [Validators.required]],
       valorVenda: ['', [Validators.required]],
       marca: ['', [Validators.required]],
+      quantidadeEstoque: [''],
     });
   }
 
