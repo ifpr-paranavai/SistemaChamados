@@ -1,11 +1,9 @@
 <div class="row">
   <div class="col-md-12">
-    <nb-card class="inline-form-card">
-      <nb-card-header class="cabecalho">Cadastro de Cliente</nb-card-header>
-    </nb-card>
     <nb-card [nbSpinner]="loading"
              nbSpinnerStatus="basic"
              nbSpinnerMessage="">
+      <nb-card-header class="cabecalho">Cadastro de Cliente</nb-card-header>
       <nb-card-body>
         <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
           <div class="row">

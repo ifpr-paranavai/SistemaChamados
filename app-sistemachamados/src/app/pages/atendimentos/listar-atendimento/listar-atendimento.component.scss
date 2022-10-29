@@ -1,0 +1,15 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.cabecalho {
+  font-size: 28px;
+}
+
+.perPage{
+  margin-bottom: 0.3rem;
+}

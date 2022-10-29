@@ -23,11 +23,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Criar Atendimentos',
-        link: '/pages/layout/stepper',
+        link: '/pages/atendimentos/criar',
       },
       {
         title: 'Listar Atendimentos',
-        link: '/pages/layout/list',
+        link: '/pages/atendimentos/criar',
       },
     ],
   },
@@ -79,11 +79,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Criar Serviço',
-        link: '/pages/ui-features/grid',
+        link: '/pages/servicos/criar',
       },
       {
         title: 'Listar Serviços',
-        link: '/pages/ui-features/icons',
+        link: '/pages/servicos/listar',
       },
     ],
   },
@@ -93,48 +93,49 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Criar Equipamento',
-        link: '/pages/ui-features/grid',
+        link: '/pages/equipamentos/criar',
       },
       {
         title: 'Listar Equipamentos',
-        link: '/pages/ui-features/icons',
+        link: '/pages/equipamentos/listar',
       },
     ],
   },
-  {
-    title: 'Estoque',
-    icon: 'archive-outline',
-    children: [
-      {
-        title: 'Entrada Produtos',
-        link: '/pages/ui-features/grid',
-      },
-      {
-        title: 'Listar Entrada de Produtos',
-        link: '/pages/ui-features/icons',
-      },
-      {
-        title: 'Listar Saída de Produtos',
-        link: '/pages/ui-features/icons',
-      },
-    ],
-  },
-  {
-    title: 'Administrativo',
-    icon: 'shield-outline',
-    children: [
-      {
-        title: 'Criar Usuário',
-        link: '/pages/extra-components/calendar',
-      },
-      {
-        title: 'Criar Regra',
-        link: '/pages/extra-components/progress-bar',
-      },
-      {
-        title: 'Editar Permissão',
-        link: '/pages/extra-components/spinner',
-      },
-    ],
-  },
+  // Criar se der tempo!
+  // {
+  //   title: 'Estoque',
+  //   icon: 'archive-outline',
+  //   children: [
+  //     {
+  //       title: 'Entrada Produtos',
+  //       link: '/pages/ui-features/grid',
+  //     },
+  //     {
+  //       title: 'Listar Entrada de Produtos',
+  //       link: '/pages/ui-features/icons',
+  //     },
+  //     {
+  //       title: 'Listar Saída de Produtos',
+  //       link: '/pages/ui-features/icons',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Administrativo',
+  //   icon: 'shield-outline',
+  //   children: [
+  //     {
+  //       title: 'Criar Usuário',
+  //       link: '/pages/extra-components/calendar',
+  //     },
+  //     {
+  //       title: 'Criar Regra',
+  //       link: '/pages/extra-components/progress-bar',
+  //     },
+  //     {
+  //       title: 'Editar Permissão',
+  //       link: '/pages/extra-components/spinner',
+  //     },
+  //   ],
+  // },
 ];

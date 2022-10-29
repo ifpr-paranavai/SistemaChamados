@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card [nbSpinner]="loading"
+             nbSpinnerStatus="basic"
+             nbSpinnerMessage="">
+      <nb-card-header class="cabecalho">Cadastro de Serviço</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="nome" class="label">Nome do serviço</label>
+                <input type="text" class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('nome')}"
+                       nbInput fullWidth id="nome" placeholder="Informe nome da serviço" formControlName="nome">
+                <div *ngIf="hasError('nome') && formDir.submitted " class="invalid-feedback">
+                  O nome da serviço é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="nome" class="label">Descrição do serviço</label>
+                <textarea rows="5" formControlName="observacao" nbInput fullWidth shape="round"
+                          placeholder="Informe a descrição do serviço realizado"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row submit">
+            <button class="col-md-2" type="submit" (click)="onCancel()" nbButton status="danger">
+              Cancelar
+            </button>
+            <button class="col-md-2" type="submit" nbButton status="success">
+              Salvar
+            </button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

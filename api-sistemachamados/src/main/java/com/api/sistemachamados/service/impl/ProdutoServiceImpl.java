@@ -66,7 +66,7 @@ public class ProdutoServiceImpl implements ProdutoService {
             var produto = new Produto();
             LOGGER.info("Buscando se existe Produto");
             if(Objects.nonNull(produtoDTO.getId())) {
-                BeanUtils.copyProperties(produtoDTO, produto);
+                copiarAtributosIgnorandoNullos(produtoDTO, produto);
             }else {
                 produtoRepository.findByNomeProduto(produtoDTO.getNomeProduto()).ifPresentOrElse(
                     value -> {

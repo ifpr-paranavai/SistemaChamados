@@ -1,0 +1,15 @@
+<nb-card>
+  <nb-card-header class="cabecalho">Lista de Serviços</nb-card-header>
+  <nb-card-body>
+    <nb-select [hidden]="showSelect" class="perPage" placeholder="10" [(ngModel)]="showPerPage">
+      <nb-option (click)="setPager()" value="10" >10</nb-option>
+      <nb-option (click)="setPager()" value="20" >20</nb-option>
+      <nb-option (click)="setPager()" value="50" >50</nb-option>
+      <nb-option (click)="setPager()" value="100" >100</nb-option>
+    </nb-select>
+    <ng2-smart-table [settings]="settings" [source]="source" (delete)='onDeleteConfirm($event)'
+                     (create)='onAdd($event)' (edit)='onEdit($event)'>
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+

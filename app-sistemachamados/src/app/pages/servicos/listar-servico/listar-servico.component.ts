@@ -1,46 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
-
-import {EstadoService} from '../../../shared/services/estado.service';
 import {NbDialogService, NbToastrService} from '@nebular/theme';
 import {Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
-import {MarcaService} from '../../../shared/services/marca.service';
+import {ServicoService} from '../../../shared/services/servico.service';
 import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'ngx-listar-marca',
-  templateUrl: './listar-marca.component.html',
-  styleUrls: ['./listar-marca.component.scss'],
+  templateUrl: './listar-servico.component.html',
+  styleUrls: ['./listar-servico.component.scss'],
 })
-export class ListarMarcaComponent implements OnInit {
+export class ListarServicoComponent implements OnInit {
 
   source: LocalDataSource;
   currentPage = 0;
   showPerPage = 10;
   pageSize = 500;
   showSelect = true;
-
-  ngOnInit() {
-    this.initOnChagedData();
-  }
-
-  constructor(private service: MarcaService,
-              private estadoService: EstadoService,
-              private toastrService: NbToastrService,
-              private dialogService: NbDialogService,
-              private router: Router) {
-    this.initData();
-  }
-
-  initOnChagedData() {
-    this.source.onChanged().subscribe((change) => {
-      if (change.action === 'page') {
-        this.pageChange(change.paging.page);
-      }
-    });
-  }
-
   settings = {
     mode: 'external',
     pager: {
@@ -57,8 +34,8 @@ export class ListarMarcaComponent implements OnInit {
         title: 'Código Identificador',
         type: 'number',
       },
-      nomeMarca: {
-        title: 'Nome Marca',
+      nome: {
+        title: 'Nome servico',
         type: 'string',
       },
       createdDate: {
@@ -84,14 +61,33 @@ export class ListarMarcaComponent implements OnInit {
     },
   };
 
+  constructor(private service: ServicoService,
+              private toastrService: NbToastrService,
+              private dialogService: NbDialogService,
+              private router: Router) {
+    this.initData();
+  }
+
+  ngOnInit() {
+    this.initOnChagedData();
+  }
+
+  initOnChagedData() {
+    this.source.onChanged().subscribe((change) => {
+      if (change.action === 'page') {
+        this.pageChange(change.paging.page);
+      }
+    });
+  }
+
   initData() {
     this.source = new LocalDataSource();
-    this.listarMarcas();
+    this.listarItens();
   }
 
 
   onEdit(event) {
-    this.router.navigate(['/pages/marcas/editar', event.data.id]);
+    this.router.navigate(['/pages/servicos/editar', event.data.id]);
   }
 
   pageChange(pageIndex) {
@@ -99,13 +95,13 @@ export class ListarMarcaComponent implements OnInit {
     const lastRequestedRecordIndex = pageIndex * this.pageSize;
     if (loadedRecordCount <= lastRequestedRecordIndex) {
       this.currentPage = this.currentPage + 1;
-      this.listarMarcas();
+      this.listarItens();
     }
   }
 
 
-  listarMarcas() {
-    this.service.pegarMarcas(this.currentPage, this.pageSize, 'id').then(
+  listarItens() {
+    this.service.listarItens(this.currentPage, this.pageSize, 'id').then(
       data => {
         this.showSelect = data.totalElements < 10;
         if (this.source.count() > 0) {
@@ -133,15 +129,15 @@ export class ListarMarcaComponent implements OnInit {
   }
 
   onAdd($event: any) {
-    this.router.navigate(['/pages/marcas/criar']);
+    this.router.navigate(['/pages/servicos/criar']);
   }
 
   apagarMarca(event) {
-    this.service.deletarMarca(event.data.id).subscribe(
+    this.service.deletar(event.data.id).subscribe(
       res => {
         if (res.status === 204) {
           this.initData();
-          this.showToast('top-right', 'success', 'Legal', 'Marca apagada com sucesso');
+          this.showToast('top-right', 'success', 'Legal', 'Serviço apagado com sucesso');
         }
       }, error => {
         this.showToast('top-right', 'danger', 'Ops!', error.error.details);

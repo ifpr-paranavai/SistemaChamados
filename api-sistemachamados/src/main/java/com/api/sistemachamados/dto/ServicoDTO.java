@@ -10,6 +10,13 @@ import javax.validation.constraints.NotEmpty;
 public class ServicoDTO {
 
     @Schema(
+        example = "1L",
+        description = "Identificação do serviço"
+    )
+    @JsonProperty("id")
+    private Long id;
+
+    @Schema(
         example = "Limpeza Equipamento",
         description = "Identificação do nome de um serviço realizado",
         required = true

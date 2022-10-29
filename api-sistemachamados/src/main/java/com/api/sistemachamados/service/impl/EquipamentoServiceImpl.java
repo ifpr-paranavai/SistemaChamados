@@ -1,9 +1,7 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.EquipamentoDTO;
-import com.api.sistemachamados.entity.Cliente;
 import com.api.sistemachamados.entity.Equipamento;
-import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.EquipamentoRepository;
 import com.api.sistemachamados.service.EquipamentoService;
 import javassist.NotFoundException;
@@ -77,15 +75,18 @@ public class EquipamentoServiceImpl implements EquipamentoService {
     public Equipamento verificaPersitencia(EquipamentoDTO equipamentoDTO) {
         try {
             var equipamento = new Equipamento();
-            LOGGER.info("Buscando se existe Equipamento");
-            equipamentoRepository.findByNumeroSerie(equipamentoDTO.getNumeroSerie()).ifPresentOrElse
-                (value ->
-                    {
-                        copiarAtributosIgnorandoNullos(equipamentoDTO, equipamento);
-                        atualizandoAtributosEquipamento(
-                            Objects.requireNonNull(value), equipamento);
+
+            if (Objects.nonNull(equipamentoDTO.getId())) {
+                copiarAtributosIgnorandoNullos(equipamentoDTO, equipamento);
+            } else {
+                LOGGER.info("Buscando se existe Equipamento");
+                equipamentoRepository.findByNumeroSerie(equipamentoDTO.getNumeroSerie()).ifPresentOrElse(
+                    value -> {
+                        throw new com.api.sistemachamados.exception.DataIntegrityViolationException
+                            ("Já existe um Equipamento com esse número de série, informe outro");
                     },
                     () -> BeanUtils.copyProperties(equipamentoDTO, equipamento));
+            }
             return equipamento;
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);

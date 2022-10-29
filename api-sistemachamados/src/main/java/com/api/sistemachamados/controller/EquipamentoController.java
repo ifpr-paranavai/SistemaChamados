@@ -42,14 +42,14 @@ public class EquipamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(equipamentoService.buscarTodos(pageable));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pegarId/{id}")
     public ResponseEntity<Object> buscarEquipamentoId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return equipamentoService.buscarPorId(id).<ResponseEntity<Object>>map(
                 equipamento -> ResponseEntity.status(HttpStatus.OK).body(equipamento))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("equipamento.naoEncontrado"));
     }
 
-    @GetMapping("/{numeroSerie}")
+    @GetMapping("/pegarNumeroSerie/{numeroSerie}")
     public ResponseEntity<Object> buscarEquipamentoNumeroSerie(@PathVariable(value = "numeroSerie") String numeroSerie) throws NotFoundException {
         return equipamentoService.buscarNumeroSerie(numeroSerie).<ResponseEntity<Object>>map(
                 equipamento -> ResponseEntity.status(HttpStatus.OK).body(equipamento))

@@ -20,18 +20,6 @@ export class ProdutoService {
       {observe: 'response'}).pipe(take(1));
   }
 
-  // async listarItens(page: number, size: number) {
-  //   return await new Promise<any>((resolve, reject) => {
-  //     this.http.get(`${this.URL_PRODUTO}/produtos?page=${page}&size=${size}&sort=id`)
-  //       .subscribe(
-  //         res => {
-  //           resolve(res);
-  //         }, error => {
-  //           reject(error.status + ' | ' + error.statusText);
-  //         });
-  //   });
-  // }
-
   buscarPorId(id) {
     return this.http.get(`${this.URL_PRODUTO}/buscarPorId/${id}`).pipe(take(1));
   }

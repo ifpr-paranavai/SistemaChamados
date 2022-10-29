@@ -1,11 +1,9 @@
 <div class="row">
   <div class="col-md-12">
-    <nb-card class="inline-form-card">
-      <nb-card-header class="cabecalho">Cadastro de Produto</nb-card-header>
-    </nb-card>
     <nb-card [nbSpinner]="loading"
              nbSpinnerStatus="basic"
              nbSpinnerMessage="">
+      <nb-card-header class="cabecalho">Cadastro de Produto</nb-card-header>
       <nb-card-body>
         <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
           <div class="row">
@@ -22,7 +20,7 @@
             <div class="col-sm-3">
               <div class="form-group">
                 <label for="quantidadeEstoque" class="label">Quantidade</label>
-                <input type="text" mask="0000" nbInput fullWidth class="form-control"
+                <input type="text" mask="0000" nbInput fullWidth [validation]="false" class="form-control"
                        [ngClass]="{'is-invalid' : submitted && hasError('quantidadeEstoque')}"
                        id="quantidadeEstoque" placeholder="Informe a quantidade" formControlName="quantidadeEstoque">
               </div>

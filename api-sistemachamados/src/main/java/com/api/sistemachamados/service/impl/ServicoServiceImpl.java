@@ -1,9 +1,7 @@
 package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.ServicoDTO;
-import com.api.sistemachamados.entity.Cliente;
 import com.api.sistemachamados.entity.Servico;
-import com.api.sistemachamados.exception.BadRequestException;
 import com.api.sistemachamados.repository.ServicoRepository;
 import com.api.sistemachamados.service.ServicoService;
 import javassist.NotFoundException;
@@ -60,14 +58,16 @@ public class ServicoServiceImpl implements ServicoService {
         try {
             var servico = new Servico();
             LOGGER.info("Buscando se existe Cliente");
-            servicoRepository.findByNome(servicoDTO.getNome()).ifPresentOrElse
-                (value ->
-                    {
-                        copiarAtributosIgnorandoNullos(servicoDTO, servico);
-                        atualizandoAtributosCliente(
-                            Objects.requireNonNull(value), servico);
+            if (Objects.nonNull(servicoDTO.getId())) {
+                copiarAtributosIgnorandoNullos(servicoDTO, servico);
+            } else {
+                servicoRepository.findByNome(servicoDTO.getNome()).ifPresentOrElse(
+                    value -> {
+                        throw new com.api.sistemachamados.exception.DataIntegrityViolationException
+                            ("Já existe um serviço com esse nome, informe outro");
                     },
                     () -> BeanUtils.copyProperties(servicoDTO, servico));
+            }
             return servico;
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);

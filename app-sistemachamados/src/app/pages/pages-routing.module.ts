@@ -40,14 +40,19 @@ const routes: Routes = [{
         .then(m => m.ProdutosModule),
     },
     {
-      path: 'extra-components',
-      loadChildren: () => import('./extra-components/extra-components.module')
-        .then(m => m.ExtraComponentsModule),
+      path: 'servicos',
+      loadChildren: () => import('./servicos/servicos.module')
+        .then(m => m.ServicosModule),
     },
     {
-      path: 'maps',
-      loadChildren: () => import('./maps/maps.module')
-        .then(m => m.MapsModule),
+      path: 'equipamentos',
+      loadChildren: () => import('./equipamentos/equipamentos.module')
+        .then(m => m.EquipamentosModule),
+    },
+    {
+      path: 'atendimentos',
+      loadChildren: () => import('./atendimentos/atendimentos.module')
+        .then(m => m.AtendimentosModule),
     },
     {
       path: 'charts',

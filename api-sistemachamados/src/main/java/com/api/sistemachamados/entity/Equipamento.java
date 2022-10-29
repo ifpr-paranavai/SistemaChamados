@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -44,6 +46,9 @@ public class Equipamento extends Auditoria implements Serializable {
 
     @ManyToOne
     private Marca marca;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private  Cliente cliente;
 
 }
 

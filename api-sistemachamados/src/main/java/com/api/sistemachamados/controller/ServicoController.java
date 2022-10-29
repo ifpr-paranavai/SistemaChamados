@@ -41,7 +41,7 @@ public class ServicoController {
         return ResponseEntity.status(HttpStatus.OK).body(servicoService.buscarTodos(pageable));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pegarId/{id}")
     public ResponseEntity<Object> buscarServicoId(@PathVariable(value = "id") Long id) throws NotFoundException {
         return servicoService.buscarPorId(id).<ResponseEntity<Object>>map(
                 servico -> ResponseEntity.status(HttpStatus.OK).body(servico))
@@ -49,7 +49,7 @@ public class ServicoController {
     }
 
 
-    @GetMapping("/{nomeServico}")
+    @GetMapping("/pegarNome/{nomeServico}")
     public ResponseEntity<Object> buscarServicoNome(@PathVariable(value = "nomeServico") String nome) throws NotFoundException {
         return servicoService.buscarNomeServico(nome).<ResponseEntity<Object>>map(
                 servico -> ResponseEntity.status(HttpStatus.OK).body(servico))

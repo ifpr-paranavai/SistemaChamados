@@ -11,6 +11,13 @@ import javax.validation.constraints.NotEmpty;
 public class EquipamentoDTO {
 
     @Schema(
+        example = "1L",
+        description = "Identificação do equipamento"
+    )
+    @JsonProperty("id")
+    private Long id;
+
+    @Schema(
         example = "Ar Condicionado",
         description = "Identificação equipamento",
         required = true
