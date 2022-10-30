@@ -15,13 +15,15 @@ import {
 } from '@nebular/theme';
 
 import {ThemeModule} from '../../@theme/theme.module';
-import {AtendimentosRoutingModule} from './atendimentos-routing.module';
-import {AtendimentosComponent} from './atendimentos.component';
+import {OrdemServicosRoutingModule} from './ordem-servicos-routing.module';
+import {OrdemServicosComponent} from './ordem-servicos.component';
 import {FormsModule as ngFormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
-import {CriarAtendimentoComponent} from './criar-atendimento/criar-atendimento.component';
-import {ListarAtendimentoComponent} from './listar-atendimento/listar-atendimento.component';
+import {CriarOrdemServicoComponent} from './criar-ordem-servico/criar-ordem-servico.component';
+import {ListarOrdemServicoComponent} from './listar-ordem-servico/listar-ordem-servico.component';
+import { registerLocaleData } from '@angular/common';
+import br from '@angular/common/locales/br';
 
 export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
@@ -37,7 +39,7 @@ export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
     NbCheckboxModule,
     NbRadioModule,
     NbDatepickerModule,
-    AtendimentosRoutingModule,
+    OrdemServicosRoutingModule,
     NbSelectModule,
     NbIconModule,
     ngFormsModule,
@@ -48,10 +50,10 @@ export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
     NgxMaskModule.forRoot(),
   ],
   declarations: [
-    AtendimentosComponent,
-    CriarAtendimentoComponent,
-    ListarAtendimentoComponent,
+    OrdemServicosComponent,
+    CriarOrdemServicoComponent,
+    ListarOrdemServicoComponent,
   ],
 })
-export class AtendimentosModule {
+export class OrdemServicosModule {
 }

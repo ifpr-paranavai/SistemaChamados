@@ -7,11 +7,11 @@ import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialo
 import {EquipamentoService} from '../../../shared/services/equipamento.service';
 
 @Component({
-  selector: 'ngx-listar-marca',
-  templateUrl: './listar-atendimento.component.html',
-  styleUrls: ['./listar-atendimento.component.scss'],
+  selector: 'ngx-listar-ordem-servico',
+  templateUrl: './listar-ordem-servico.component.html',
+  styleUrls: ['./listar-ordem-servico.component.scss'],
 })
-export class ListarAtendimentoComponent implements OnInit {
+export class ListarOrdemServicoComponent implements OnInit {
 
   source: LocalDataSource;
   pageSize = 500;

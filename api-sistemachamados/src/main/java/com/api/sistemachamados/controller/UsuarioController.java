@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/usuario")
+@RequestMapping("/v1/usuarios")
 @AllArgsConstructor
 @PreAuthorize("hasPermission('null', {'ROLE_USER', 'PERM_PROCURACAO'})")
 @SecurityRequirement(name = "sistemachamadosapi")
@@ -28,14 +28,14 @@ import java.util.Optional;
 public class UsuarioController {
     final UsuarioService usuarioService;
 
-    @PostMapping("/salvar-usuario")
+    @PostMapping
     public ResponseEntity<Object> salvarUsuario(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         return new ResponseEntity<>(usuarioService.salvar(usuarioDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/usuarios")
+    @GetMapping
     public ResponseEntity<Page<Usuario>> buscarUsuarios(
-        @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+        @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)
         Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarTodos(pageable));
     }

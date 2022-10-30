@@ -18,7 +18,6 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class CriarClienteComponent implements OnInit {
 
 
-  tipoPessoa = TipoPessoaEnum;
   form: FormGroup;
   submitted: boolean;
   fullWidth: boolean = true;

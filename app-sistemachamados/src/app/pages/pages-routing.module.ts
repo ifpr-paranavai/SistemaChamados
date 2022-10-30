@@ -1,9 +1,9 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import { PagesComponent } from './pages.component';
-import { ECommerceComponent } from './e-commerce/e-commerce.component';
-import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import {PagesComponent} from './pages.component';
+import {ECommerceComponent} from './e-commerce/e-commerce.component';
+import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 
@@ -50,9 +50,9 @@ const routes: Routes = [{
         .then(m => m.EquipamentosModule),
     },
     {
-      path: 'atendimentos',
-      loadChildren: () => import('./atendimentos/atendimentos.module')
-        .then(m => m.AtendimentosModule),
+      path: 'os',
+      loadChildren: () => import('./ordem-servico/ordem-servicos.module')
+        .then(m => m.OrdemServicosModule),
     },
     {
       path: 'charts',

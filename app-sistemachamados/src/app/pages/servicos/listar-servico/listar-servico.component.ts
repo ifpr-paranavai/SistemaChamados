@@ -7,7 +7,7 @@ import {ServicoService} from '../../../shared/services/servico.service';
 import {DatePipe} from '@angular/common';
 
 @Component({
-  selector: 'ngx-listar-marca',
+  selector: 'ngx-listar-servico',
   templateUrl: './listar-servico.component.html',
   styleUrls: ['./listar-servico.component.scss'],
 })

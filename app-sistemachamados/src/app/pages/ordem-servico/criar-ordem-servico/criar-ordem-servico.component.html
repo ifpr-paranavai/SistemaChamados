@@ -1,0 +1,146 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card [nbSpinner]="loading"
+             nbSpinnerStatus="basic"
+             nbSpinnerMessage="">
+      <nb-card-header class="cabecalho">Cadastro de Ordem de Serviço</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="onSubmit()" [formGroup]="form" #formDir="ngForm">
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="cliente" class="label">Cliente</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="cliente" [fullWidth]="fullWidth"
+                           [(selected)]="selectedCliente" [compareWith]="compareById"
+                           [ngClass]="{'select-error' : submitted && hasError('cliente')}"
+                           formControlName="cliente">
+                  <nb-option *ngFor="let cliente of clientes" [value]="cliente">
+                    {{cliente !== undefined ? cliente["nome"] : ''}}
+                  </nb-option>
+                </nb-select>
+                <div *ngIf="hasError('cliente') && formDir.submitted" class="erro-validation">
+                  O cliente é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="usuario" class="label">Técnico</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="usuario" [fullWidth]="fullWidth"
+                           [(selected)]="selectedCliente" [compareWith]="compareById"
+                           [ngClass]="{'select-error' : submitted && hasError('usuario')}"
+                           formControlName="usuario">
+                  <nb-option *ngFor="let usuario of usuarios" [value]="usuario">
+                    {{usuario !== undefined ? usuario["nome"] : ''}}
+                  </nb-option>
+                </nb-select>
+                <div *ngIf="hasError('usuario') && formDir.submitted" class="erro-validation">
+                  Técnico é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="data" class="label">Data do atendimento</label>
+              <div class="form-group">
+                <input class="form-control" [nbDatepicker]="picker"
+                       [ngClass]="{'is-invalid' : submitted && hasError('data')}"
+                       nbInput fullWidth id="data" placeholder="Data do chamado"
+                       formControlName="data">
+                <nb-datepicker #picker [min]="dataMinima" [max]="dataMaxima" format="dd/MM/yyyy"></nb-datepicker>
+                <div *ngIf="hasError('data') && formDir.submitted" class="erro-validation">
+                  A data é obrigatória.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="tipoAtendimento" class="label">Tipo atendimento</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="tipoAtendimento"
+                           [ngClass]="{'select-error' : submitted && hasError('tipoAtendimento')}"
+                           [fullWidth]="fullWidth" formControlName="tipoAtendimento">
+                  <nb-option value="Chamado">Chamado</nb-option>
+                  <nb-option value="Preventiva">Preventiva</nb-option>
+                  <nb-option value="Corretiva">Corretiva</nb-option>
+                  <nb-option value="Garantia">Garantia</nb-option>
+                  <nb-option value="Visita Técnica">Visita Técnica</nb-option>
+                </nb-select>
+                <div *ngIf="hasError('tipoAtendimento') && formDir.submitted" class="erro-validation">
+                  Tipo Atendimento é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="equipamento" class="label">Equipamento</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="equipamento" [fullWidth]="fullWidth"
+                           [(selected)]="selectedCliente" [compareWith]="compareById"
+                           [ngClass]="{'select-error' : submitted && hasError('equipamento')}"
+                           formControlName="equipamento">
+                  <nb-option *ngFor="let equipamento of equipamentos" [value]="equipamento">
+                    {{equipamento !== undefined ? equipamento["nomeEquipamento"] : ''}}
+                  </nb-option>
+                </nb-select>
+                <div *ngIf="hasError('equipamento') && formDir.submitted" class="erro-validation">
+                  Técnico é obrigatório.
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label for="servicos" class="label">Serviços</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="servicos" [fullWidth]="fullWidth"
+                           [(selected)]="selectedCliente" [compareWith]="compareById"
+                           [ngClass]="{'select-error' : submitted && hasError('servicos')}"
+                           formControlName="servicos">
+                  <nb-option *ngFor="let servico of servicos" [value]="servico">
+                    {{servico !== undefined ? servico["nome"] : ''}}
+                  </nb-option>
+                </nb-select>
+                <div *ngIf="hasError('servicos') && formDir.submitted" class="erro-validation">
+                  Serviço é obrigatório.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="observacao" class="label">Observações</label>
+                <textarea rows="5" id="observacao" formControlName="observacao"
+                          nbInput fullWidth shape="round"
+                          placeholder="Informe alguma observação se julgar necessário"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-md-6">Selecione o Tipo do Chamado</label>
+              </div>
+              <div class="form-group text-center">
+                <input type="checkbox" name="os_tipo_id" data-bootstrap-switch
+                       data-on-text="SELF" data-off-text="FAN COIL"
+                       data-off-color="primary" checked
+                       data-on-color="success" id="FANSELF">
+              </div>
+            </div>
+          </div>
+
+          <div class="row submit">
+            <button class="col-md-2" type="submit" (click)="onCancel()" nbButton status="danger">
+              Cancelar
+            </button>
+            <button class="col-md-2" type="submit" nbButton status="success">
+              Salvar
+            </button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

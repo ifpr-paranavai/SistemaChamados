@@ -15,9 +15,9 @@ export class ClienteService {
 
   private readonly URL_CLIENTE = '/api/cliente';
 
-  async pegarClientes(page: number, size: number) {
+  async pegarClientes(page: number, size: number, sort: string) {
     return await new Promise<any>((resolve, reject) => {
-      this.http.get(`${this.URL_CLIENTE}/clientes?page=${page}&size=${size}&sort=id`)
+      this.http.get(`${this.URL_CLIENTE}/clientes?page=${page}&size=${size}&sort=${sort}`)
         .subscribe(
           res => {
             resolve(res);

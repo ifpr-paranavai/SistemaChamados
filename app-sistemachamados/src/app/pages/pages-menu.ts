@@ -18,16 +18,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/ui-features',
   },
   {
-    title: 'Atendimentos',
+    title: 'Ordem de Serviço',
     icon: 'settings-2-outline',
     children: [
       {
-        title: 'Criar Atendimentos',
-        link: '/pages/atendimentos/criar',
+        title: 'Criar Ordem de Serviço',
+        link: '/pages/os/criar',
       },
       {
-        title: 'Listar Atendimentos',
-        link: '/pages/atendimentos/criar',
+        title: 'Listar Ordem de Serviço',
+        link: '/pages/os/listar',
       },
     ],
   },

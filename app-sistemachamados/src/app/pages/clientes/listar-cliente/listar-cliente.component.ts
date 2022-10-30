@@ -127,7 +127,7 @@ export class ListarClienteComponent implements OnInit {
   }
 
   listarItens() {
-    this.service.pegarClientes(this.currentPage, this.pageSize).then
+    this.service.pegarClientes(this.currentPage, this.pageSize, 'id').then
     (data => {
       this.showSelect = data.totalElements < 10;
       if (this.source.count() > 0) {
