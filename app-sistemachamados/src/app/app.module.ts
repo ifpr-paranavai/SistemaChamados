@@ -23,6 +23,7 @@ import {
 } from '@nebular/theme';
 import {NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor} from '@nebular/auth';
 import {SharedModule} from './shared/shared.module';
+import {NbDateFnsDateModule} from '@nebular/date-fns';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,6 +41,7 @@ import {SharedModule} from './shared/shared.module';
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
+    NbDateFnsDateModule.forRoot({ format: 'dd/MM/yyyy' }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     SharedModule,

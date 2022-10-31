@@ -55,8 +55,7 @@ public class OrdemServicoDTO {
 
     @Schema(
         example = "Aberto",
-        description = "Tipo da Situação da OS",
-        required = true
+        description = "Tipo da Situação da OS"
     )
     @JsonProperty("situacaoOs")
     @NotEmpty(message = "situacao.null")

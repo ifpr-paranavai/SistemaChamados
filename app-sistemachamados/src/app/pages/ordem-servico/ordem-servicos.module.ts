@@ -4,10 +4,10 @@ import {
   NbButtonModule,
   NbCardModule,
   NbCheckboxModule,
-  NbDatepickerModule,
+  NbDatepickerModule, NbDateService,
   NbDialogModule,
   NbIconModule,
-  NbInputModule,
+  NbInputModule, NbNativeDateService,
   NbRadioModule,
   NbSelectModule,
   NbSpinnerModule,
@@ -22,8 +22,9 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {CriarOrdemServicoComponent} from './criar-ordem-servico/criar-ordem-servico.component';
 import {ListarOrdemServicoComponent} from './listar-ordem-servico/listar-ordem-servico.component';
-import { registerLocaleData } from '@angular/common';
-import br from '@angular/common/locales/br';
+import {NgToggleModule} from '@nth-cloud/ng-toggle';
+import {NbMomentDateModule} from '@nebular/moment';
+import {NbDateFnsDateModule} from '@nebular/date-fns';
 
 export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
@@ -38,7 +39,6 @@ export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
     NbUserModule,
     NbCheckboxModule,
     NbRadioModule,
-    NbDatepickerModule,
     OrdemServicosRoutingModule,
     NbSelectModule,
     NbIconModule,
@@ -48,6 +48,9 @@ export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
     Ng2SmartTableModule,
     NbDialogModule,
     NgxMaskModule.forRoot(),
+    NgToggleModule,
+    NbDatepickerModule,
+    NbDateFnsDateModule,
   ],
   declarations: [
     OrdemServicosComponent,

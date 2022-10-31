@@ -31,8 +31,9 @@ export class CriarOrdemServicoComponent implements OnInit {
   selectedEquipamento;
   selectedServico;
   errorToast: boolean;
-  SELF: 'SELF';
-  success: 'success';
+  tipoChamado: string;
+  hiddenFanCoil: boolean;
+  hiddenSelf: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private service: OrdemServicoService,
@@ -83,15 +84,15 @@ export class CriarOrdemServicoComponent implements OnInit {
       tipoOrdemServico: ['', [Validators.required]],
       situacaoOs: [''],
       tipoAtendimento: ['', [Validators.required]],
-      servicos: ['', [Validators.required]],
+      servicos: [[], [Validators.required]],
       equipamento: ['', [Validators.required]],
 
       /*
       Itens Ordem Servico
       */
-      ordemServicoItem: {
+      ordemServicoItem: this.formBuilder.group({
         observacao: [''],
-        tensaoGeralRS: ['', [Validators.required]],
+        tensaoGeralRS: ['', [Validators.required], Validators.minLength(3)],
         tensaoGeralST: ['', [Validators.required]],
         tensaoGeralRT: ['', [Validators.required]],
         correnteA1: ['', [Validators.required]],
@@ -152,7 +153,7 @@ export class CriarOrdemServicoComponent implements OnInit {
         deteccaoAguaPiso: ['', [Validators.required]],
         casaMaquinas: [''],
         quantidade: [''],
-      },
+      }),
     });
   }
 
@@ -250,5 +251,15 @@ export class CriarOrdemServicoComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/pages/equipamentos/listar']);
+  }
+
+  onChange($event) {
+    if ($event) {
+      this.form.patchValue({tipoOrdemServico: 'SELF'});
+    } else {
+      this.form.patchValue({tipoOrdemServico: 'FAN COIL'});
+    }
+    this.hiddenSelf = $event;
+    this.hiddenFanCoil = !$event;
   }
 }

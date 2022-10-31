@@ -40,7 +40,10 @@
               "node_modules/nebular-icons/scss/nebular-icons.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/leaflet/dist/leaflet.css",
-              "src/app/@theme/styles/styles.scss"
+              "src/app/@theme/styles/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css" ,
+              "node_modules/select2/dist/css/select2.min.css",
+              "node_modules/select2/dist/js/select2.min.js"
             ],
             "scripts": [
               "node_modules/pace-js/pace.min.js",
@@ -51,7 +54,9 @@
               "node_modules/tinymce/plugins/table/plugin.min.js",
               "node_modules/echarts/dist/echarts.min.js",
               "node_modules/echarts/dist/extension/bmap.min.js",
-              "node_modules/chart.js/dist/Chart.min.js"
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/jquery/dist/jquery.js",
+              "src/custom.js"
             ],
             "allowedCommonJsDependencies": [
               "angular2-chartjs",
