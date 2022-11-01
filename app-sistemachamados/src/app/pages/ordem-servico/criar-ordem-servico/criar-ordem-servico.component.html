@@ -497,8 +497,40 @@
                 </div>
               </div>
 
-
 <!--              Campos OK/NA-->
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Com IHM</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarComunicacaoIHM')"
+                    formControlName="verificarComunicacaoIHM"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                  <div *ngIf="hasError('ordemServicoItem.verificarComunicacaoIHM') && formDir.submitted" class="invalid-feedback">
+                    Set point Umidade é obrigatório.
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Test Damp</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'testeDampers')"
+                    formControlName="testeDampers"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
 
 
 

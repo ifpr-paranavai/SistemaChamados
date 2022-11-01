@@ -23,7 +23,6 @@ import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {CriarOrdemServicoComponent} from './criar-ordem-servico/criar-ordem-servico.component';
 import {ListarOrdemServicoComponent} from './listar-ordem-servico/listar-ordem-servico.component';
 import {NgToggleModule} from '@nth-cloud/ng-toggle';
-import {NbMomentDateModule} from '@nebular/moment';
 import {NbDateFnsDateModule} from '@nebular/date-fns';
 
 export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;

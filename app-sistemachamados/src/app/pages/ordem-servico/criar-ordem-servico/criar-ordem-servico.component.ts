@@ -31,9 +31,20 @@ export class CriarOrdemServicoComponent implements OnInit {
   selectedEquipamento;
   selectedServico;
   errorToast: boolean;
-  tipoChamado: string;
   hiddenFanCoil: boolean;
   hiddenSelf: boolean;
+  toggleValue: null;
+  novoCampo;
+
+  toggle: any = {
+    onColor: 'primary',
+    offColor: 'secondary',
+    onText: 'On',
+    offText: 'Off',
+    disabled: false,
+    size: '',
+    value: null,
+  };
 
   constructor(private formBuilder: FormBuilder,
               private service: OrdemServicoService,
@@ -261,5 +272,9 @@ export class CriarOrdemServicoComponent implements OnInit {
     }
     this.hiddenSelf = $event;
     this.hiddenFanCoil = !$event;
+  }
+
+  onChangeValue(event: string, campo: string) {
+    this.form.patchValue({ordemServicoItem: {[campo]: event}});
   }
 }
