@@ -1,8 +1,6 @@
 package com.api.sistemachamados.service;
 
-import com.api.sistemachamados.dto.ClienteDTO;
 import com.api.sistemachamados.dto.MarcaDTO;
-import com.api.sistemachamados.entity.Cliente;
 import com.api.sistemachamados.entity.Marca;
 import javassist.NotFoundException;
 import org.springframework.data.domain.Page;

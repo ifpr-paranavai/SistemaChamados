@@ -418,7 +418,7 @@
                   <input type="text" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.vazaoAr')}"
-                         id="vazaoAr" placeholder="00%" formControlName="umidificadorRSRTST">
+                         id="vazaoAr" placeholder="00%" formControlName="vazaoAr">
                 </div>
                 <div *ngIf="hasError('ordemServicoItem.vazaoAr') && formDir.submitted" class="invalid-feedback">
                   Vazão de Ar é obrigatório.
@@ -430,7 +430,7 @@
                   <input type="text" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaRetorno')}"
-                         id="temperaturaRetorno" placeholder="00ºC" formControlName="umidificadorRSRTST">
+                         id="temperaturaRetorno" placeholder="00ºC" formControlName="temperaturaRetorno">
                 </div>
                 <div *ngIf="hasError('ordemServicoItem.temperaturaRetorno') && formDir.submitted" class="invalid-feedback">
                   Temp Retorno é obrigatório.
@@ -498,6 +498,97 @@
               </div>
 
 <!--              Campos OK/NA-->
+
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Filtro Y</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'filtroY')"
+                    formControlName="filtroY"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Vaz Agua Gel</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarVazamentoAguaGelada')"
+                    formControlName="verificarVazamentoAguaGelada"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Pre Dif Fil Suj</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarPressaoDiferencialFiltroSujo')"
+                    formControlName="verificarPressaoDiferencialFiltroSujo"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Pre Dif Flx Ar</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarPressaoDiferencialFiltroAr')"
+                    formControlName="verificarPressaoDiferencialFiltroAr"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Bloq Água Gel</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarValvulaBloqueioAguaGelada')"
+                    formControlName="verificarValvulaBloqueioAguaGelada"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Alm Dren Umd</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarAlimentacaoDrenoUmidificador')"
+                    formControlName="verificarAlimentacaoDrenoUmidificador"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
               <div class="col-sm-2">
                 <div class="form-group text-center">
                   <div class="form-group">
@@ -506,6 +597,21 @@
                   <ng-toggle
                     (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarComunicacaoIHM')"
                     formControlName="verificarComunicacaoIHM"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Off Temp Umd</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarOffSetSensorTemperaturaUmidade')"
+                    formControlName="verificarOffSetSensorTemperaturaUmidade"
                     onColor="success"
                     onText="OK"
                     offText="NA"
@@ -528,6 +634,233 @@
                   </ng-toggle>
                 </div>
               </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Hist Evn IHM</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'averiguarHistoricoEventosIHM')"
+                    formControlName="averiguarHistoricoEventosIHM"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Isol Term Acu</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'verificarIsolamentoTermicasAcustico')"
+                    formControlName="verificarIsolamentoTermicasAcustico"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Elim Pts Corr</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarEliminarPontosCorrosao')"
+                    formControlName="verificarEliminarPontosCorrosao"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Sist Dren</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'verificarSistemaDrenagem')"
+                    formControlName="verificarSistemaDrenagem"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Limpeza</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'limpeza')"
+                    formControlName="limpeza"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Painel Elétrico</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'painelEletrico')"
+                    formControlName="painelEletrico"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Serp Evap</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'serpentinaEvaporador')"
+                    formControlName="serpentinaEvaporador"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Gabinete</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'gabinete')"
+                    formControlName="gabinete"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Filtro de Ar</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'filtroAr')"
+                    formControlName="filtroAr"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Bandeija</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'bandeja')"
+                    formControlName="bandeja"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Rui Anor Evp</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'ruidosAnormaisEvaporador')"
+                    formControlName="ruidosAnormaisEvaporador"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenSelf">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Defletores</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA', 'verificarDefletores')"
+                    formControlName="verificarDefletores"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Det Ág Piso</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'deteccaoAguaPiso')"
+                    formControlName="deteccaoAguaPiso"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Casa Máq</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'casaMaquinas')"
+                    formControlName="casaMaquinas"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+              <div class="col-sm-2" [hidden]="hiddenFanCoil">
+                <div class="form-group text-center">
+                  <div class="form-group">
+                    <label class="label">Rui Anor Cnd</label>
+                  </div>
+                  <ng-toggle
+                    (valueChange)="onChangeValue($event === true ? 'OK' : 'NA',  'ruidosAnormaisCondensador')"
+                    formControlName="ruidosAnormaisCondensador"
+                    onColor="success"
+                    onText="OK"
+                    offText="NA"
+                    offColor="primary">
+                  </ng-toggle>
+                </div>
+              </div>
+
+
 
 
 
