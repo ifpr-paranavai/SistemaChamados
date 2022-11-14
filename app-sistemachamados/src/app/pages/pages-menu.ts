@@ -7,16 +7,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
     home: true,
   },
-  {
-    title: 'E-commerce exemplo',
-    icon: 'shopping-cart-outline',
-    link: '/pages/dashboard-old',
-  },
-  {
-    title: 'Relatórios',
-    icon: 'file-text-outline',
-    link: '/pages/ui-features',
-  },
+  // {
+  //   title: 'E-commerce exemplo',
+  //   icon: 'shopping-cart-outline',
+  //   link: '/pages/dashboard-old',
+  // },
+  // {
+  //   title: 'Relatórios',
+  //   icon: 'file-text-outline',
+  //   link: '/pages/ui-features',
+  // },
   {
     title: 'Ordem de Serviço',
     icon: 'settings-2-outline',
