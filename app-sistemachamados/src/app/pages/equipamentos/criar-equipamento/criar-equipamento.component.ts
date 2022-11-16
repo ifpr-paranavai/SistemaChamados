@@ -6,6 +6,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {ProdutoService} from '../../../shared/services/produto.service';
 import {MarcaService} from '../../../shared/services/marca.service';
 import {EquipamentoService} from '../../../shared/services/equipamento.service';
+import {ClienteService} from '../../../shared/services/cliente.service';
 
 @Component({
   selector: 'ngx-criar-marca',
@@ -19,11 +20,15 @@ export class CriarEquipamentoComponent implements OnInit {
   fullWidth: boolean = true;
   loading = false;
   marcas = [];
+  clientes = [];
   selectedMarca;
+  hiddenCliente: true;
   errorToast: boolean;
+  selectedCliente;
 
   constructor(private formBuilder: FormBuilder,
               private service: EquipamentoService,
+              private clienteService: ClienteService,
               private toastrService: NbToastrService,
               private marcaService: MarcaService,
               private router: Router,
@@ -34,6 +39,7 @@ export class CriarEquipamentoComponent implements OnInit {
     this.carregaMarcas();
     this.carregaForm();
     this.carregaDadosEditar();
+    this.carregaListaClientes();
   }
 
   hasError(field: string) {
@@ -61,6 +67,7 @@ export class CriarEquipamentoComponent implements OnInit {
       amperagem: [''],
       numeroSerie: ['', [Validators.required]],
       tag: [''],
+      cliente: [''],
       especificacaoTecnica: [''],
       marca: ['', [Validators.required]],
     });
@@ -76,8 +83,10 @@ export class CriarEquipamentoComponent implements OnInit {
       tag: data.tag,
       especificacaoTecnica: data.especificacaoTecnica,
       marca: data.marca,
+      cliente: data.cliente,
     });
     this.selectedMarca = data.marca;
+    this.selectedCliente = data.cliente;
   }
 
   carregaMarcas() {
@@ -85,6 +94,18 @@ export class CriarEquipamentoComponent implements OnInit {
     this.marcaService.pegarMarcas(0, 500, 'nomeMarca').then(
       response => {
         this.marcas = response.content;
+        this.loading = false;
+      }, () => {
+        this.loading = false;
+      },
+    );
+  }
+
+  carregaListaClientes() {
+    this.loading = true;
+    this.clienteService.pegarClientes(0, 500, 'nome').then(
+      response => {
+        this.clientes = response.content;
         this.loading = false;
       }, () => {
         this.loading = false;
@@ -117,5 +138,9 @@ export class CriarEquipamentoComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/pages/equipamentos/listar']);
+  }
+
+  onChange($event) {
+    this.hiddenCliente = $event;
   }
 }

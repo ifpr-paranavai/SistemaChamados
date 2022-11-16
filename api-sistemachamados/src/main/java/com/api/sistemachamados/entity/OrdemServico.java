@@ -58,5 +58,9 @@ public class OrdemServico extends Auditoria implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     private Equipamento equipamento;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Collection<Produto> produtos = new ArrayList<>();
 }
 

@@ -35,7 +35,7 @@ public class EquipamentoController {
         return new ResponseEntity<>(equipamentoService.salvar(equipamentoDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/equipamentos")
+    @GetMapping
     public ResponseEntity<Page<Equipamento>> buscarEquipamentos(
         @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
         Pageable pageable) {

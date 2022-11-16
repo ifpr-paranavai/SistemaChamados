@@ -15,7 +15,7 @@ export class OrdemServicoService {
   }
 
   listarItens(page: number, size: number, sort: string): Observable<any> {
-    return this.http.get(`${this.URL_OS}/ordem-servicos?page=${page}&size=${size}&sort=${sort}`,
+    return this.http.get(`${this.URL_OS}?page=${page}&size=${size}&sort=${sort}`,
       {observe: 'response'}).pipe(take(1));
   }
 
@@ -24,7 +24,7 @@ export class OrdemServicoService {
   }
 
   salvar(obj: any): Observable<HttpResponse<any>> {
-    return this.http.post(`${this.URL_OS}/salvar-ordem-servico`, obj, {observe: 'response'});
+    return this.http.post(`${this.URL_OS}/`, obj, {observe: 'response'});
   }
 
   deletar(id: number): Observable<HttpResponse<any>> {

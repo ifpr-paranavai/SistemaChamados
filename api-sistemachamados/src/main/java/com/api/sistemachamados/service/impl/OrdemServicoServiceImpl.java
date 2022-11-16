@@ -61,7 +61,7 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
 
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public Optional<OrdemServico> salvar(OrdemServicoDTO ordemServicoDTO) {
         try {
             // TODO: 08/09/2022 Caso validação por data e equipamento não for evetiva, validar se OS está aberta

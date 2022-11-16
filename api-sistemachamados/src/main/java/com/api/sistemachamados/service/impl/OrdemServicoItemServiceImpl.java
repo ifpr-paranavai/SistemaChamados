@@ -35,7 +35,7 @@ public class OrdemServicoItemServiceImpl implements OrdemServicoItemService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public Optional<OrdemServicoItem> salvar(OrdemServicoItem ordemServicoItem) {
         try {
             return Optional.of(ordemServicoRepository.save(verificaPersitencia(ordemServicoItem)));

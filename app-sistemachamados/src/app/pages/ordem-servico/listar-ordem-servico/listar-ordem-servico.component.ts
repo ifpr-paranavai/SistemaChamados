@@ -5,6 +5,8 @@ import {NbDialogService, NbToastrService} from '@nebular/theme';
 import {Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
 import {EquipamentoService} from '../../../shared/services/equipamento.service';
+import {DatePipe} from '@angular/common';
+import {OrdemServicoService} from '../../../shared/services/ordem-servico.service';
 
 @Component({
   selector: 'ngx-listar-ordem-servico',
@@ -28,38 +30,45 @@ export class ListarOrdemServicoComponent implements OnInit {
       add: true,
       edit: true,
       delete: true,
+      custom: [
+        { name: 'imprimir', title: '<i class="fas fa-file-pdf fa-xs"></i>'},
+      ],
     },
     columns: {
-      id: {
-        title: 'Código',
-        type: 'number',
-      },
-      nomeEquipamento: {
-        title: 'Nome Equipamento',
-        type: 'string',
-      },
-      numeroSerie: {
-        title: 'Número de Série',
-        type: 'string',
-      },
-      tensao: {
-        title: 'Tensão',
-        type: 'string',
-      },
-      tag: {
-        title: 'Tag',
+      data: {
+        title: 'Data OS',
         valuePrepareFunction: (data) => {
-          return data === null ? 'Sem tag' : data;
+          return data === null ? 'Sem data' : new DatePipe('en-US').transform(data, 'dd/MM/yyyy');
         },
       },
-      amperagem: {
-        title: 'Amperagem',
-        type: 'string',
-      },
-      marca: {
-        title: 'Marca',
+      cliente: {
+        title: 'Nome Cliente',
         valuePrepareFunction: (data) => {
-          return data.nomeMarca;
+          return data.nome;
+        },
+      },
+      situacaoOs: {
+        title: 'Situação OS',
+        valuePrepareFunction: (data) => {
+          return data.situacao;
+        },
+      },
+      tipoOrdemServico: {
+        title: 'Tipo OS',
+        valuePrepareFunction: (data) => {
+          return data.tipoOrdemServico;
+        },
+      },
+      tipoAtendimento: {
+        title: 'Tipo Atendimento',
+        valuePrepareFunction: (data) => {
+          return data.tipoAtendimento;
+        },
+      },
+      usuario: {
+        title: 'Técnico',
+        valuePrepareFunction: (data) => {
+          return data.nome;
         },
       },
     },
@@ -79,7 +88,7 @@ export class ListarOrdemServicoComponent implements OnInit {
     },
   };
 
-  constructor(private service: EquipamentoService,
+  constructor(private service: OrdemServicoService,
               private estadoService: EstadoService,
               private toastrService: NbToastrService,
               private dialogService: NbDialogService,
@@ -111,7 +120,7 @@ export class ListarOrdemServicoComponent implements OnInit {
 
 
   onEdit(event) {
-    this.router.navigate(['/pages/equipamentos/editar', event.data.id]);
+    this.router.navigate(['/pages/os/editar', event.data.id]);
   }
 
   pageChange(pageIndex) {
@@ -146,7 +155,7 @@ export class ListarOrdemServicoComponent implements OnInit {
   }
 
   onAdd() {
-    this.router.navigate(['/pages/equipamentos/criar']);
+    this.router.navigate(['/pages/os/criar']);
   }
 
   apagarItem(event) {
@@ -159,5 +168,9 @@ export class ListarOrdemServicoComponent implements OnInit {
       }, error => {
         this.showToast('top-right', 'danger', 'Ops!', error.error.details);
       });
+  }
+
+  onCustom($event: any) {
+    console.log('teste');
   }
 }

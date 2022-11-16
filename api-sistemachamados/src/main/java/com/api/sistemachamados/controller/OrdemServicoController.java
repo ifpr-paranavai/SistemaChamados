@@ -30,15 +30,14 @@ public class OrdemServicoController {
     final OrdemServicoService ordemServicoService;
 
     @Operation(description = "Salva OrdemServico no banco de dados")
-    @PostMapping("/salvar-ordem-servico")
+    @PostMapping
     public ResponseEntity<Object> salvarOrdemServico(@RequestBody @Valid OrdemServicoDTO ordemServicoDTO) {
-        return new ResponseEntity<>(ordemServicoService.salvar(ordemServicoDTO), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordemServicoService.salvar(ordemServicoDTO));
     }
 
-    @GetMapping("/ordem-servicos")
+    @GetMapping
     public ResponseEntity<Page<OrdemServico>> buscarOrdemServicos(
-        @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-        Pageable pageable) {
+        @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(ordemServicoService.buscarTodos(pageable));
     }
 

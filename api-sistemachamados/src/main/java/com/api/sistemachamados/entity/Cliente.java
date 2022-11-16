@@ -1,6 +1,7 @@
 package com.api.sistemachamados.entity;
 
 import com.api.sistemachamados.enums.TipoPessoaEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @Table(name = "cliente")
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cliente extends Auditoria implements Serializable {
 
     private static final long serialVersionUID = 1L;

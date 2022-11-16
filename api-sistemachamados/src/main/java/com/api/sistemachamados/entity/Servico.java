@@ -1,5 +1,6 @@
 package com.api.sistemachamados.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @Table(name = "servico")
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Servico extends Auditoria implements Serializable  {
 
     private static final long serialVersionUID = 1L;

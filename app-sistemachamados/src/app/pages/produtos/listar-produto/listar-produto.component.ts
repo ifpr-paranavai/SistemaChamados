@@ -127,7 +127,7 @@ export class ListarProdutoComponent implements OnInit {
   }
 
   listarItens() {
-    this.service.listarItens(this.currentPage, this.pageSize).subscribe
+    this.service.listarItens(this.currentPage, this.pageSize, 'id').subscribe
     (data => {
       this.showSelect = data.body.totalElements < 10;
       if (this.source.count() > 0) {

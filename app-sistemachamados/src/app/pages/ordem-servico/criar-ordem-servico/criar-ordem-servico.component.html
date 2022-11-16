@@ -106,6 +106,36 @@
             </div>
           </div>
 
+<!--          <div class="row">-->
+<!--            <div class="col-sm-6 text-center">-->
+<!--              <label class="label">Deseja inserir algum produto?</label>-->
+<!--              <div class="form-group">-->
+<!--                <ng-toggle-->
+<!--                  (valueChange)="addProduto($event)"-->
+<!--                  formControlName="produtos"-->
+<!--                  onText="SIM"-->
+<!--                  offText="NÃO"-->
+<!--                  onColor="success"-->
+<!--                  offColor="danger">-->
+<!--                </ng-toggle>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6" [hidden]="hiddenProduto">-->
+<!--              <label for="cliente" class="label">Produtos</label>-->
+<!--              <nb-card-body>-->
+<!--                <ng2-smart-table [settings]="settings"-->
+<!--                                 [source]="source"-->
+<!--                                 (edit)="onDeleteConfirm($event)"-->
+<!--                                 (create)="onDeleteConfirm($event)"-->
+<!--                                 (deleteConfirm)="onDeleteConfirm($event)"-->
+<!--                                 (createConfirm)="onAddClient($event)"-->
+<!--                                 (editConfirm)="onEditConfirm($event)">-->
+<!--                </ng2-smart-table>-->
+<!--              </nb-card-body>-->
+<!--            </div>-->
+<!--          </div>-->
+
+
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group" formGroupName="ordemServicoItem">
@@ -140,7 +170,7 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label for="tensaoGeralRS" class="label">Geral R-S</label>
-                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false" [validation]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.tensaoGeralRS')}"
                          id="tensaoGeralRS" placeholder="115V" formControlName="tensaoGeralRS">
                   <div *ngIf="hasError('ordemServicoItem.tensaoGeralRS') && formDir.submitted" class="invalid-feedback">
@@ -151,7 +181,7 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label for="tensaoGeralST" class="label">Geral S-T</label>
-                  <input [validation]="false" type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.tensaoGeralST')}"
                          id="tensaoGeralST" placeholder="115V" formControlName="tensaoGeralST">
                   <div *ngIf="hasError('ordemServicoItem.tensaoGeralST') && formDir.submitted" class="invalid-feedback">
@@ -162,7 +192,7 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label for="tensaoGeralRT" class="label">Geral R-T</label>
-                  <input [validation]="false" type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control" [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.tensaoGeralRT')}"
                          id="tensaoGeralRT" placeholder="115V" formControlName="tensaoGeralRT">
                   <div *ngIf="hasError('ordemServicoItem.tensaoGeralRT') && formDir.submitted" class="invalid-feedback">
@@ -173,7 +203,7 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label for="tensaoGeralRT" class="label">Corrente A1</label>
-                  <input [validation]="false" type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.correnteA1')}"
                          id="correnteA1" placeholder="150v" formControlName="correnteA1">
@@ -185,7 +215,7 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label for="correnteA2" class="label">Corrente A2</label>
-                  <input [validation]="false" type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.correnteA2')}"
                          id="correnteA2" placeholder="130V" formControlName="correnteA2">
@@ -197,7 +227,7 @@
               <div class="col-sm-2">
                 <div class="form-group">
                   <label for="correnteA3" class="label">Corrente A3</label>
-                  <input type="text" mask="000" [validation]="false" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.correnteA3')}"
                          id="correnteA3" placeholder="127V" formControlName="correnteA3">
@@ -212,7 +242,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="motorEvaporadorA1A2A3" class="label">Corr Evapo A1/A2/A3</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.motorEvaporadorA1A2A3')}"
                          id="motorEvaporadorA1A2A3" placeholder="00,0/00,0/00,0" formControlName="motorEvaporadorA1A2A3">
@@ -225,112 +255,128 @@
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="compressorRSRTST" class="label">Compre R-S/R-T/S-T</label>
-                  <input type="text" [validation]="false" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.compressorRSRTST')}"
                          id="compressorRSRTST" placeholder="000/000/000" formControlName="compressorRSRTST">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="compressorA1A2A3" class="label">Compre A1/A2/A3</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.compressorA1A2A3')}"
                          id="compressorA1A2A3" placeholder="00,0/00,0/00,0" formControlName="compressorA1A2A3">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="condensadorDryRSRTST" class="label">Cond/Dry R-S/R-T/S-T</label>
-                  <input type="text" [validation]="false" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.condensadorDryRSRTST')}"
                          id="condensadorDryRSRTST" placeholder="000/000/000" formControlName="condensadorDryRSRTST">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="motorCondensadorA1A2A3" class="label">Mt Cond A1/A2/A3</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.motorCondensadorA1A2A3')}"
                          id="motorCondensadorA1A2A3" placeholder="00,0/00,0/00,0" formControlName="motorCondensadorA1A2A3">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="temperaturaLinhaLiquido" class="label">Temp Linha Liquido</label>
-                  <input type="text" [validation]="false" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
-                         class="form-control"
+                  <input type="text" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                         class="form-control"  [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaLinhaLiquido')}"
                          id="temperaturaLinhaLiquido" placeholder="00/00ºC" formControlName="temperaturaLinhaLiquido">
+                </div>
+                <div *ngIf="hasError('ordemServicoItem.temperaturaLinhaLiquido') && formDir.submitted" class="invalid-feedback">
+                  Temp Linha Liquido é obrigatório.
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="temperaturaLinhaEntradaSuccao" class="label">Temp Lin Entr Suc</label>
-                  <input type="text" [validation]="false" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaLinhaEntradaSuccao')}"
                          id="temperaturaLinhaEntradaSuccao" placeholder="00/00ºC" formControlName="temperaturaLinhaEntradaSuccao">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="pressaoBaixa" class="label">Pressão Baixa</label>
-                  <input type="text" [validation]="false" mask="00/00" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00/00" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.pressaoBaixa')}"
                          id="pressaoBaixa" placeholder="00/00" formControlName="pressaoBaixa">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="pressAlta" class="label">Pressão Alta</label>
-                  <input type="text" [validation]="false" mask="000/000" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000/000" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.pressAlta')}"
                          id="pressAlta" placeholder="000/000" formControlName="pressAlta">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="superAquecimento" class="label">Superaquecimento</label>
-                  <input type="text" [validation]="false" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.superAquecimento')}"
                          id="superAquecimento" placeholder="00/00ºC" formControlName="superAquecimento">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="subResfriamento" class="label">Sub-resfriamento</label>
-                  <input type="text" [validation]="false" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.subResfriamento')}"
                          id="subResfriamento" placeholder="00/00ºC" formControlName="subResfriamento">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="aberturaValvulaG" class="label">Abertura Válvula G</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.aberturaValvulaG')}"
                          id="aberturaValvulaG" placeholder="00,0/00,0 %" formControlName="aberturaValvulaG">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="temperaturaEntradaAguaCondensada" class="label">Temp Ent Água Con</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaEntradaAguaCondensada')}"
                          id="temperaturaEntradaAguaCondensada" placeholder="00,0/00,0" formControlName="temperaturaEntradaAguaCondensada">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="temperaturaSaidaAguaCondensada" class="label">Temp Sai Água Con</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaSaidaAguaCondensada')}"
                          id="temperaturaSaidaAguaCondensada" placeholder="00,0/00,0" formControlName="temperaturaSaidaAguaCondensada">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
                 <div class="form-group">
                   <label for="diferencialFiltroSecador" class="label">Dif Filtro Secador</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.diferencialFiltroSecador')}"
                          id="diferencialFiltroSecador" placeholder="00,0/00,0" formControlName="diferencialFiltroSecador">
                 </div>
               </div>
@@ -339,16 +385,18 @@
               <div class="col-sm-3" [hidden]="hiddenSelf">
                 <div class="form-group">
                   <label for="alimentacaoComando24" class="label">Comando 24v</label>
-                  <input type="text" [validation]="false" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000" suffix="V" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.alimentacaoComando24')}"
                          id="alimentacaoComando24" placeholder="127V" formControlName="alimentacaoComando24">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenSelf">
                 <div class="form-group">
                   <label for="aquecimentoResistencia" class="label">Aq Resistência</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.aquecimentoResistencia')}"
                          id="aquecimentoResistencia" placeholder="00,0/00,0/00,0" formControlName="aquecimentoResistencia">
                 </div>
               </div>
@@ -356,7 +404,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="umidificadorRSRTST" class="label">Umid R-S/R-T/S-T</label>
-                  <input type="text" [validation]="false" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.umidificadorRSRTST')}"
                          id="umidificadorRSRTST" placeholder="000/000/000" formControlName="umidificadorRSRTST">
@@ -368,7 +416,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="umidificadorA1A2A3" class="label">Umid A1/A2/A3</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.umidificadorA1A2A3')}"
                          id="umidificadorA1A2A3" placeholder="00,0/00,0/00,0" formControlName="umidificadorA1A2A3">
@@ -381,32 +429,36 @@
               <div class="col-sm-3" [hidden]="hiddenSelf">
                 <div class="form-group">
                   <label for="temperaturaEntradaAguaGelada" class="label">Entrada Água Gel</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaEntradaAguaGelada')}"
                          id="temperaturaEntradaAguaGelada" placeholder="00,0/00,0/00,0" formControlName="temperaturaEntradaAguaGelada">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenSelf">
                 <div class="form-group">
                   <label for="temperaturaSaidaAguaGelada" class="label">Saída Água Gel</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaSaidaAguaGelada')}"
                          id="temperaturaSaidaAguaGelada" placeholder="00,0/00,0/00,0" formControlName="temperaturaSaidaAguaGelada">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenSelf">
                 <div class="form-group">
                   <label for="diferencialTemperaturaEntradaSaida" class="label">Dif Temp ENT SAID</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.diferencialTemperaturaEntradaSaida')}"
                          id="diferencialTemperaturaEntradaSaida" placeholder="00,0/00,0/00,0" formControlName="diferencialTemperaturaEntradaSaida">
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenSelf">
                 <div class="form-group">
                   <label for="aberturaValvulaAguaGelada" class="label">Valvula Água Gelada</label>
-                  <input type="text" [validation]="false" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00,0/00,0/00,0" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
+                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.aberturaValvulaAguaGelada')}"
                          id="aberturaValvulaAguaGelada" placeholder="00,0/00,0/00,0" formControlName="aberturaValvulaAguaGelada">
                 </div>
               </div>
@@ -415,7 +467,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="vazaoAr" class="label">Vazão de Ar</label>
-                  <input type="text" [validation]="false" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.vazaoAr')}"
                          id="vazaoAr" placeholder="00%" formControlName="vazaoAr">
@@ -427,7 +479,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="temperaturaRetorno" class="label">Temp Retorno</label>
-                  <input type="text" [validation]="false" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaRetorno')}"
                          id="temperaturaRetorno" placeholder="00ºC" formControlName="temperaturaRetorno">
@@ -439,7 +491,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="umidadeRelativaRetorno" class="label">Umd Relat Retorno</label>
-                  <input type="text" [validation]="false" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.umidadeRelativaRetorno')}"
                          id="umidadeRelativaRetorno" placeholder="00%" formControlName="umidadeRelativaRetorno">
@@ -451,7 +503,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="temperaturaInsuflacao" class="label">Temp Insuflação</label>
-                  <input type="text" [validation]="false" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaInsuflacao')}"
                          id="temperaturaInsuflacao" placeholder="00ºC" formControlName="temperaturaInsuflacao">
@@ -463,7 +515,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="diferencialEntradaSaidaAr" class="label">Difencial Ent/Sai Ar</label>
-                  <input type="text" [validation]="false" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.diferencialEntradaSaidaAr')}"
                          id="diferencialEntradaSaidaAr" placeholder="00ºC" formControlName="diferencialEntradaSaidaAr">
@@ -475,7 +527,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="setPointResfriamento" class="label">Set point Resf</label>
-                  <input type="text" [validation]="false" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.setPointResfriamento')}"
                          id="setPointResfriamento" placeholder="00ºC" formControlName="setPointResfriamento">
@@ -487,7 +539,7 @@
               <div class="col-sm-3">
                 <div class="form-group">
                   <label for="setPointUmidade" class="label">Set point Umidade</label>
-                  <input type="text" [validation]="false" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
+                  <input type="text" mask="00" suffix="%" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
                          [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.setPointUmidade')}"
                          id="setPointUmidade" placeholder="00%" formControlName="setPointUmidade">

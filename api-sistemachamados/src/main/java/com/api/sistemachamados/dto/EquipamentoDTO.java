@@ -1,5 +1,6 @@
 package com.api.sistemachamados.dto;
 
+import com.api.sistemachamados.entity.Cliente;
 import com.api.sistemachamados.entity.Marca;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -70,4 +71,11 @@ public class EquipamentoDTO {
     )
     @JsonProperty("marca")
     private Marca marca;
+
+    @Schema(
+        example = "Objeto",
+        description = "Objeto Cliente"
+    )
+    @JsonProperty("cliente")
+    private Cliente cliente;
 }

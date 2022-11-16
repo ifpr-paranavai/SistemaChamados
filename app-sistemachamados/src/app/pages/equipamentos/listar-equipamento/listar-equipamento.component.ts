@@ -62,6 +62,12 @@ export class ListarEquipamentoComponent implements OnInit {
           return data.nomeMarca;
         },
       },
+      cliente: {
+        title: 'Cliente',
+        valuePrepareFunction: (data) => {
+          return data === null ? 'Sem cliente' : data.nome;
+        },
+      },
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -80,7 +86,6 @@ export class ListarEquipamentoComponent implements OnInit {
   };
 
   constructor(private service: EquipamentoService,
-              private estadoService: EstadoService,
               private toastrService: NbToastrService,
               private dialogService: NbDialogService,
               private router: Router) {

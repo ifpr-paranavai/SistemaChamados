@@ -8,6 +8,8 @@ import {OrdemServicoService} from '../../../shared/services/ordem-servico.servic
 import {UsuarioService} from '../../../shared/services/usuario.service';
 import {ClienteService} from '../../../shared/services/cliente.service';
 import {ServicoService} from '../../../shared/services/servico.service';
+import {LocalDataSource} from 'ng2-smart-table';
+import {ProdutoService} from '../../../shared/services/produto.service';
 
 @Component({
   selector: 'ngx-criar-ordem-servico',
@@ -26,6 +28,8 @@ export class CriarOrdemServicoComponent implements OnInit {
   usuarios = [];
   equipamentos = [];
   servicos = [];
+  produtos = [];
+  selectList = [];
   selectedCliente;
   selectedUsuario;
   selectedEquipamento;
@@ -33,8 +37,10 @@ export class CriarOrdemServicoComponent implements OnInit {
   errorToast: boolean;
   hiddenFanCoil: boolean;
   hiddenSelf: boolean;
-  toggleValue: null;
-  novoCampo;
+  hiddenProduto: boolean = true;
+  settings: Object;
+
+  source: LocalDataSource = new LocalDataSource();
 
   toggle: any = {
     onColor: 'primary',
@@ -46,8 +52,10 @@ export class CriarOrdemServicoComponent implements OnInit {
     value: null,
   };
 
+
   constructor(private formBuilder: FormBuilder,
               private service: OrdemServicoService,
+              private produtoService: ProdutoService,
               private toastrService: NbToastrService,
               private clienteService: ClienteService,
               private usuarioService: UsuarioService,
@@ -58,6 +66,7 @@ export class CriarOrdemServicoComponent implements OnInit {
               private route: ActivatedRoute) {
     this.dataMinima = this.dateService.addDay(this.dateService.today(), -15);
     this.dataMaxima = this.dateService.addDay(this.dateService.today(), 7);
+    this.carregaListaProdutos();
   }
 
   ngOnInit(): void {
@@ -81,6 +90,24 @@ export class CriarOrdemServicoComponent implements OnInit {
         map((params: any) => params ['id']),
         switchMap(id => this.service.buscarPorId(id)))
       .subscribe(obj => this.atualizarForm(obj));
+  }
+
+  carregaListaProdutos() {
+    this.loading = true;
+    this.produtoService.listarItens(0, 500, 'nomeProduto').subscribe(
+      data => {
+        // this.source = new LocalDataSource(data.body.content);
+        data.body.content.forEach(produto => {
+          // Populate the select list
+          this.selectList.push({value: produto.nomeProduto, title: produto.nomeProduto});
+        });
+        // Initiate the settings object
+        this.settings = this.loadTableSettings();
+        this.loading = false;
+      }, () => {
+        this.loading = false;
+      },
+    );
   }
 
   carregaForm() {
@@ -163,7 +190,8 @@ export class CriarOrdemServicoComponent implements OnInit {
         ruidosAnormaisCondensador: [''],
         verificarDefletores: [''],
         deteccaoAguaPiso: ['NA'],
-        casaMaquinas: ['NA'],
+        casaMaquinas: ['NA', [Validators.required]],
+        quantidade: [''],
       }),
     });
   }
@@ -248,12 +276,12 @@ export class CriarOrdemServicoComponent implements OnInit {
       this.service.salvar(this.form.value).subscribe(
         res => {
           if (res.status === 201) {
-            this.router.navigate(['/pages/ordem-servico/listar']);
+            this.router.navigate(['/pages/os/listar']);
             this.showToast('top-right', 'success', 'Legal', 'Cadastrado com sucesso');
           }
         }, err => {
-          if (err.status === 422 && this.errorToast === false) {
-            this.showToast('top-right', 'danger', 'Ops!', err.error.details);
+          if (err.status > 400 && this.errorToast === false) {
+            this.showToast('top-right', 'danger', 'Ops!', err.error.message);
             this.errorToast = true;
           }
         });
@@ -261,7 +289,7 @@ export class CriarOrdemServicoComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/pages/equipamentos/listar']);
+    this.router.navigate(['/pages/os/listar']);
   }
 
   onChange($event) {
@@ -274,7 +302,73 @@ export class CriarOrdemServicoComponent implements OnInit {
     this.hiddenFanCoil = !$event;
   }
 
+  addProduto($event) {
+    this.carregaListaProdutos();
+    this.hiddenProduto = !$event;
+  }
+
   onChangeValue(event: string, campo: string) {
     this.form.patchValue({ordemServicoItem: {[campo]: event}});
+  }
+
+  onDeleteConfirm(event): void {
+    if (window.confirm('Tem certeza que deseja apagar?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
+
+  // onAddClient(event) {
+  //   console.log(event);
+  //   this.produtos.push();
+  // }
+
+  onAddClient(event): void {
+    if (window.confirm('Tem certeza que deseja apagar?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
+
+  onEditConfirm(event) {
+    console.log(event);
+  }
+
+  loadTableSettings() {
+    return {
+      add: {
+        addButtonContent: '<i class="nb-plus"></i>',
+        createButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>',
+        confirmCreate: true,
+      },
+      edit: {
+        editButtonContent: '<i class="nb-edit"></i>',
+        saveButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>',
+      },
+      delete: {
+        deleteButtonContent: '<i class="nb-trash"></i>',
+        confirmDelete: true,
+      },
+      columns: {
+        produto: {
+          title: 'Produto',
+          type: 'html',
+          editor: {
+            type: 'list',
+            config: {
+              list: this.selectList,
+            },
+          },
+        },
+        quantidadeEstoque: {
+          title: 'Quantidade',
+          type: 'integer',
+        },
+      },
+    };
   }
 }

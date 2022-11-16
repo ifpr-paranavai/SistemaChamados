@@ -10,7 +10,7 @@ import lombok.Data;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +24,7 @@ public class OrdemServicoDTO {
         required = true
     )
     @JsonProperty("data")
-    @NotEmpty(message = "data.null")
+    @NotNull(message = "data.null")
     private LocalDate data;
 
     @Schema(
@@ -32,15 +32,15 @@ public class OrdemServicoDTO {
         description = "Objeto cliente"
     )
     @JsonProperty("cliente")
-    @NotEmpty(message = "obj.null")
+    @NotNull(message = "obj.null")
     private Cliente cliente;
 
     @Schema(
         example = "Objeto",
-        description = "Objeto cliente"
+        description = "Objeto usuario"
     )
     @JsonProperty("usuario")
-    @NotEmpty(message = "obj.null")
+    @NotNull(message = "obj.null")
     private Usuario usuario;
 
     @Schema(
@@ -49,7 +49,6 @@ public class OrdemServicoDTO {
         required = true
     )
     @JsonProperty("tipoOrdemServico")
-    @NotEmpty(message = "tipoOrdemServico.null")
     @Enumerated(EnumType.STRING)
     private TipoOrdemServicoEnum tipoOrdemServico;
 
@@ -58,7 +57,6 @@ public class OrdemServicoDTO {
         description = "Tipo da Situação da OS"
     )
     @JsonProperty("situacaoOs")
-    @NotEmpty(message = "situacao.null")
     @Enumerated(EnumType.STRING)
     private SituacaoOsEnum situacaoOs;
 
@@ -67,7 +65,6 @@ public class OrdemServicoDTO {
         description = "Objeto produto"
     )
     @JsonProperty("produto")
-    @NotEmpty(message = "obj.null")
     private Produto produto;
 
     @Schema(
@@ -76,7 +73,6 @@ public class OrdemServicoDTO {
         required = true
     )
     @JsonProperty("tipoAtendimento")
-    @NotEmpty(message = "tipoAtendimento.null")
     @Enumerated(EnumType.STRING)
     private TipoAtendimentoEnum tipoAtendimento;
 
@@ -86,7 +82,7 @@ public class OrdemServicoDTO {
         required = true
     )
     @JsonProperty("servicos")
-    @NotEmpty(message = "servicos.null")
+    @NotNull(message = "servicos.null")
     private Collection<Servico> servicos = new ArrayList<>();
 
     @Schema(
@@ -95,7 +91,7 @@ public class OrdemServicoDTO {
         required = true
     )
     @JsonProperty("equipamento")
-    @NotEmpty(message = "obj.null")
+    @NotNull(message = "obj.null")
     private Equipamento equipamento;
 
     @Schema(
@@ -103,7 +99,7 @@ public class OrdemServicoDTO {
         description = "Objeto ordemServicoItem"
     )
     @JsonProperty("ordemServicoItem")
-    @NotEmpty(message = "obj.null")
+    @NotNull(message = "obj.null")
     private OrdemServicoItem ordemServicoItem;
 
 
@@ -113,4 +109,11 @@ public class OrdemServicoDTO {
     )
     @JsonProperty("produtos")
     private ArrayList<Produto> produtos = new ArrayList<>();
+
+    @Schema(
+        example = "1",
+        description = "Quantidade de Produtos"
+    )
+    @JsonProperty("qtdProdutos")
+    private Integer qtdProdutos;
 }

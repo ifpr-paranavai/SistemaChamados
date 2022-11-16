@@ -15,8 +15,8 @@ export class ProdutoService {
 
   private readonly URL_PRODUTO = '/api/produto';
 
-  listarItens(page: number, size: number): Observable<any> {
-    return this.http.get(`${this.URL_PRODUTO}/produtos?page=${page}&size=${size}&sort=id`,
+  listarItens(page: number, size: number, sort: string): Observable<any> {
+    return this.http.get(`${this.URL_PRODUTO}/produtos?page=${page}&size=${size}&sort=${sort}`,
       {observe: 'response'}).pipe(take(1));
   }
 

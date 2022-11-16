@@ -27,7 +27,7 @@ export class EquipamentoService {
   // }
 
   listarItens(page: number, size: number, sort: string): Observable<any> {
-    return this.http.get(`${this.URL_EQUIPAMENTO}/equipamentos?page=${page}&size=${size}&sort=${sort}`,
+    return this.http.get(`${this.URL_EQUIPAMENTO}?page=${page}&size=${size}&sort=${sort}`,
       {observe: 'response'}).pipe(take(1));
   }
 

@@ -80,12 +80,40 @@
           </div>
 
           <div class="row">
+            <div class="col-sm-6 text-center">
+              <label class="label">Deseja atribuir a um cliente?</label>
+              <div class="form-group">
+                <ng-toggle
+                  (valueChange)="onChange($event)"
+                  formControlName="cliente"
+                  onText="SIM"
+                  offText="NÃO"
+                  onColor="success"
+                  offColor="danger">
+                </ng-toggle>
+              </div>
+            </div>
+            <div class="col-sm-6" [hidden]="!hiddenCliente">
+              <label for="cliente" class="label">Cliente</label>
+              <div class="form-group">
+                <nb-select placeholder="Selecione" id="cliente" [fullWidth]="fullWidth"
+                           [(selected)]="selectedCliente" [compareWith]="compareById"
+                           formControlName="cliente">
+                  <nb-option *ngFor="let cliente of clientes" [value]="cliente">
+                    {{cliente !== undefined ? cliente["nome"] : ''}}
+                  </nb-option>
+                </nb-select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
-                <label for="especificacaoTecnica" class="label">Descrição do serviço</label>
+                <label for="especificacaoTecnica" class="label">Descrição do equipamento</label>
                 <textarea rows="5" id="especificacaoTecnica" formControlName="especificacaoTecnica"
                           nbInput fullWidth shape="round"
-                          placeholder="Informe a descrição do serviço realizado"></textarea>
+                          placeholder="Informe a descrição do equipamento"></textarea>
               </div>
             </div>
           </div>
