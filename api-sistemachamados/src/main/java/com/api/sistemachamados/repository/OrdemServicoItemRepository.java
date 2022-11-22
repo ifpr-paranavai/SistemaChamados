@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface OrdemServicoItemRepository extends JpaRepository<OrdemServicoItem, Long>, PagingAndSortingRepository<OrdemServicoItem, Long> {
 
     Optional<OrdemServicoItem> findByOrdemServico(OrdemServico ordemServico);
+
+    Optional<OrdemServicoItem> findByOrdemServicoId(Long ordemServico_id);
+
 }

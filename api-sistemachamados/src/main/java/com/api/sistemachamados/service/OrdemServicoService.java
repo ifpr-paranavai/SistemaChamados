@@ -17,6 +17,7 @@ public interface OrdemServicoService {
     Page<OrdemServico> buscarTodos(Pageable pageable);
 
     Optional<OrdemServico> buscarPorId(Long id) throws NotFoundException;
+    Optional<OrdemServicoItem> buscarPorOrdemServicoId(Long id) throws NotFoundException;
 
     Optional<OrdemServico> buscarPorData(LocalDate dataAbertura) throws NotFoundException;
 

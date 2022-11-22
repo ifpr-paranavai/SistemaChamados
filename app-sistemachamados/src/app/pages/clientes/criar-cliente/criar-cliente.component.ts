@@ -67,7 +67,7 @@ export class CriarClienteComponent implements OnInit {
       endereco: ['', [Validators.required]],
       numero: [''],
       tipoPessoa: ['', [Validators.required]],
-      cpfCnpj: ['', [Validators.required]],
+      cpfCnpj: [''],
       contato1: [''],
       contato2: [''],
       estado: [''],
