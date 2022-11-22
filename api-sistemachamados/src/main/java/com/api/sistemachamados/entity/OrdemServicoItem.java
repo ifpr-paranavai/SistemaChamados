@@ -82,7 +82,7 @@ public class OrdemServicoItem extends Auditoria implements Serializable {
     @Column()
     private String diferencialTemperaturaEntradaSaida;
 
-    @Column(nullable = false)
+    @Column
     private String condensadorDryRSRTST;
 
     @Column(nullable = false)
@@ -213,6 +213,6 @@ public class OrdemServicoItem extends Auditoria implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     private OrdemServico ordemServico;
-    
+
 }
 

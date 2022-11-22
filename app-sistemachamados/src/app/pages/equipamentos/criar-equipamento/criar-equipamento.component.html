@@ -88,6 +88,7 @@
                   formControlName="cliente"
                   onText="SIM"
                   offText="NÃO"
+                  [value]="selectedCliente === null ? false : true"
                   onColor="success"
                   offColor="danger">
                 </ng-toggle>

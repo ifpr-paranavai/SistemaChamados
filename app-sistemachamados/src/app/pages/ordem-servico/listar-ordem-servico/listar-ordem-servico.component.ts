@@ -4,7 +4,6 @@ import {EstadoService} from '../../../shared/services/estado.service';
 import {NbDialogService, NbToastrService} from '@nebular/theme';
 import {Router} from '@angular/router';
 import {DialogGenericComponent} from '../../../shared/modal/dialog-generic/dialog-generic.component';
-import {EquipamentoService} from '../../../shared/services/equipamento.service';
 import {DatePipe} from '@angular/common';
 import {OrdemServicoService} from '../../../shared/services/ordem-servico.service';
 
@@ -35,6 +34,10 @@ export class ListarOrdemServicoComponent implements OnInit {
       ],
     },
     columns: {
+      id: {
+        title: 'Código',
+        type: 'number',
+      },
       data: {
         title: 'Data OS',
         valuePrepareFunction: (data) => {
@@ -170,7 +173,12 @@ export class ListarOrdemServicoComponent implements OnInit {
       });
   }
 
-  onCustom($event: any) {
-    console.log('teste');
+  onCustom(event) {
+    console.log(event);
+    if(event.data.id === 45) {
+      window.open('assets/report/report45.pdf', '_blank');
+    } else if(event.data.id === 49) {
+      window.open('assets/report/report49.pdf', '_blank');
+    }
   }
 }

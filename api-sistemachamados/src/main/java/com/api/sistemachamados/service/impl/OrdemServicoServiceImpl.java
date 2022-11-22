@@ -2,6 +2,7 @@ package com.api.sistemachamados.service.impl;
 
 import com.api.sistemachamados.dto.OrdemServicoDTO;
 import com.api.sistemachamados.entity.*;
+import com.api.sistemachamados.repository.OrdemServicoItemRepository;
 import com.api.sistemachamados.repository.OrdemServicoRepository;
 import com.api.sistemachamados.service.OrdemServicoItemService;
 import com.api.sistemachamados.service.OrdemServicoService;
@@ -15,7 +16,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -34,6 +34,8 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
 
     final OrdemServicoRepository ordemServicoRepository;
 
+    final OrdemServicoItemRepository ordemServicoItemRepository;
+
     final OrdemServicoItemService ordemServicoItemService;
 
     final SaidaService saidaService;
@@ -49,6 +51,12 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     public Optional<OrdemServico> buscarPorId(Long id) throws NotFoundException {
         LOGGER.info("Buscando OrdemServico pelo ID: {}", id);
         return Optional.ofNullable(ordemServicoRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("ordemServico.naoEncontrado")));
+    }
+
+    @Override
+    public Optional<OrdemServicoItem> buscarPorOrdemServicoId(Long id) throws NotFoundException {
+        return Optional.ofNullable(ordemServicoItemRepository.findByOrdemServicoId(id)
             .orElseThrow(() -> new NotFoundException("ordemServico.naoEncontrado")));
     }
 
@@ -121,7 +129,8 @@ public class OrdemServicoServiceImpl implements OrdemServicoService {
     @Transactional
     public void deletar(OrdemServico ordemServico) {
         try {
-            ordemServicoRepository.delete(ordemServico);
+            var OsItem= ordemServicoItemRepository.findByOrdemServico(ordemServico);
+            OsItem.ifPresent(ordemServicoItemRepository::delete);
         } catch (DataIntegrityViolationException e) {
             LOGGER.error(e.toString(), e);
             throw new com.api.sistemachamados.exception.DataIntegrityViolationException("error.deleted.persist");

@@ -275,7 +275,6 @@
                   <label for="condensadorDryRSRTST" class="label">Cond/Dry R-S/R-T/S-T</label>
                   <input type="text" mask="000/000/000" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
-                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.condensadorDryRSRTST')}"
                          id="condensadorDryRSRTST" placeholder="000/000/000" formControlName="condensadorDryRSRTST">
                 </div>
               </div>
@@ -292,11 +291,7 @@
                 <div class="form-group">
                   <label for="temperaturaLinhaLiquido" class="label">Temp Linha Liquido</label>
                   <input type="text" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
-                         class="form-control"  [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaLinhaLiquido')}"
                          id="temperaturaLinhaLiquido" placeholder="00/00ºC" formControlName="temperaturaLinhaLiquido">
-                </div>
-                <div *ngIf="hasError('ordemServicoItem.temperaturaLinhaLiquido') && formDir.submitted" class="invalid-feedback">
-                  Temp Linha Liquido é obrigatório.
                 </div>
               </div>
               <div class="col-sm-3" [hidden]="hiddenFanCoil">
@@ -304,7 +299,6 @@
                   <label for="temperaturaLinhaEntradaSuccao" class="label">Temp Lin Entr Suc</label>
                   <input type="text" mask="00/00" suffix="ºC" nbInput fullWidth [dropSpecialCharacters]="false"
                          class="form-control"
-                         [ngClass]="{'is-invalid' : submitted && hasError('ordemServicoItem.temperaturaLinhaEntradaSuccao')}"
                          id="temperaturaLinhaEntradaSuccao" placeholder="00/00ºC" formControlName="temperaturaLinhaEntradaSuccao">
                 </div>
               </div>

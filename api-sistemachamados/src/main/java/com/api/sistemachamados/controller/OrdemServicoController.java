@@ -43,7 +43,7 @@ public class OrdemServicoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarOrdemServicoId(@PathVariable(value = "id") Long id) throws NotFoundException {
-        return ordemServicoService.buscarPorId(id).<ResponseEntity<Object>>map(
+        return ordemServicoService.buscarPorOrdemServicoId(id).<ResponseEntity<Object>>map(
                 ordemServico -> ResponseEntity.status(HttpStatus.OK).body(ordemServico))
             .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("ordemServico.naoEncontrado"));
     }

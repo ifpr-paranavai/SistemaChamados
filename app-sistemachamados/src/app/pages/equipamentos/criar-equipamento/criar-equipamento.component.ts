@@ -24,7 +24,7 @@ export class CriarEquipamentoComponent implements OnInit {
   selectedMarca;
   hiddenCliente: true;
   errorToast: boolean;
-  selectedCliente;
+  selectedCliente: {};
 
   constructor(private formBuilder: FormBuilder,
               private service: EquipamentoService,
@@ -39,7 +39,6 @@ export class CriarEquipamentoComponent implements OnInit {
     this.carregaMarcas();
     this.carregaForm();
     this.carregaDadosEditar();
-    this.carregaListaClientes();
   }
 
   hasError(field: string) {
@@ -140,7 +139,8 @@ export class CriarEquipamentoComponent implements OnInit {
     this.router.navigate(['/pages/equipamentos/listar']);
   }
 
-  onChange($event) {
-    this.hiddenCliente = $event;
+  onChange(event) {
+    this.hiddenCliente = event;
+    this.carregaListaClientes();
   }
 }

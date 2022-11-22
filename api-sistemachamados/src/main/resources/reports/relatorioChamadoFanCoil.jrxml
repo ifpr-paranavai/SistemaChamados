@@ -1,0 +1,2229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="227"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="764"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="banco Local"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Lista de Servicos" uuid="78d845a5-f81f-4ebc-b398-cf84a9910cbc">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="banco Local"/>
+		<parameter name="idChamadoServico" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT s.nome Servico
+FROM ordem_servico_servicos oss  
+left JOIN servico s on s.id = oss.servicos_id 
+WHERE oss.ordem_servico_id  = $P{idChamadoServico}
+LIMIT 4]]>
+		</queryString>
+		<field name="Servico" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="nome"/>
+			<property name="com.jaspersoft.studio.field.label" value="Servico"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="servico"/>
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="idChamado" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT os.id Codigo,
+	os.data DATA,
+	cli.cpf_cnpj  cpfcnpj,
+	u.nome Tecnico,
+	equip.numero_serie Numero_de_Serie,
+	equip.tag Tag,
+	equip.tensao Tensao,
+	equip.nome_equipamento equipamento,
+	m.nome_marca Marca,
+	os.tipo_ordem_servico Tipo_OS,
+	os.situacao_os Situação,
+	os.tipo_atendimento Tipo_do_Atendimento,
+	cli.nome  Cliente,
+	observacao Obervacao, 
+	tensao_geralrs tensao_geral_RS,
+	tensao_geralst tensao_geral_ST, 
+	tensao_geralrt tensao_geral_RT, 
+	correntea1 corrente_A1,
+	correntea2 corrente_A2, 
+	correntea3 corrente_A3, 
+	motor_evaporadora1a2a3 motor_evaporador_A1_A2_A3,
+	alimentacao_comando24 alimentacao_comando_24, 
+	compressorrsrtst comprss_RS_RT_ST, 
+	compressora1a2a3 comprss_A1_A2_A3,
+	abertura_valvula_agua_gelada abert_valvula_agua_gelada, 
+	motor_condensadora1a2a3 motor_condensador_A1_A2_A3,
+	aquecimento_resistencia aquecimento_resistencia, 
+	umidificadorrsrtst umidificador_RS_RT_ST, 
+	umidificadora1a2a3 umidificador_A1_A2_A3, 
+	temperatura_entrada_agua_gelada temp_entrada_agua_gelada,
+	diferencial_temperatura_entrada_saida diferencial_temp_entrada_saida, 
+	condensador_dryrsrtst cond_dry_RS_RT_ST, 
+	vazao_ar vazao_ar, 
+	temperatura_retorno temp_retorno,
+	umidade_relativa_retorno umidade_relativa_retorno, 
+	temperatura_insuflacao temperatura_insuflacao,
+	diferencial_entrada_saida_ar diferencial_entrada_saida_ar, 
+	temperatura_linha_liquido temp_linha_liq,
+	temperatura_linha_entrada_succao temp_linha_ent_succ,
+	pressao_baixa press_baixa, 
+	press_alta press_alta,
+	super_aquecimento superaqc,
+	sub_resfriamento subresfr, 
+	set_point_resfriamento set_point_resfriamento, 
+	set_point_umidade set_point_umidade,
+	abertura_valvulag abrt_val_G,
+	temperatura_entrada_agua_condensada temp_ent_agua_cond,
+	temperatura_saida_agua_condensada temp_said_agua_cond,
+	diferencial_filtro_secador dif_filt_secad,
+	filtroy filtro_Y,
+	verificar_vazamento_agua_gelada ver_vazm_agua_gelada,
+	verificar_pressao_diferencial_filtro_sujo ver_press_dif_filtro_sujo,
+	verificar_pressao_diferencial_filtro_ar ver_press_dif_filtro_ar,
+	verificar_comunicacaoihm ver_comunicacao_IHM,
+	verificar_off_set_sensor_temperatura_umidade ver_offset_sens_temp_umd,
+	verificar_valvula_bloqueio_agua_gelada ver_val_bloq_agua_gelada,
+	verificar_alimentacao_dreno_umidificador ver_alm_dreno_umd,
+	teste_dampers test_dampers,
+	averiguar_historico_eventosihm avr_hist_eventos_IHM,
+	verificar_isolamento_termicas_acustico ver_isol_term_acust,
+	verificar_eliminar_pontos_corrosao ver_elim_pts_corro,
+	verificar_sistema_drenagem ver_sist_dren, 
+	limpeza limpeza,
+	painel_eletrico painel_eletrico,
+	serpentina_evaporador serp_evapor,
+	gabinete gabinete,
+	filtro_ar filtro_ar,
+	bandeja bandeja,
+	ruidos_anormais_evaporador ruidos_anorm_evap,
+	ruidos_anormais_condensador ruidos_anorm_cond,
+	verificar_defletores ver_defle,
+	deteccao_agua_piso detc_agua_piso,
+	casa_maquinas  casa_maq,
+	temperatura_saida_agua_gelada temp_saida_agua_gelada
+FROM ordem_servico_item o
+INNER JOIN ordem_servico os ON os.id = o.ordem_servico_id 
+INNER JOIN cliente cli ON cli.id = os.cliente_id  
+INNER JOIN user u ON u.id = os.usuario_id  
+INNER JOIN equipamento equip ON equip.id  = os.equipamento_id  
+INNER JOIN marca m ON m.id = equip.marca_id
+WHERE os.id = $P!{idChamado}]]>
+	</queryString>
+	<field name="Codigo" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="Codigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico"/>
+	</field>
+	<field name="DATA" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="data"/>
+		<property name="com.jaspersoft.studio.field.label" value="DATA"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cpfcnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cpf_cnpj"/>
+		<property name="com.jaspersoft.studio.field.label" value="cpfcnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="Tecnico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="Tecnico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="user"/>
+	</field>
+	<field name="Numero_de_Serie" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="numero_serie"/>
+		<property name="com.jaspersoft.studio.field.label" value="Numero_de_Serie"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="equipamento"/>
+	</field>
+	<field name="Tag" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tag"/>
+		<property name="com.jaspersoft.studio.field.label" value="Tag"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="equipamento"/>
+	</field>
+	<field name="Tensao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tensao"/>
+		<property name="com.jaspersoft.studio.field.label" value="Tensao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="equipamento"/>
+	</field>
+	<field name="equipamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome_equipamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="equipamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="equipamento"/>
+	</field>
+	<field name="Marca" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome_marca"/>
+		<property name="com.jaspersoft.studio.field.label" value="Marca"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="marca"/>
+	</field>
+	<field name="Tipo_OS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_ordem_servico"/>
+		<property name="com.jaspersoft.studio.field.label" value="Tipo_OS"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico"/>
+	</field>
+	<field name="Situação" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="situacao_os"/>
+		<property name="com.jaspersoft.studio.field.label" value="Situação"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico"/>
+	</field>
+	<field name="Tipo_do_Atendimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_atendimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="Tipo_do_Atendimento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico"/>
+	</field>
+	<field name="Cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="Cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	</field>
+	<field name="Obervacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="observacao"/>
+		<property name="com.jaspersoft.studio.field.label" value="Obervacao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="tensao_geral_RS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tensao_geralrs"/>
+		<property name="com.jaspersoft.studio.field.label" value="tensao_geral_RS"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="tensao_geral_ST" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tensao_geralst"/>
+		<property name="com.jaspersoft.studio.field.label" value="tensao_geral_ST"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="tensao_geral_RT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tensao_geralrt"/>
+		<property name="com.jaspersoft.studio.field.label" value="tensao_geral_RT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="corrente_A1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="correntea1"/>
+		<property name="com.jaspersoft.studio.field.label" value="corrente_A1"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="corrente_A2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="correntea2"/>
+		<property name="com.jaspersoft.studio.field.label" value="corrente_A2"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="corrente_A3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="correntea3"/>
+		<property name="com.jaspersoft.studio.field.label" value="corrente_A3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="motor_evaporador_A1_A2_A3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="motor_evaporadora1a2a3"/>
+		<property name="com.jaspersoft.studio.field.label" value="motor_evaporador_A1_A2_A3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="alimentacao_comando_24" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="alimentacao_comando24"/>
+		<property name="com.jaspersoft.studio.field.label" value="alimentacao_comando_24"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="comprss_RS_RT_ST" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="compressorrsrtst"/>
+		<property name="com.jaspersoft.studio.field.label" value="comprss_RS_RT_ST"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="comprss_A1_A2_A3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="compressora1a2a3"/>
+		<property name="com.jaspersoft.studio.field.label" value="comprss_A1_A2_A3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="abert_valvula_agua_gelada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="abertura_valvula_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.label" value="abert_valvula_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="motor_condensador_A1_A2_A3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="motor_condensadora1a2a3"/>
+		<property name="com.jaspersoft.studio.field.label" value="motor_condensador_A1_A2_A3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="aquecimento_resistencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="aquecimento_resistencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="aquecimento_resistencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="umidificador_RS_RT_ST" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="umidificadorrsrtst"/>
+		<property name="com.jaspersoft.studio.field.label" value="umidificador_RS_RT_ST"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="umidificador_A1_A2_A3" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="umidificadora1a2a3"/>
+		<property name="com.jaspersoft.studio.field.label" value="umidificador_A1_A2_A3"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="temp_entrada_agua_gelada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_entrada_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_entrada_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="diferencial_temp_entrada_saida" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="diferencial_temperatura_entrada_saida"/>
+		<property name="com.jaspersoft.studio.field.label" value="diferencial_temp_entrada_saida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="cond_dry_RS_RT_ST" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="condensador_dryrsrtst"/>
+		<property name="com.jaspersoft.studio.field.label" value="cond_dry_RS_RT_ST"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="vazao_ar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="vazao_ar"/>
+		<property name="com.jaspersoft.studio.field.label" value="vazao_ar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="temp_retorno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_retorno"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_retorno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="umidade_relativa_retorno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="umidade_relativa_retorno"/>
+		<property name="com.jaspersoft.studio.field.label" value="umidade_relativa_retorno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="temperatura_insuflacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_insuflacao"/>
+		<property name="com.jaspersoft.studio.field.label" value="temperatura_insuflacao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="diferencial_entrada_saida_ar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="diferencial_entrada_saida_ar"/>
+		<property name="com.jaspersoft.studio.field.label" value="diferencial_entrada_saida_ar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="temp_linha_liq" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_linha_liquido"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_linha_liq"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="temp_linha_ent_succ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_linha_entrada_succao"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_linha_ent_succ"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="press_baixa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pressao_baixa"/>
+		<property name="com.jaspersoft.studio.field.label" value="press_baixa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="press_alta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="press_alta"/>
+		<property name="com.jaspersoft.studio.field.label" value="press_alta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="superaqc" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="super_aquecimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="superaqc"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="subresfr" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sub_resfriamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="subresfr"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="set_point_resfriamento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="set_point_resfriamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="set_point_resfriamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="set_point_umidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="set_point_umidade"/>
+		<property name="com.jaspersoft.studio.field.label" value="set_point_umidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="abrt_val_G" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="abertura_valvulag"/>
+		<property name="com.jaspersoft.studio.field.label" value="abrt_val_G"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="temp_ent_agua_cond" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_entrada_agua_condensada"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_ent_agua_cond"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="temp_said_agua_cond" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_saida_agua_condensada"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_said_agua_cond"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="dif_filt_secad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="diferencial_filtro_secador"/>
+		<property name="com.jaspersoft.studio.field.label" value="dif_filt_secad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="filtro_Y" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="filtroy"/>
+		<property name="com.jaspersoft.studio.field.label" value="filtro_Y"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_vazm_agua_gelada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_vazamento_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_vazm_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_press_dif_filtro_sujo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_pressao_diferencial_filtro_sujo"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_press_dif_filtro_sujo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_press_dif_filtro_ar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_pressao_diferencial_filtro_ar"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_press_dif_filtro_ar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_comunicacao_IHM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_comunicacaoihm"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_comunicacao_IHM"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_offset_sens_temp_umd" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_off_set_sensor_temperatura_umidade"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_offset_sens_temp_umd"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_val_bloq_agua_gelada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_valvula_bloqueio_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_val_bloq_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_alm_dreno_umd" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_alimentacao_dreno_umidificador"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_alm_dreno_umd"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="test_dampers" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="teste_dampers"/>
+		<property name="com.jaspersoft.studio.field.label" value="test_dampers"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="avr_hist_eventos_IHM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="averiguar_historico_eventosihm"/>
+		<property name="com.jaspersoft.studio.field.label" value="avr_hist_eventos_IHM"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_isol_term_acust" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_isolamento_termicas_acustico"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_isol_term_acust"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_elim_pts_corro" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_eliminar_pontos_corrosao"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_elim_pts_corro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_sist_dren" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_sistema_drenagem"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_sist_dren"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="limpeza" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="limpeza"/>
+		<property name="com.jaspersoft.studio.field.label" value="limpeza"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="painel_eletrico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="painel_eletrico"/>
+		<property name="com.jaspersoft.studio.field.label" value="painel_eletrico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="serp_evapor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="serpentina_evaporador"/>
+		<property name="com.jaspersoft.studio.field.label" value="serp_evapor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="gabinete" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="gabinete"/>
+		<property name="com.jaspersoft.studio.field.label" value="gabinete"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="filtro_ar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="filtro_ar"/>
+		<property name="com.jaspersoft.studio.field.label" value="filtro_ar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bandeja" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="bandeja"/>
+		<property name="com.jaspersoft.studio.field.label" value="bandeja"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ruidos_anorm_evap" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ruidos_anormais_evaporador"/>
+		<property name="com.jaspersoft.studio.field.label" value="ruidos_anorm_evap"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ruidos_anorm_cond" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ruidos_anormais_condensador"/>
+		<property name="com.jaspersoft.studio.field.label" value="ruidos_anorm_cond"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="ver_defle" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="verificar_defletores"/>
+		<property name="com.jaspersoft.studio.field.label" value="ver_defle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="detc_agua_piso" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="deteccao_agua_piso"/>
+		<property name="com.jaspersoft.studio.field.label" value="detc_agua_piso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="casa_maq" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="casa_maquinas"/>
+		<property name="com.jaspersoft.studio.field.label" value="casa_maq"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<field name="temp_saida_agua_gelada" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="temperatura_saida_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.label" value="temp_saida_agua_gelada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ordem_servico_item"/>
+	</field>
+	<title>
+		<band height="802" splitType="Prevent">
+			<property name="com.jaspersoft.studio.layout"/>
+			<line>
+				<reportElement x="0" y="57" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="261" y="77" width="80" height="20" uuid="5aac8356-dc70-4884-933a-990c6feb25b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="433" y="-3" width="94" height="23" uuid="24231cd7-a7cf-4ff7-a20e-e09084d201cf"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Número OS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="-3" width="246" height="30" uuid="8df10382-e483-4bbc-bc07-dd95dfad96ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Relatório de Manutenção]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="230" y="27" width="107" height="30" uuid="36b15949-f30c-4102-863a-3101b50fc15b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tipo_OS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="77" width="556" height="1" uuid="e0851d61-faa7-40c6-803e-4d15c299dc50">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="57" width="1" height="90" uuid="336efcb2-4186-41e3-9150-de6fc6312269"/>
+			</line>
+			<line>
+				<reportElement x="60" y="57" width="1" height="21" uuid="eed21684-33de-4d01-8bfc-0f6a62a95f2f"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="58" width="60" height="20" uuid="2e42eb09-fc11-4d43-8520-7ba8d070a176"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="63" y="58" width="212" height="20" uuid="3d387fd3-2b9f-4bdf-8655-2fc40e8e79eb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cliente}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="556" y="57" width="1" height="90" uuid="e2196016-453f-411f-ace0-039b819f2944"/>
+			</line>
+			<line>
+				<reportElement x="0" y="97" width="556" height="1" uuid="0631c039-e24f-4c65-a349-61c4329ed99c">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="117" width="556" height="1" uuid="f8ba98e1-5301-47a2-9365-fe2449f5d0ef">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="77" width="60" height="20" uuid="bc766cb5-3eb3-4833-b72e-9718d55e8866"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Técnico:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="60" y="77" width="1" height="21" uuid="dc11223f-20c6-4539-948e-42c89ea6a09e"/>
+			</line>
+			<textField>
+				<reportElement x="63" y="77" width="157" height="20" uuid="f9d3666d-5255-4473-b4a8-523609d946ac"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tecnico}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="220" y="77" width="1" height="21" uuid="3106115e-f20b-4a62-bb3a-fb09b0bf6bec"/>
+			</line>
+			<staticText>
+				<reportElement x="220" y="77" width="40" height="20" uuid="3aa1dfab-ce6c-431b-b352-a757fd2752c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="455" y="20" width="55" height="29" uuid="09d08d64-1646-4511-b120-76386a781614"/>
+			</rectangle>
+			<line>
+				<reportElement x="260" y="77" width="1" height="21" uuid="e32ce9a3-2be7-4397-9716-ed666fa639a2"/>
+			</line>
+			<textField>
+				<reportElement x="455" y="20" width="54" height="29" forecolor="#F70539" uuid="2064bf09-03bf-4005-85aa-148bf0399250"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Codigo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="340" y="77" width="1" height="21" uuid="b82f3e12-b92e-4386-93bd-96f9c65eaac5"/>
+			</line>
+			<staticText>
+				<reportElement x="341" y="77" width="65" height="20" uuid="101aa827-7eaa-4ce3-8138-e36f94eac186"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<text><![CDATA[Atendimento]]></text>
+			</staticText>
+			<line>
+				<reportElement x="406" y="77" width="1" height="21" uuid="ac9af952-7913-4c60-8df6-b0b3fd2f1fd4"/>
+			</line>
+			<textField>
+				<reportElement x="409" y="77" width="146" height="20" uuid="89bd308a-372d-4288-acbb-2fa83fdcee0e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tipo_do_Atendimento}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="60" y="97" width="1" height="21" uuid="58b0b91b-fb98-4199-a454-79ca8baf91f5"/>
+			</line>
+			<textField>
+				<reportElement x="63" y="98" width="127" height="19" uuid="900616bc-ca7b-4142-9d84-94849717e448"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Marca}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="190" y="97" width="1" height="21" uuid="a2dfaf86-f4f3-4e5d-8dce-2a44b65ba7b8"/>
+			</line>
+			<staticText>
+				<reportElement x="190" y="97" width="31" height="20" uuid="ac89183c-f9c6-441e-a61b-c684f485bd08"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[N/S:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="220" y="97" width="1" height="21" uuid="d0d8fb3f-34d3-4519-8e96-bbcd6c15d30b"/>
+			</line>
+			<textField>
+				<reportElement x="222" y="98" width="88" height="19" uuid="ec7b0b5e-f1af-4170-ae75-da5a1ebd849b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Numero_de_Serie}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="310" y="97" width="1" height="21" uuid="c04524d0-efcb-4f82-8936-ac23728c4e9f"/>
+			</line>
+			<staticText>
+				<reportElement x="310" y="97" width="39" height="20" uuid="bf7c2e98-e41a-4f13-bb9a-84706b113ac1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Tag:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="349" y="97" width="1" height="21" uuid="5f97d4be-a890-4693-97fa-1967024b9f57"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="349" y="98" width="103" height="19" uuid="111071e2-e09b-461d-9d1b-9229d80e6249"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tag}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="452" y="97" width="1" height="21" uuid="77af2384-aa0f-43e9-a4ab-8d209c3af27c"/>
+			</line>
+			<staticText>
+				<reportElement x="452" y="97" width="57" height="20" uuid="756fc084-f928-4745-a33a-a048f4d14f1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Tensão:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="509" y="97" width="1" height="21" uuid="c9dfe5f2-0a25-47ab-a176-941996116c90"/>
+			</line>
+			<textField>
+				<reportElement x="515" y="98" width="42" height="20" uuid="a58bf4ae-00b1-43e3-aed8-85edea6b724a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Tensao}+" V"]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement isPrintRepeatedValues="false" x="0" y="130" width="555" height="17" uuid="208a2cde-efc8-477c-b042-012f27544fc7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Horizontal" ignoreWidth="false">
+					<datasetRun subDataset="Lista de Servicos" uuid="d008f30f-fca6-4cd4-ac02-b5efb74a170d">
+						<datasetParameter name="idChamadoServico">
+							<datasetParameterExpression><![CDATA[$P{idChamado}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="17" width="555">
+						<textField>
+							<reportElement positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="0" y="0" width="555" height="17" uuid="8bdf0984-8c8e-4b91-a783-a730cffa718a">
+								<property name="com.jaspersoft.layout.grid.x" value="-1"/>
+								<property name="com.jaspersoft.layout.grid.y" value="4"/>
+								<property name="com.jaspersoft.layout.grid.weight.x" value="0.5"/>
+								<property name="com.jaspersoft.layout.grid.weight.y" value="0.5"/>
+								<property name="com.jaspersoft.layout.grid.rowspan" value="4"/>
+								<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+								<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
+								<property name="com.jaspersoft.studio.unit.tabStopWidth" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</reportElement>
+							<textElement textAlignment="Left" verticalAlignment="Middle">
+								<font fontName="SansSerif" size="10"/>
+								<paragraph lineSpacingSize="0.0" tabStopWidth="0"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Servico}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="115" width="140" height="17" uuid="dcc903d1-21ec-4edc-9b48-1949d2f9c67d"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serviços Realizados:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="195" width="556" height="1" uuid="d131d1b6-16b5-499a-8059-d8ff5efbe64d">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="145" width="1" height="51" uuid="2de24255-39db-43ed-b3a9-40e5c6779ffd"/>
+			</line>
+			<line>
+				<reportElement x="556" y="145" width="1" height="51" uuid="4253d506-d591-48f7-9c57-85993352d160"/>
+			</line>
+			<line>
+				<reportElement x="1" y="195" width="556" height="1" uuid="5c1ba8de-a0e5-4df8-b4b6-dfcb7265a0b3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="215" width="556" height="1" uuid="bfdd84f7-2032-4e6b-a6fc-743e01cea521">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="196" width="121" height="20" uuid="8b7e164f-e053-4e79-94df-f8ad360b5e69"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="195" width="1" height="21" uuid="1f3908c6-e2dd-4a2c-8cb5-b69d321e9851"/>
+			</line>
+			<line>
+				<reportElement x="556" y="195" width="1" height="21" uuid="53fc40b9-fc6d-4f8d-859d-c33551439e03"/>
+			</line>
+			<staticText>
+				<reportElement x="122" y="196" width="48" height="20" uuid="2d580b60-3457-43de-be1a-c9e2ed620c2d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Med.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="195" width="98" height="20" uuid="44dbc16f-9ed9-4407-bbd9-d8a26dd54ef4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="196" width="120" height="20" uuid="6595bd4a-cbb8-4678-afb1-59dbdcf9222e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="196" width="48" height="20" uuid="0d8878e4-6326-46aa-b0ee-d0d28332dfdb"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Med.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="196" width="121" height="20" uuid="7de9173a-c5df-41b3-ba27-db0b000faea5"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="235" width="556" height="1" uuid="fa71d492-c45a-4e9b-a515-916ed76b9757">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="215" width="1" height="21" uuid="f1625c06-00c0-4ec4-8a5b-9c02611f7973"/>
+			</line>
+			<line>
+				<reportElement x="556" y="215" width="1" height="21" uuid="2721faa6-4eb1-4f00-a6f7-b491911463e3"/>
+			</line>
+			<line>
+				<reportElement x="0" y="255" width="556" height="1" uuid="9b3aa326-8e8e-4a14-8ece-b39bf0faa19f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="235" width="1" height="21" uuid="c21815a1-2e1a-4fe7-a9b5-544fa801eb75"/>
+			</line>
+			<line>
+				<reportElement x="556" y="235" width="1" height="21" uuid="7ec2de12-10b1-445e-97da-da1fbc160351"/>
+			</line>
+			<line>
+				<reportElement x="0" y="275" width="556" height="1" uuid="bfb69ec0-d328-42a6-b4fa-6945f245237f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="255" width="1" height="21" uuid="900b55e6-db0e-4c82-b6c8-86899aa28bb3"/>
+			</line>
+			<line>
+				<reportElement x="556" y="255" width="1" height="21" uuid="f2c9e430-97ad-4f59-8838-76422cf53039"/>
+			</line>
+			<line>
+				<reportElement x="0" y="295" width="556" height="1" uuid="ee4523e6-e865-462b-b057-b3082dcdd258">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="275" width="1" height="21" uuid="f46a9ecf-eb7a-4228-a813-affbcded12e4"/>
+			</line>
+			<line>
+				<reportElement x="556" y="275" width="1" height="21" uuid="b0028201-e4e4-4cc7-9735-6aadff10ef86"/>
+			</line>
+			<line>
+				<reportElement x="0" y="315" width="556" height="1" uuid="6b05cdeb-5c02-4636-8132-9dfd6a11e6c6">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="295" width="1" height="21" uuid="46000f0c-7b61-433c-894d-345f5c615046"/>
+			</line>
+			<line>
+				<reportElement x="556" y="295" width="1" height="21" uuid="ac6a7430-9b80-4e00-8dea-989cf52535fe"/>
+			</line>
+			<line>
+				<reportElement x="0" y="335" width="556" height="1" uuid="828bb4a4-755d-430a-a02f-9f35ddb4e604">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="315" width="1" height="21" uuid="cdd77f37-24c2-4c5c-ac16-957091a85ea9"/>
+			</line>
+			<line>
+				<reportElement x="556" y="315" width="1" height="21" uuid="9f3e58e9-5cae-4145-b760-f9fb02b17274"/>
+			</line>
+			<line>
+				<reportElement x="0" y="354" width="556" height="1" uuid="f9adccbb-8cae-4734-baf5-04c190d1d475">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="334" width="1" height="21" uuid="8a7e171e-69a8-487f-b6c1-6e86e86767b2"/>
+			</line>
+			<line>
+				<reportElement x="556" y="334" width="1" height="21" uuid="48112b80-e96d-40ef-9492-b79cce037a64"/>
+			</line>
+			<line>
+				<reportElement x="0" y="374" width="556" height="1" uuid="ffca15f6-f392-4490-8ddc-6c2c7a3874d3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="354" width="1" height="21" uuid="a95d24c5-06f4-4f1c-8b22-aa36ac21a945"/>
+			</line>
+			<line>
+				<reportElement x="556" y="354" width="1" height="21" uuid="28b1c6ee-9aa7-469f-9a8d-e765b8b25ee3"/>
+			</line>
+			<line>
+				<reportElement x="0" y="394" width="556" height="1" uuid="f72e0c09-effa-4291-8b96-f628797d643a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="374" width="1" height="21" uuid="1fc83404-36c3-48e8-b9b6-7206fa5eee17"/>
+			</line>
+			<line>
+				<reportElement x="556" y="374" width="1" height="21" uuid="d6f95864-ef16-43bf-a4a2-f9515b2016fe"/>
+			</line>
+			<line>
+				<reportElement x="0" y="414" width="556" height="1" uuid="161b1a7c-5692-4d48-96f6-cacaf76c852c">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="394" width="1" height="21" uuid="2b33371b-6dc7-4c2c-b024-e69c21538737"/>
+			</line>
+			<line>
+				<reportElement x="556" y="394" width="1" height="21" uuid="11198c30-cb87-4067-963a-38b3ea632ca4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="434" width="556" height="1" uuid="ac207a1c-de47-4d46-a729-87eeacac581a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="414" width="1" height="21" uuid="a9d9997c-3a08-4b95-9794-e4ecf52e3bb7"/>
+			</line>
+			<line>
+				<reportElement x="556" y="414" width="1" height="21" uuid="149a534b-4c29-477f-ad87-b435689de72e"/>
+			</line>
+			<line>
+				<reportElement x="0" y="454" width="556" height="1" uuid="41ed1b53-8de3-4942-82a4-7f40abce4f2a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="434" width="1" height="21" uuid="6513e6f0-f983-4224-9157-82be9b65e8a2"/>
+			</line>
+			<line>
+				<reportElement x="556" y="434" width="1" height="21" uuid="c2ab9122-ccdb-4a53-baa6-99a7a0867d86"/>
+			</line>
+			<line>
+				<reportElement x="0" y="475" width="556" height="1" uuid="4437f4ce-6e8d-4000-b674-72f5858a8cc9">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="455" width="1" height="21" uuid="aebbe8c7-3ead-4400-ad1f-296c67540db5"/>
+			</line>
+			<line>
+				<reportElement x="556" y="455" width="1" height="21" uuid="45c64986-3422-4733-bee1-c484c2b8a04f"/>
+			</line>
+			<line>
+				<reportElement x="0" y="495" width="556" height="1" uuid="675cf9de-f022-414f-b063-0c73fd2153c4">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="475" width="1" height="21" uuid="e839edc1-536b-4a33-9891-36cf38b52788"/>
+			</line>
+			<line>
+				<reportElement x="556" y="475" width="1" height="21" uuid="c99a595f-513b-4afb-a2be-c4ca63b11f46"/>
+			</line>
+			<line>
+				<reportElement x="0" y="515" width="556" height="1" uuid="5f08c1dd-4b78-4952-aa5a-d63df0beebc3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="495" width="1" height="21" uuid="c6227f54-031f-4106-9af9-3fab486a5023"/>
+			</line>
+			<line>
+				<reportElement x="556" y="495" width="1" height="21" uuid="29baacf5-e1fb-41e9-ad45-6aaeafd22d52"/>
+			</line>
+			<line>
+				<reportElement x="0" y="535" width="556" height="1" uuid="d2183740-4029-41c6-ae91-3b7dd31a65df">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="515" width="1" height="21" uuid="f51ba3fb-607f-494b-a92c-a5a5e7d3aa7a"/>
+			</line>
+			<line>
+				<reportElement x="556" y="515" width="1" height="21" uuid="ba185887-aabe-42da-9ffd-98a8017cf356"/>
+			</line>
+			<line>
+				<reportElement x="0" y="555" width="556" height="1" uuid="f4df56ce-9974-407e-956e-193292b1cb32">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="535" width="1" height="21" uuid="1496a7d6-7dd2-4c89-b945-858e61cb8e3f"/>
+			</line>
+			<line>
+				<reportElement x="556" y="535" width="1" height="21" uuid="714fec3a-a7d4-4c00-861d-d33a8852fc22"/>
+			</line>
+			<line>
+				<reportElement x="0" y="575" width="556" height="1" uuid="a6b346d1-1146-4e21-b480-b9564f50a5a5">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="555" width="1" height="21" uuid="22f8561e-f5fb-4ffe-bf11-e1016a9052d1"/>
+			</line>
+			<line>
+				<reportElement x="556" y="555" width="1" height="21" uuid="b1270a1a-9b58-496b-89a3-9c4bb54bd2ac"/>
+			</line>
+			<line>
+				<reportElement x="0" y="594" width="556" height="1" uuid="d890e8c6-5aee-4ed7-998a-a75f7c472a9e">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="574" width="1" height="21" uuid="84c42b91-7579-4eff-b381-52cacb01a3fd"/>
+			</line>
+			<line>
+				<reportElement x="556" y="574" width="1" height="21" uuid="29db6083-508c-460e-89c6-1c9543ae0a48"/>
+			</line>
+			<line>
+				<reportElement x="0" y="614" width="556" height="1" uuid="8938a2c3-3824-4504-a18d-536f00bc3e36">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="594" width="1" height="21" uuid="b38da557-50d6-4b4e-9e35-2b7296db2ead"/>
+			</line>
+			<line>
+				<reportElement x="556" y="594" width="1" height="21" uuid="fbe2d987-c0f3-4f74-b01f-33ad808ecd73"/>
+			</line>
+			<line>
+				<reportElement x="0" y="634" width="556" height="1" uuid="6c096312-3f36-4307-91ce-2eb8a430be9f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="614" width="1" height="21" uuid="335949f8-6091-4128-b08e-7160800c4ac0"/>
+			</line>
+			<line>
+				<reportElement x="556" y="614" width="1" height="21" uuid="477ac78b-200b-4c92-834a-ea03425dd5aa"/>
+			</line>
+			<line>
+				<reportElement x="0" y="654" width="556" height="1" uuid="ab90f71f-62ff-423b-85fd-d622a7699384">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="634" width="1" height="21" uuid="1e050462-7f5e-4e97-8b07-e9b9a9b9ca57"/>
+			</line>
+			<line>
+				<reportElement x="556" y="634" width="1" height="21" uuid="ea8f17dd-9bb7-4d6e-a5b3-c4e0ea9b044b"/>
+			</line>
+			<line>
+				<reportElement x="122" y="196" width="1" height="20" uuid="5853695f-6422-4a1f-a36c-e3fee641016b"/>
+			</line>
+			<line>
+				<reportElement x="170" y="196" width="1" height="20" uuid="35152aed-aeae-4bb1-936b-926cf216db00"/>
+			</line>
+			<line>
+				<reportElement x="267" y="195" width="1" height="20" uuid="25a63d7c-7740-4691-9e6d-1bc871d4cbce"/>
+			</line>
+			<line>
+				<reportElement x="388" y="195" width="1" height="20" uuid="e21e1181-f815-49ba-a79e-c76e71fe4119"/>
+			</line>
+			<line>
+				<reportElement x="436" y="195" width="1" height="20" uuid="6f68e8dc-0c45-4507-9d9f-c7e986fb803c"/>
+			</line>
+			<staticText>
+				<reportElement x="3" y="216" width="120" height="19" uuid="ec5290b6-f40e-4178-8372-58d04fe14fd8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Tensão Geral R-S]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="216" width="49" height="19" uuid="65be49ec-44b1-452b-bdc0-d882132d78d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Volts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="236" width="49" height="19" uuid="8816addd-f821-48f4-a7cb-19dcae5bd6bc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Volts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="256" width="49" height="19" uuid="c9ddfeb1-caca-4226-84da-655067fc917a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Volts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="276" width="49" height="19" uuid="9863b62c-51c9-406a-8780-09e11af53156"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Amp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="296" width="49" height="19" uuid="f61aa71a-1c91-4187-a5dd-472a2e22d50f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Amp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="316" width="49" height="19" uuid="4da21057-66dc-454e-a8d2-7f9e085ab4e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Amp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="336" width="49" height="19" uuid="0ad80577-cb5b-4402-998f-4c6e2d9dcda2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Amp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="237" width="120" height="19" uuid="053d0a46-705e-4eb7-a6f6-bb339e32ca37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Tensão Geral S-T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="256" width="120" height="19" uuid="038efbdf-3aee-4d89-ba2c-28cd893362c9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Tensão Geral R-T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="277" width="120" height="19" uuid="f4e71457-a445-47de-9e76-1f19fcd6e22d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Corrente A1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="297" width="120" height="19" uuid="799db3d4-54e0-4fb9-91c9-ae9594d716d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Corrente A2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="316" width="120" height="19" uuid="7997f6bb-9e46-4ff4-a9eb-0cf28ae273d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Corrente A3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="335" width="120" height="19" uuid="e9d2e960-2860-4fa9-a901-27c767598487"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Motor Evaporador - A1/A2/A3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="355" width="120" height="19" uuid="8be6d605-de73-43f3-90be-cb612c18a7f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Alimentação do comando 24V]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="174" y="215" width="93" height="20" uuid="d3f5cbbb-b1d6-49b9-870a-2946dad35f5f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tensao_geral_RS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="235" width="94" height="20" uuid="181d78f6-aeaa-4b25-ba68-3841810d10d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tensao_geral_ST}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="256" width="93" height="19" uuid="81f7eb56-6637-451e-9a4c-346abc3d3a0a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tensao_geral_RT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="277" width="94" height="18" uuid="6655ab48-f351-4ddf-9953-03adccbab4af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{corrente_A1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="295" width="93" height="20" uuid="87e46351-1c26-4849-8187-b206995234e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{corrente_A2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="315" width="94" height="20" uuid="21049bd2-30a6-4c30-98ed-34ef097107cf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{corrente_A3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="335" width="93" height="19" uuid="8b735024-5f67-4df6-bd1b-d0fc268980d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motor_evaporador_A1_A2_A3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="123" y="355" width="49" height="19" uuid="7764a5e6-7375-47db-a85c-9b5095fe2cfb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Volts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="395" width="120" height="19" uuid="b28a8512-a250-47ed-bb0a-e1289cf89f9e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Umidificador R-S/R-T/S-T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="415" width="120" height="19" uuid="55fb1670-96c6-45aa-80d1-aa699918a3e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Umidificador A1/A2/A3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="455" width="120" height="19" uuid="e676d725-aa2f-48a6-a893-8e9b9b31dd40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Temp saída de água gelada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="474" width="120" height="22" uuid="55948880-b8fa-4431-8d21-659a119b205b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Diferencial de temp entrada e saida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="495" width="120" height="21" uuid="c6b29c72-ad62-4a91-be69-b7f51ccdc264"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Abertura de valvula de água gelada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="516" width="120" height="21" uuid="9526e265-d8c4-4b26-8b3a-4d643f9088cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Vazão de ar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="555" width="120" height="21" uuid="0cf31efe-e5d9-4f69-bc07-ddbc177257de"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Umidade relativa de retorno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="575" width="120" height="21" uuid="1ceb94ec-0b38-4c5e-b5a6-8eacd44536a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Temperatura de insuflação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="595" width="120" height="21" uuid="80af5be9-41a2-42b2-9e14-202e82402d4a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Temp. diferencial de entrada e saida de ar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="216" width="120" height="18" uuid="6d627ba4-4f17-448a-b5b5-0716845e1863"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Verificar vazamento de água gelada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="595" width="49" height="19" uuid="a719ee79-9670-4779-8b7d-fb228689f3b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="536" width="49" height="19" uuid="9126265e-121c-4100-8253-ea1f81be8428"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="556" width="49" height="19" uuid="36b98c6b-c506-4ef3-bcf6-791efcce6112"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="575" width="49" height="19" uuid="173fb6a9-b5f6-43c7-826f-e9caad1b2251"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="516" width="49" height="19" uuid="7506c01a-c62c-4bee-8ef0-c29df2c39562"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="496" width="49" height="19" uuid="df8a55fc-3e4f-4791-9cb7-f2752b38ca09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="454" width="49" height="21" uuid="9a555201-401d-4d97-aeb7-660630914640"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="476" width="49" height="19" uuid="e02dd8e8-0ae4-4bed-9e40-566ba96293e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="123" y="435" width="47" height="19" uuid="8331c44f-34d0-4edc-9f14-6a13f2c4c7c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="123" y="375" width="47" height="19" uuid="ffd70213-9b45-4140-8893-4f711f664a89"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Volts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="395" width="49" height="19" uuid="bd53f66d-f2fc-4b62-931e-a84e41b430d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Volts]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="171" y="395" width="96" height="20" uuid="cf16545c-9e53-4120-b62d-cf82f8dd5899"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umidificador_RS_RT_ST}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="414" width="98" height="20" uuid="771238cb-0d70-4cc2-aed7-c88533156b1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umidificador_A1_A2_A3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="388" y="336" width="49" height="19" uuid="b0e5883b-2c4c-40f7-8c88-481ae45b11df"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="355" width="120" height="19" uuid="a1417d91-1686-4ce7-8bcc-8409cf8c7d7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Teste de damper]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="454" width="120" height="19" uuid="f965752f-8145-4688-972b-bf5d30e98c85"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Limpeza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="356" width="49" height="19" uuid="6493743c-9ca0-4edd-8996-c98ab9796643"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="513" width="120" height="22" uuid="16b7d9a6-84f8-4719-8654-038f380628dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Verificar condições do gabinete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="236" width="108" height="19" uuid="d69f50d0-cc79-43d7-927b-11624a2b67b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar press diferencial de filtro sujo
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="576" width="49" height="19" uuid="f57f906c-4f88-497d-989a-c8f413f63f6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="474" width="49" height="19" uuid="e6015369-d9df-4678-b7c9-be482169d11f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="575" width="120" height="21" uuid="5e240a3a-407b-455b-925d-1e44b4407436"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Ruidos anormais Evaporador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="494" width="120" height="19" uuid="4a1f05d9-394c-4675-b286-699e0e11ca32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Serpentina do Evaporador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="276" width="120" height="19" uuid="435a4f6e-619c-4bac-8e5e-8ba452a6b859"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Comunicação do IHM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="375" width="120" height="19" uuid="26c287f9-8130-4937-93ec-b383895af239"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Averiguar hist eventos IHM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="615" width="49" height="19" uuid="e7047418-f8d2-4734-8289-3c97de215674"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="454" width="47" height="19" uuid="33507f4e-dce8-4d07-8f9e-30f2b98e30ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="635" width="49" height="19" uuid="50ab11db-2a85-49cd-8cc7-c6659434fba0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="536" width="49" height="19" uuid="cda882db-61fe-4b27-afc6-e2c8fab5ba13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="635" width="49" height="19" uuid="58b0850f-e719-4123-b391-d47538a4827e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="555" width="120" height="21" uuid="9b9a99ff-8349-44b5-9068-7e4b14271feb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Bandeja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="636" width="120" height="19" uuid="83f11f31-e81d-4823-ace3-dea21933d81e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Set point de umidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="474" width="120" height="19" uuid="98e5402e-9172-45a7-b192-0bd144102a36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Painel Elétrico (Reaperto)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="614" width="120" height="21" uuid="9447be92-a843-44fd-855c-16d79c27e272"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Detecção de água no piso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="535" width="120" height="21" uuid="86e07684-04e8-46a2-b765-784a6c8b42c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Filtros de ar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="513" width="49" height="21" uuid="029f28a8-3ecc-456e-9b0f-09788844ba3a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="375" width="49" height="19" uuid="6939673f-4c00-419e-b1e0-3ec80be7a1c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="556" width="49" height="19" uuid="248c0fdd-9b41-421c-a94f-9d1cf4d8bde5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="494" width="47" height="19" uuid="86b61fe9-650f-495a-b538-ea4d8983d198"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="296" width="49" height="19" uuid="d018ea03-7636-4ede-96bc-e34399d8d6a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="634" width="120" height="21" uuid="8ec62787-8141-4ff3-ac6d-b62c0202b5d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Casa de Máquinas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="336" width="120" height="19" uuid="e1da8789-2c54-46d9-abfc-cc69709fda30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar alimentação e dreno do umidificador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="317" width="120" height="19" uuid="ec39b2f7-2cfb-4832-9060-e227a43f3fb0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar valvulas de bloqueio de água gelada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="316" width="49" height="19" uuid="6a2dc497-915e-44f3-a86a-1201a90ef0c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="296" width="120" height="18" uuid="8bc404fe-9c8d-4f61-b7d5-3edada8d89ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar offset dos sensores de temp e umid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="276" width="49" height="19" uuid="f5dff05d-4036-4997-8d5b-1385bcca0e58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="170" y="635" width="96" height="18" uuid="e09418d5-6fe9-4978-ae86-0fbe68a91b29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{set_point_umidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="276" width="120" height="18" uuid="b1cac692-653e-422f-b41d-299d74be4c30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ver_comunicacao_IHM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="355" width="118" height="18" uuid="f3d184a6-9c45-4c81-8beb-9b8f8fd90f65"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{test_dampers}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="374" width="118" height="20" uuid="ebedb2ab-848f-44f6-b3ad-5deacc503f68"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avr_hist_eventos_IHM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="453" width="118" height="20" uuid="41b3b1e3-0d6a-46c7-ab4a-85ced58c5eb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{limpeza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="473" width="120" height="20" uuid="4220a5ad-82fb-4e6f-a8f8-eede97aedf7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{painel_eletrico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="494" width="118" height="20" uuid="86957e42-b4dd-4d8b-9076-2595621f2060"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serp_evapor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="514" width="120" height="20" uuid="35da9421-d318-4a87-8e5b-b89cffdea3a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gabinete}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="536" width="118" height="18" uuid="596b5f54-e1f6-49eb-a233-cc78598b6873"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{filtro_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="555" width="120" height="20" uuid="60508b2d-a94b-438b-9b40-ec4a94f3047f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bandeja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="576" width="120" height="18" uuid="339fbe60-098f-4f3f-986b-93c7c2950053"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruidos_anorm_evap}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="615" width="118" height="18" uuid="0b050e90-2484-4caf-84dd-c8e02341ad1d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detc_agua_piso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="634" width="118" height="20" uuid="08eaed6e-3572-4d5a-a3fe-7925d9eda179"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{casa_maq}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="97" width="60" height="20" uuid="28793635-ebc4-4ee3-a57b-dfc533ee583c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="435" width="120" height="19" uuid="e0433ba6-1f34-42b2-aa33-6d3295e37e16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Temp Entrada de água gelada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="375" width="120" height="19" uuid="22b827bc-eab2-48a6-8f4e-dc7e0d576d2c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Aquecimento resistência]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="535" width="120" height="21" uuid="2b1a13d6-840a-4202-b631-cef2cb2f83ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<text><![CDATA[Temperatura de retorno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="655" width="120" height="19" uuid="c6404852-c8d4-4245-83db-30bd938f162b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Verificar filtro Y]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="655" width="49" height="19" uuid="734262f9-bd7a-4556-8304-121399461314"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="256" width="108" height="19" uuid="900e4033-71d1-4512-9786-95984a7b961c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar press diferencial de fluxo de ar
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="395" width="120" height="19" uuid="1c866d73-6a51-4f5d-b932-7fac9a64215b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar isolações térmicas e acústicas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="395" width="49" height="19" uuid="41363913-b75c-4da7-bc58-c3d8302698aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="594" width="120" height="21" uuid="3a088367-1205-48dc-b60c-e308305b7270"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Verificar defletores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="595" width="49" height="19" uuid="04681baa-84d5-4d15-a4de-0bef71baf832"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="416" width="120" height="19" uuid="7ea583be-63f7-4594-8c11-b277b13e6905"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar e eliminar pontos de corrosão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="435" width="120" height="19" uuid="95faff8e-1de0-496f-a829-f071e171b74b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Verificar sistema de drenagem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="416" width="49" height="19" uuid="0d6d8273-2a20-4554-a4e6-4297ec1d6d5b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="435" width="49" height="19" uuid="84cd9294-5491-48cc-8b6f-f4f72352d683"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="122" y="215" width="1" height="440" uuid="aea30297-3a3e-4df3-b855-b329596593dd"/>
+			</line>
+			<line>
+				<reportElement x="170" y="214" width="1" height="440" uuid="5b533262-2998-429e-8345-87689e009241"/>
+			</line>
+			<line>
+				<reportElement x="267" y="214" width="1" height="440" uuid="2feb8c47-22f9-46cc-863c-60b0ae9c6395"/>
+			</line>
+			<line>
+				<reportElement x="388" y="214" width="1" height="440" uuid="b31613ab-d3c4-4d37-b859-ebbbd169b5eb"/>
+			</line>
+			<line>
+				<reportElement x="436" y="214" width="1" height="440" uuid="bb12c1a6-9b5a-4f8c-83ff-b032b6d0eb75"/>
+			</line>
+			<staticText>
+				<reportElement x="277" y="57" width="82" height="20" uuid="0fcb000d-c8fe-43b9-bfcd-c46e572fab31"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[CPF/CNPJ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="58" width="156" height="18" uuid="b8920060-fd7d-4d9e-8507-7ad006182253"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{cpfcnpj}.length() == 15 ? ($F{cpfcnpj}.substring(0, 2) + "." + $F{cpfcnpj}.substring(2, 5) + "." + $F{cpfcnpj}.substring(5, 8) + $F{cpfcnpj}.substring(8, 13) + "-" + $F{cpfcnpj}.substring(13, 15)) : ($F{cpfcnpj}.substring(0, 3) + "." + $F{cpfcnpj}.substring(3, 6) + "." + $F{cpfcnpj}.substring(6, 9) + "-" + $F{cpfcnpj}.substring(9, 11)) )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="122" y="415" width="49" height="19" uuid="d213195b-9458-4459-83cd-7a823451ceb5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Amp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="256" width="49" height="19" uuid="33c0d9a9-85a0-4455-9377-fd50293bc640"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="236" width="49" height="19" uuid="39303105-4112-4388-b780-2796fbdd7806"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="216" width="49" height="19" uuid="dc2d1867-cff3-4c6b-84df-7ffc46a708e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[OK/NA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="673" width="556" height="1" uuid="ebea18d4-b62a-4087-8cea-b008ed86520a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="653" width="1" height="21" uuid="482e69d6-c89c-4cbe-a2af-5dab004f9b5e"/>
+			</line>
+			<line>
+				<reportElement x="122" y="653" width="1" height="21" uuid="a9b5baac-1d9d-443d-9b5a-e1bb7d7425bc"/>
+			</line>
+			<line>
+				<reportElement x="170" y="652" width="1" height="21" uuid="f5f86ba6-91dc-4e12-98b2-e880dc52c474"/>
+			</line>
+			<line>
+				<reportElement x="267" y="653" width="1" height="21" uuid="7ecd9630-12e2-43f2-8bf2-27576e8c69b2"/>
+			</line>
+			<staticText>
+				<reportElement x="3" y="615" width="120" height="19" uuid="1a366b0b-b707-4039-a19b-5d19ac53f420"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Set point de resfriamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="121" y="615" width="49" height="19" uuid="3b26733a-5098-4ee5-b092-bb947bc3d14a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[ºC]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="172" y="354" width="95" height="19" uuid="2dbe7661-85a4-469b-91ca-6ffeb09b759f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{alimentacao_comando_24}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="374" width="95" height="20" uuid="afcf2111-5e97-4928-a9e0-488ec6e538c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{aquecimento_resistencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="434" width="97" height="21" uuid="5803578c-a417-4e88-8f53-d65f47e9504a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{temp_entrada_agua_gelada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="475" width="97" height="20" uuid="339c1774-e71e-489c-9db4-868d4e819503"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{diferencial_temp_entrada_saida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="496" width="95" height="20" uuid="489cacf8-6b17-4203-abc9-8e7ea1057f72"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{abert_valvula_agua_gelada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="516" width="97" height="20" uuid="256c852d-a89b-4f9e-8d35-670cfa7abbd1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vazao_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="535" width="96" height="21" uuid="6a9d40a9-dbd7-4fab-aa65-62c5edc26997"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{temp_retorno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="555" width="97" height="21" uuid="f0170878-50c7-4099-aee9-887b74c7183f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{umidade_relativa_retorno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="576" width="98" height="18" uuid="938355f3-d4fc-4ef9-a9d7-b336d5fa29a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{temperatura_insuflacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="594" width="96" height="20" uuid="c31f5353-8a3b-4df7-939e-b57253f06153"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{diferencial_entrada_saida_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="615" width="97" height="19" uuid="c3422fc4-dbb9-45a6-9928-29aacccf86dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{set_point_resfriamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="654" width="96" height="19" uuid="2046c9fc-4772-4761-8f26-d6bae8eae10d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{filtro_Y}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="455" width="96" height="20" uuid="fbb138d6-9667-4346-b227-ed0bc3ec9d80"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{temp_saida_agua_gelada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="216" width="120" height="18" uuid="e2629e78-5dbf-4296-b21a-e487d39e6e7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_vazm_agua_gelada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="235" width="119" height="20" uuid="9068da4c-e5fb-4a62-97e6-c303a75cc546"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_press_dif_filtro_sujo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="256" width="118" height="20" uuid="a2719e77-ee04-4b2f-b974-677ef06eaa76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_press_dif_filtro_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="296" width="119" height="20" uuid="e92a8463-96ca-4e48-8a87-e2ed02253a19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_offset_sens_temp_umd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="316" width="120" height="18" uuid="048aa9fc-2617-44a4-9eb3-7564b67c7939"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_val_bloq_agua_gelada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="336" width="118" height="18" uuid="da54bbe7-40d4-4de7-afa4-831761b92ece"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_alm_dreno_umd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="394" width="119" height="20" uuid="ea65daff-b595-46e4-83bf-92ccba36afde"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_isol_term_acust}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="415" width="120" height="18" uuid="d73eb535-ae79-4a23-bb73-84b09b82c848"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_elim_pts_corro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="434" width="119" height="20" uuid="ab2f7b4a-6cec-468b-9338-6d0624ec94ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_sist_dren}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="594" width="119" height="20" uuid="44f40517-2152-48df-8ded-e1668a9d653d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ver_defle}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="556" y="653" width="1" height="21" uuid="ce54d648-a08c-4c4e-806e-935d5ce18cc8"/>
+			</line>
+			<staticText>
+				<reportElement x="73" y="781" width="104" height="14" uuid="71017f19-edd0-4c67-80b7-cf363fb95c29"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Técnico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="781" width="100" height="14" uuid="30adadb6-dc0a-4a8e-b5d1-b97771cb5cbb"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<line>
+				<reportElement x="279" y="780" width="211" height="1" uuid="921bd0bf-7a4a-44b7-975a-5c6ceedad3f9"/>
+			</line>
+			<line>
+				<reportElement x="25" y="780" width="211" height="1" uuid="7757950e-2c51-4326-9448-94c669da6579"/>
+			</line>
+			<staticText>
+				<reportElement x="-2" y="670" width="80" height="20" uuid="751457fd-0ec8-45f5-a7ba-3cff70377c34"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Observações:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="-1" y="685" width="555" height="17" uuid="24c72865-3afc-4709-be06-67015138386e"/>
+				<textFieldExpression><![CDATA[$F{Obervacao}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="-3" width="160" height="61" uuid="538d3f3f-bd9e-4ea1-95f9-18ad838a0b0a"/>
+				<imageExpression><![CDATA["C:/report/logoNova.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

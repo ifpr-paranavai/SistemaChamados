@@ -10,6 +10,7 @@ import {ClienteService} from '../../../shared/services/cliente.service';
 import {ServicoService} from '../../../shared/services/servico.service';
 import {LocalDataSource} from 'ng2-smart-table';
 import {ProdutoService} from '../../../shared/services/produto.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-criar-ordem-servico',
@@ -41,16 +42,6 @@ export class CriarOrdemServicoComponent implements OnInit {
   settings: Object;
 
   source: LocalDataSource = new LocalDataSource();
-
-  toggle: any = {
-    onColor: 'primary',
-    offColor: 'secondary',
-    onText: 'On',
-    offText: 'Off',
-    disabled: false,
-    size: '',
-    value: null,
-  };
 
 
   constructor(private formBuilder: FormBuilder,
@@ -96,12 +87,9 @@ export class CriarOrdemServicoComponent implements OnInit {
     this.loading = true;
     this.produtoService.listarItens(0, 500, 'nomeProduto').subscribe(
       data => {
-        // this.source = new LocalDataSource(data.body.content);
         data.body.content.forEach(produto => {
-          // Populate the select list
           this.selectList.push({value: produto.nomeProduto, title: produto.nomeProduto});
         });
-        // Initiate the settings object
         this.settings = this.loadTableSettings();
         this.loading = false;
       }, () => {
@@ -148,14 +136,14 @@ export class CriarOrdemServicoComponent implements OnInit {
         temperaturaEntradaAguaGelada: [''],
         temperaturaSaidaAguaGelada: [''],
         diferencialTemperaturaEntradaSaida: [''],
-        condensadorDryRSRTST: ['', [Validators.required]],
+        condensadorDryRSRTST: [''],
         vazaoAr: ['', [Validators.required]],
         temperaturaRetorno: ['', [Validators.required]],
         umidadeRelativaRetorno: ['', [Validators.required]],
         temperaturaInsuflacao: ['', [Validators.required]],
         diferencialEntradaSaidaAr: ['', [Validators.required]],
-        temperaturaLinhaLiquido: ['', [Validators.required]],
-        temperaturaLinhaEntradaSuccao: ['', [Validators.required]],
+        temperaturaLinhaLiquido: [''],
+        temperaturaLinhaEntradaSuccao: [''],
         pressaoBaixa: [''],
         pressAlta: [''],
         superAquecimento: [''],
@@ -167,18 +155,18 @@ export class CriarOrdemServicoComponent implements OnInit {
         temperaturaSaidaAguaCondensada: [''],
         diferencialFiltroSecador: [''],
         // campos OK/NA
-        filtroY: [''],
-        verificarVazamentoAguaGelada: [''],
-        verificarPressaoDiferencialFiltroSujo: [''],
-        verificarPressaoDiferencialFiltroAr: [''],
+        filtroY: ['NA'],
+        verificarVazamentoAguaGelada: ['NA'],
+        verificarPressaoDiferencialFiltroSujo: ['NA'],
+        verificarPressaoDiferencialFiltroAr: ['NA'],
         verificarComunicacaoIHM: ['NA'],
-        verificarOffSetSensorTemperaturaUmidade: [''],
-        verificarValvulaBloqueioAguaGelada: [''],
-        verificarAlimentacaoDrenoUmidificador: [''],
+        verificarOffSetSensorTemperaturaUmidade: ['NA'],
+        verificarValvulaBloqueioAguaGelada: ['NA'],
+        verificarAlimentacaoDrenoUmidificador: ['NA'],
         testeDampers: ['NA'],
         averiguarHistoricoEventosIHM: ['NA'],
         verificarIsolamentoTermicasAcustico: ['NA'],
-        verificarEliminarPontosCorrosao: [''],
+        verificarEliminarPontosCorrosao: ['NA'],
         verificarSistemaDrenagem: ['NA'],
         limpeza: ['NA'],
         painelEletrico: ['NA'],
@@ -187,8 +175,8 @@ export class CriarOrdemServicoComponent implements OnInit {
         filtroAr: ['NA'],
         bandeja: ['NA'],
         ruidosAnormaisEvaporador: ['NA'],
-        ruidosAnormaisCondensador: [''],
-        verificarDefletores: [''],
+        ruidosAnormaisCondensador: ['NA'],
+        verificarDefletores: ['NA'],
         deteccaoAguaPiso: ['NA'],
         casaMaquinas: ['NA', [Validators.required]],
         quantidade: [''],
@@ -198,16 +186,85 @@ export class CriarOrdemServicoComponent implements OnInit {
 
   atualizarForm(data) {
     this.form.patchValue({
-      id: data.id,
-      // nomeEquipamento: data.nomeEquipamento,
-      // tensao: data.tensao,
-      // amperagem: data.amperagem,
-      // numeroSerie: data.numerousSerie,
-      // tag: data.tag,
-      // especificacaoTecnica: data.especificacaoTecnica,
-      // marca: data.marca,
+      id: data.ordemServico.id,
+      data: moment(data.ordemServico.data).toDate(),
+      cliente: data.ordemServico.cliente,
+      usuario: data.ordemServico.usuario,
+      tipoOrdemServico: data.ordemServico.tipoOrdemServico.tipoOrdemServico,
+      situacaoOs: data.ordemServico.situacaoOs.situacao,
+      tipoAtendimento: data.ordemServico.tipoAtendimento.tipoAtendimento,
+      servicos: data.ordemServico.servicos,
+      equipamento: data.ordemServico.equipamento,
+
+      ordemServicoItem:{
+        observacao: data.observacao,
+        tensaoGeralRS: data.tensaoGeralRT,
+        tensaoGeralST: data.tensaoGeralST,
+        tensaoGeralRT: data.tensaoGeralRT,
+        correnteA1: data.correnteA1,
+        correnteA2: data.correnteA2,
+        correnteA3: data.correnteA3,
+        motorEvaporadorA1A2A3: data.motorEvaporadorA1A2A3,
+        alimentacaoComando24: data.alimentacaoComando24,
+        compressorRSRTST: data.compressorRSRTST,
+        compressorA1A2A3: data.compressorA1A2A3,
+        aberturaValvulaAguaGelada: data.aberturaValvulaAguaGelada,
+        motorCondensadorA1A2A3: data.motorCondensadorA1A2A3,
+        aquecimentoResistencia: data.aquecimentoResistencia,
+        umidificadorRSRTST: data.umidificadorRSRTST,
+        umidificadorA1A2A3: data.umidificadorA1A2A3,
+        temperaturaEntradaAguaGelada: data.temperaturaEntradaAguaGelada,
+        temperaturaSaidaAguaGelada: data.temperaturaSaidaAguaGelada,
+        diferencialTemperaturaEntradaSaida: data.diferencialTemperaturaEntradaSaida,
+        condensadorDryRSRTST: data.condensadorDryRSRTST,
+        vazaoAr: data.vazaoAr,
+        temperaturaRetorno: data.temperaturaRetorno,
+        umidadeRelativaRetorno: data.umidadeRelativaRetorno,
+        temperaturaInsuflacao: data.temperaturaInsuflacao,
+        diferencialEntradaSaidaAr: data.diferencialEntradaSaidaAr,
+        temperaturaLinhaLiquido: data.temperaturaLinhaLiquido,
+        temperaturaLinhaEntradaSuccao: data.temperaturaLinhaEntradaSuccao,
+        pressaoBaixa: data.pressaoBaixa,
+        pressAlta: data.pressAlta,
+        superAquecimento: data.superAquecimento,
+        subResfriamento: data.subResfriamento,
+        setPointResfriamento: data.setPointResfriamento,
+        setPointUmidade: data.setPointUmidade,
+        aberturaValvulaG: data.aberturaValvulaG,
+        temperaturaEntradaAguaCondensada: data.temperaturaEntradaAguaCondensada,
+        temperaturaSaidaAguaCondensada: data.temperaturaSaidaAguaCondensada,
+        diferencialFiltroSecador: data.diferencialFiltroSecador,
+        // campos OK/NA
+        filtroY: data.filtroY,
+        verificarVazamentoAguaGelada: data.verificarVazamentoAguaGelada,
+        verificarPressaoDiferencialFiltroSujo: data.verificarPressaoDiferencialFiltroSujo,
+        verificarPressaoDiferencialFiltroAr: data.verificarPressaoDiferencialFiltroAr,
+        verificarComunicacaoIHM: data.verificarComunicacaoIHM,
+        verificarOffSetSensorTemperaturaUmidade: data.verificarOffSetSensorTemperaturaUmidade,
+        verificarValvulaBloqueioAguaGelada: data.verificarValvulaBloqueioAguaGelada,
+        verificarAlimentacaoDrenoUmidificador: data.verificarAlimentacaoDrenoUmidificador,
+        testeDampers: data.testeDampers,
+        averiguarHistoricoEventosIHM: data.averiguarHistoricoEventosIHM,
+        verificarIsolamentoTermicasAcustico: data.verificarIsolamentoTermicasAcustico,
+        verificarEliminarPontosCorrosao: data.verificarEliminarPontosCorrosao,
+        verificarSistemaDrenagem: data.verificarSistemaDrenagem,
+        limpeza: data.limpeza,
+        painelEletrico: data.painelEletrico,
+        serpentinaEvaporador: data.serpentinaEvaporador,
+        gabinete: data.gabinete,
+        filtroAr: data.filtroAr,
+        bandeja: data.bandeja,
+        ruidosAnormaisEvaporador: data.ruidosAnormaisEvaporador,
+        ruidosAnormaisCondensador: data.ruidosAnormaisCondensador,
+        verificarDefletores: data.verificarDefletores,
+        deteccaoAguaPiso: data.deteccaoAguaPiso,
+        casaMaquinas: data.casaMaquinas,
+      },
     });
-    // this.selectedMarca = data.marca;
+    this.selectedCliente = data.ordemServico.cliente;
+    this.selectedUsuario = data.ordemServico.usuario;
+    this.selectedServico = data.ordemServico.servicos;
+    this.selectedEquipamento = data.ordemServico.equipamento;
   }
 
   carregarObjetos() {
@@ -318,11 +375,6 @@ export class CriarOrdemServicoComponent implements OnInit {
       event.confirm.reject();
     }
   }
-
-  // onAddClient(event) {
-  //   console.log(event);
-  //   this.produtos.push();
-  // }
 
   onAddClient(event): void {
     if (window.confirm('Tem certeza que deseja apagar?')) {
